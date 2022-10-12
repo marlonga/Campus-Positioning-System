@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Campus-Positioning-System</string>
+    <string name="title_activity_main">HFU Maps</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="start_stop">Start/Stop</string>
+    <string name="speichern">Speichern</string>
+    <string name="nav_open">Öffnen</string>
+    <string name="nav_close">Schließen</string>
+    <string name="nav_favorites">Favoriten</string>
+    <string name="nav_room_list">Liste</string>
+    <string name="nav_settings">Einstellungen</string>
+    <string name="ic_abc_1_og1">1OG_ABC</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="dot">Dot</string>
+    <string name="preferences_feedback_summary">Fehler melden oder Verbesserungen vorschlagen</string>
+    <string name="r_ume">Räume</string>
+</resources>

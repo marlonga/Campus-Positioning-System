@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Permissions for WifiManager -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="NETWORK_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/app_icon_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.CampusPositioningSystem">
+        <activity android:name=".Activitys.FavoritesActivity"
+            android:exported="false"
+            android:label="Room Favorites Activity"
+            android:theme="@style/Theme.CampusPositioningSystem.NoActionBar"/>
+        <activity
+            android:name=".Activitys.RoomSelectionActivity"
+            android:exported="false"
+            android:label="Room Selection Activity"
+            android:theme="@style/Theme.CampusPositioningSystem.NoActionBar" />
+        <activity android:name=".Activitys.SettingsActivity"
+            android:exported="false"
+            android:label="Settings Activity"
+            android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
+        </activity>
+        <activity
+            android:name=".Activitys.MainActivity"
+            android:exported="true"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+
