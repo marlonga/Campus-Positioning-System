@@ -44,7 +44,7 @@ public class DatabaseAccessThread extends Thread{
         //if(!() == null))
         //PathfindingControl.updateCurrentLocation(new LocationControl().locate(nearestWifiList));
         currentPosition = new LocationControl().locate(nearestWifiList);
-        DrawingAssistant.setCurrentPosition(currentPosition);
+        DrawingAssistant.setCurrentPosition(currentPosition); // currentPosition
         if(stockwerkView != null) {
             if(currentPosition.compareTo(new Node("",55,67,1)) == 0){
                 stockwerkView.setText("Keine Position.");

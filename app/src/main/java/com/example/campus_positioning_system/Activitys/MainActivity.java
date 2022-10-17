@@ -37,6 +37,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.campus_positioning_system.Database.AppDatabase;
 import com.example.campus_positioning_system.Database.NNObjectDao;
+import com.example.campus_positioning_system.LocationNavigation.LocationFakerThread;
 import com.example.campus_positioning_system.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -82,6 +83,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        //LocationFakerThread
+        new LocationFakerThread().start();
+        //---------------
 
         System.out.println("On Create Main Activity");
         super.onCreate(savedInstanceState);
