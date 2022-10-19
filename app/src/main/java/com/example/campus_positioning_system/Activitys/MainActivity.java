@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onCreate(Bundle savedInstanceState) {
 
         //LocationFakerThread
-        new LocationFakerThread().start();
-        //---------------
+        //new LocationFakerThread().start();
+        //----------------------------------------------------------------------------
 
         System.out.println("On Create Main Activity");
         super.onCreate(savedInstanceState);

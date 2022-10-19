@@ -13,12 +13,12 @@ public class LocationFakerThread extends Thread{
 
     @Override
     public void run() {
-        fakeNodes.add(new Node("",55,62,1));
+        fakeNodes.add(new Node("",43,31,1));
         fakeNodes.add(new Node("",55,67,1));
         fakeNodes.add(new Node("",49,61,1));
         fakeNodes.add(new Node("",55,56,1));
         fakeNodes.add(new Node("",48,58,1));
-        for(int i = 0; i<5;i++){
+        for(int i = 0; i<1;i++){
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -27,5 +27,11 @@ public class LocationFakerThread extends Thread{
             DrawingAssistant.setCurrentPosition(fakeNodes.get(i));
             System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         }
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+       // DrawingAssistant.drawPath();
     }
 }

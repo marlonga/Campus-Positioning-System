@@ -109,7 +109,7 @@ public class DrawingAssistant extends Thread{
 
     // https://developer.android.com/training/animation/reposition-view
 
-    public void drawPath() {
+    public static void drawPath() {
         pathDrawn = true;
 
         Paint paintEG = new Paint();
