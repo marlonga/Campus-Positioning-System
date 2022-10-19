@@ -10,6 +10,12 @@
         />
 
     <item
+        android:id="@+id/nav_quickdial"
+        android:enabled="true"
+        android:title="Schnellwahl"
+        android:icon="@drawable/map"/>
+
+    <item
         android:id="@+id/nav_room_list"
         android:enabled="true"
         android:title="@string/r_ume"
@@ -22,10 +28,5 @@
         android:title="@string/nav_settings"
         android:icon="@drawable/nav_icon_settings"/>
 
-    <item
-        android:id="@+id/nav_quickdial"
-        android:enabled="true"
-        android:title="Schnellwahl"
-        android:icon="@drawable/nav_icon_settings"/>
 
 </menu>
