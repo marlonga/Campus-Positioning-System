@@ -110,7 +110,7 @@ public class RoomListConverter {
 
         // If there are favorites
         for (RoomItem r : favorites) //Convert them back to TreeNodes
-            ret.add(new TreeNode(r,R.layout.room_list_room_item));
+            ret.add(new TreeNode(r,R.layout.room_list_room_favorite));
 
         return ret;
     }
