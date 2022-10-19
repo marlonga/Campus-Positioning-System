@@ -134,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     case R.id.nav_favorites:
                         switchActivities(FavoritesActivity.class);
                         break;
+                    case R.id.nav_quickdial:
+                        switchActivities(QuickDialActivity.class);
+                        break;
                 }
                 return false;
             }

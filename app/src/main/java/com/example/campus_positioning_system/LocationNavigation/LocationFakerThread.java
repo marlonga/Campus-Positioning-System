@@ -10,6 +10,7 @@ import com.example.campus_positioning_system.Node;
 public class LocationFakerThread extends Thread{
 
     ArrayList<Node> fakeNodes = new ArrayList<>();
+    static Node reValue = new Node();
 
     @Override
     public void run() {
@@ -21,10 +22,10 @@ public class LocationFakerThread extends Thread{
         for(int i = 0; i<1;i++){
             try {
                 Thread.sleep(2000);
+                reValue = fakeNodes.get(i);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            DrawingAssistant.setCurrentPosition(fakeNodes.get(i));
             System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         }
         try {
@@ -33,5 +34,8 @@ public class LocationFakerThread extends Thread{
             e.printStackTrace();
         }
        // DrawingAssistant.drawPath();
+    }
+    public static Node getNote() {
+        return reValue;
     }
 }
