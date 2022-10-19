@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_mainFragment_to_blankFragment"
             app:destination="@id/blankFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_quickDial"
+            app:destination="@id/navQuickdial" />
     </fragment>
     <activity
         android:id="@+id/roomSelectionActivity"
@@ -34,4 +37,9 @@
         android:name="com.example.campus_positioning_system.Fragments.FavoriteListFragment"
         android:label="fragment_blank"
         tools:layout="@layout/fragment_favorites_list" />
+    <fragment
+        android:id="@+id/navQuickdial"
+        android:name="com.example.campus_positioning_system.Fragments.QuickDialFragment"
+        android:label="QuickDialFragment"
+        />
 </navigation>

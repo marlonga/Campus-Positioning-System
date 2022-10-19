@@ -36,6 +36,14 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+<<<<<<< HEAD
+=======
+                            <entry key="action_mainFragment_to_quickDial">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+>>>>>>> origin/master
                             <entry key="action_mainFragment_to_roomSelectionActivity">
                               <value>
                                 <LayoutPositions />
@@ -51,6 +59,21 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+<<<<<<< HEAD
+=======
+                  <entry key="navQuickdial">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="59" />
+                            <option name="y" value="-310" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+>>>>>>> origin/master
                   <entry key="roomSelectionActivity">
                     <value>
                       <LayoutPositions>
@@ -68,8 +91,13 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
+<<<<<<< HEAD
                             <option name="x" value="493" />
                             <option name="y" value="360" />
+=======
+                            <option name="x" value="256" />
+                            <option name="y" value="724" />
+>>>>>>> origin/master
                           </Point>
                         </option>
                       </LayoutPositions>

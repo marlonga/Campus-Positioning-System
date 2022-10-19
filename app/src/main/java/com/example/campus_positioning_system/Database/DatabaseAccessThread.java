@@ -8,6 +8,7 @@ import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.NNObject;
 import com.example.campus_positioning_system.Node;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -43,6 +44,7 @@ public class DatabaseAccessThread extends Thread{
 
         //if(!() == null))
         //PathfindingControl.updateCurrentLocation(new LocationControl().locate(nearestWifiList));
+
         currentPosition = new LocationControl().locate(nearestWifiList);
         DrawingAssistant.setCurrentPosition(currentPosition); // currentPosition
         if(stockwerkView != null) {

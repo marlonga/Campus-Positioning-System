@@ -40,6 +40,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activitys.QuickDialActivity"
+            android:exported="false"
+            android:label="Quickdial Activity"
+            android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
