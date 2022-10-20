@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatDrawableManager;
+import androidx.room.Room;
 
 import com.amrdeveloper.treeview.TreeNode;
 import com.amrdeveloper.treeview.TreeViewHolder;
@@ -26,9 +27,15 @@ import com.example.campus_positioning_system.Node;
 import com.example.campus_positioning_system.R;
 
 import org.jetbrains.annotations.Nullable;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /** Represents a room entry in the Room List
  * used in {@link com.example.campus_positioning_system.Activitys.FavoritesActivity} and {@link com.example.campus_positioning_system.Activitys.RoomSelectionActivity}
@@ -38,7 +45,7 @@ import java.util.List;
  */
 public class RoomListViewHolderRoom extends TreeViewHolder {
 
-    private TextView roomName, alias;
+    private TextView roomName, alias, quickDialroomName;
     private ImageView icon, start_button;
 
     /**
@@ -60,6 +67,7 @@ public class RoomListViewHolderRoom extends TreeViewHolder {
         icon = itemView.findViewById(R.id.list_icon);
         start_button = itemView.findViewById(R.id.item_start_icon);
         alias = itemView.findViewById(R.id.room_item_alias);
+        //quickDialroomName = itemView.findViewById();
         this.roomSelectionActivity = roomSelectionActivity;
     }
 
@@ -72,6 +80,7 @@ public class RoomListViewHolderRoom extends TreeViewHolder {
     @Override
     public void bindTreeNode(TreeNode node) {
         super.bindTreeNode(node);
+
 
         // Set alias if there is one
         if(((RoomItem) (node.getValue())).alias != null && !((RoomItem) (node.getValue())).alias.isEmpty())

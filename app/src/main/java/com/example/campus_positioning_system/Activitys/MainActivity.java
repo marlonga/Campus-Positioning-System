@@ -35,10 +35,13 @@ import android.widget.Toast;
 // Room Database
 import androidx.fragment.app.FragmentManager;
 
+import com.amrdeveloper.treeview.TreeNode;
 import com.example.campus_positioning_system.Database.AppDatabase;
 import com.example.campus_positioning_system.Database.NNObjectDao;
 import com.example.campus_positioning_system.LocationNavigation.LocationFakerThread;
 import com.example.campus_positioning_system.R;
+import com.example.campus_positioning_system.RoomList.RoomItem;
+import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -87,6 +90,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //LocationFakerThread
         //new LocationFakerThread().start();
         //----------------------------------------------------------------------------
+
+        //hier kommen die Schnellwahl hin also adden der nodes.
+        /*
+        RoomItem item = new RoomItem("A3.01", "bib","37/61/1");
+        TreeNode tnode = new TreeNode(item,R.id.room_list_quick_layout);
+        if(tnode != null) {
+            RoomListConverter.addQuickDial(tnode);
+        }
+
+         */
 
         System.out.println("On Create Main Activity");
         super.onCreate(savedInstanceState);
