@@ -45,7 +45,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class RoomListViewHolderRoom extends TreeViewHolder {
 
-    private TextView roomName, alias, quickDialroomName;
+    private TextView roomName, alias;
     private ImageView icon, start_button;
 
     /**

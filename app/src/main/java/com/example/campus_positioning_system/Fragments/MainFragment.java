@@ -89,6 +89,7 @@ public class MainFragment extends Fragment {
 
             TextView textView = rootView.findViewById(R.id.stockwerkView);
 
+
             WifiScanner.setStockwerkView(textView);
 
             WifiScanner wifiScanner = new WifiScanner(MainActivity.mainContext());

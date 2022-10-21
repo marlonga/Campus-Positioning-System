@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<campus>
+    <campusName>HFU Furtwangen</campusName>
+
+    <building buildingname="A-Bau">
+        <floor floorname="1. OG">
+            <room roomname="A1.01">
+                <roomalias>Pforte</roomalias>
+                <roomclosestnode>49/61/1</roomclosestnode>
+                <picture></picture>
+                <description></description>
+                <symbol></symbol>
+            </room>
+        </floor>
+    </building>
+</campus>
+
