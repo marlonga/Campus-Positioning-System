@@ -6,7 +6,6 @@
     android:background="@color/HFU_Gray_Ternary"
     tools:context=".Fragments.FavoriteListFragment">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

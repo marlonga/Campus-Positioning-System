@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amrdeveloper.treeview.TreeNode;
 import com.amrdeveloper.treeview.TreeViewAdapter;
 import com.amrdeveloper.treeview.TreeViewHolderFactory;
+import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.R;
+import com.example.campus_positioning_system.RoomList.QuickDialListViewHolderRoom;
 import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.example.campus_positioning_system.RoomList.RoomListViewHolderBuilding;
 import com.example.campus_positioning_system.RoomList.RoomListViewHolderLevel;
@@ -43,12 +45,12 @@ public class QuickDialActivity extends AppCompatActivity {
         list = findViewById(R.id.quick_dial_recycler_view);
         list.setLayoutManager(new LinearLayoutManager(this));
 
-        TreeViewHolderFactory factory = (v, layout) -> new RoomListViewHolderRoom(v,this);
+        TreeViewHolderFactory factory = (v, layout) -> new QuickDialListViewHolderRoom(v,this);
         TreeViewAdapter listadapter = new TreeViewAdapter(factory);
         list.setAdapter(listadapter);
 
         listadapter.updateTreeNodes(RoomListConverter.generateQuickDialTreeNodeList(this));
-
+        DrawingAssistant.setPointsOfInterestsNodes(RoomListConverter.generatePOINodes(this));
 
         //RoomListConverter.printList(this);
 

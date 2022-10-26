@@ -22,8 +22,10 @@ import java.util.List;
 public class DrawingAssistant extends Thread{
     private static Node currentPosition;
     private static List<Node> path = new ArrayList<>();
+    private static List<Node> POIs = new ArrayList<>();
 
     private static boolean pathDrawn = false;
+    private static boolean POIsSet = false;
 
     //Height and Width of our View's
     private static int dotHeight;
@@ -107,6 +109,12 @@ public class DrawingAssistant extends Thread{
         path =  new ArrayList<>(pathToDestination);
     }
 
+    public static void setPointsOfInterestsNodes(List<Node> POINodes){
+        System.out.println("Drawingassistant recieved POI Nodes");
+        POIs = new ArrayList<>(POINodes);
+        POIsSet = false;
+    }
+
     // https://developer.android.com/training/animation/reposition-view
 
     public static void drawPath() {
@@ -160,7 +168,63 @@ public class DrawingAssistant extends Thread{
                 Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
                 canvas.drawBitmap(mutmap,mapPositions.get(i+1).getX()-75,mapPositions.get(i+1).getY()-140,paintEG);
             }
+        }
 
+
+        mutableBitmap = bitmapsWithPath.get(currentPosition.getZ());
+        mapView.setImageBitmap(mutableBitmap);
+        //mapConverter.setMapView(MainFragment.getMapView());
+
+    }
+    public static void drawPOIs() {
+        POIsSet = true;
+        System.out.println("XXXXXXXXSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXX");
+        Paint paintEG = new Paint();
+        Paint paintOG1 = new Paint();
+        Paint paintOG2 = new Paint();
+        Paint paintOG3 = new Paint();
+        Paint paintNewFloor = new Paint();
+
+        Bitmap mutableBitmap = allBitmapsOriginal.get(0);
+        float oneX = (float)  mutableBitmap.getWidth()/124f;
+        float oneY = (float)  mutableBitmap.getHeight()/88f;
+
+        bitmapsWithPath = new LinkedList<>();
+
+        List<MapPosition> mapPositions = new LinkedList<>();
+        for(int i = 0; i< POIs.size(); i++) {
+            Node n = POIs.get(i);
+            MapPosition mapPosition = new MapPosition();
+            mapPosition.setX(n.getX()*oneX);
+            mapPosition.setY(n.getY()*oneY);
+            mapPosition.setZ(n.getZ());
+            mapPositions.add(mapPosition);
+            System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLll");
+        }
+
+        bitmapsWithPath.add(allBitmapsOriginal.get(0).copy(Bitmap.Config.ARGB_8888, true));
+        bitmapsWithPath.add(allBitmapsOriginal.get(1).copy(Bitmap.Config.ARGB_8888, true));
+        bitmapsWithPath.add(allBitmapsOriginal.get(2).copy(Bitmap.Config.ARGB_8888, true));
+        bitmapsWithPath.add(allBitmapsOriginal.get(3).copy(Bitmap.Config.ARGB_8888, true));
+
+        for(int i=0;i < mapPositions.size()-1; i++) {
+            mutableBitmap = bitmapsWithPath.get(mapPositions.get(i).getZ());
+            Canvas canvas = new Canvas(mutableBitmap);
+            if(mapPositions.get(i+1).getZ() != mapPositions.get(i).getZ()) {
+                Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), R.drawable.local_library);
+                Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
+                canvas.drawBitmap(mutmap,mapPositions.get(i).getX()-75,mapPositions.get(i+1).getY()-140,paintEG);
+                canvas.drawLine(mapPositions.get(i).getX(),mapPositions.get(i).getY(),mapPositions.get(i+1).getX(),mapPositions.get(i+1).getY(),paintEG);
+            } else {
+                Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), R.drawable.local_library);
+                Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
+                canvas.drawBitmap(mutmap,mapPositions.get(i).getX()-75,mapPositions.get(i+1).getY()-140,paintNewFloor);
+            }
+            if(i == mapPositions.size()-2){
+                Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), R.drawable.local_library);
+                Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
+                canvas.drawBitmap(mutmap,mapPositions.get(i).getX()-75,mapPositions.get(i+1).getY()-140,paintEG);
+            }
 
         }
 
@@ -168,6 +232,7 @@ public class DrawingAssistant extends Thread{
         mutableBitmap = bitmapsWithPath.get(currentPosition.getZ());
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
+
     }
 
     public void removePath() {
@@ -243,6 +308,10 @@ public class DrawingAssistant extends Thread{
                 mapView.setZoom(1.0f);
                 drawPath();
             }
+            if(!POIsSet && !POIs.isEmpty()){
+                drawPOIs();
+            }
+
             //System.out.println(mapView.getScrollPosition().x);
             //mapConverter.setMapView(MainFragment.getMapView());
             MapPosition position = mapConverter.convertNode(currentPosition);
