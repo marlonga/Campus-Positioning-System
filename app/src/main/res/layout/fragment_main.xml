@@ -23,11 +23,12 @@
 
     <TextView
         android:id="@+id/stockwerkView"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
         android:text="1. Obergeschoss"
         android:textColor="@color/black"
         android:textSize="30dp"
+        android:background="@drawable/level_text_background"
         />
 
     <!--TextView
