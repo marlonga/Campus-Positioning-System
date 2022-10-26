@@ -32,6 +32,10 @@ public class Node implements Comparable<Node>{
         return z;
     }
 
+    public String getId() {
+        return identifier;
+    }
+
 
     public String toString(){
         return x + "/" + y  + "/" + z + "/" + identifier;       // x/y/z/identifier

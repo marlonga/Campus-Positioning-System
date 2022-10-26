@@ -294,7 +294,7 @@ public class RoomListConverter {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document listDoc = dBuilder.parse(c.getAssets().open("quickDialRoomNameList.xml"));
+            Document listDoc = dBuilder.parse(c.getAssets().open("pointsOfInterestList.xml"));
             NodeList nList = listDoc.getElementsByTagName("room");
             // Read the hierarchical Structure, starting with all Buildings
 

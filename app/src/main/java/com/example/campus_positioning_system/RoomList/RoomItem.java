@@ -44,6 +44,6 @@ public class RoomItem implements Serializable {
      */
     public Node asNode(){
         String [] coords = closestNode.split("/");
-        return new Node("",Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
+        return new Node(alias,Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
     }
 }

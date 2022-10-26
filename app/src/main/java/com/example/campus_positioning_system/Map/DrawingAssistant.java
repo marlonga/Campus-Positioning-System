@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class DrawingAssistant extends Thread{
+public class DrawingAssistant extends Thread {
     private static Node currentPosition;
     private static List<Node> path = new ArrayList<>();
     private static List<Node> POIs = new ArrayList<>();
@@ -61,37 +61,37 @@ public class DrawingAssistant extends Thread{
     public DrawingAssistant(TouchImageView dotView, TouchImageView mapView) {
         DrawingAssistant.mapView = mapView;
         this.dotView = dotView;
-        currentPosition = new Node("PointZero",62,44,1);
+        currentPosition = new Node("PointZero", 62, 44, 1);
     }
 
     public static synchronized void setCurrentPosition(Node currentPosition1) {
         System.out.println("Drawing Assistant received current position: " + currentPosition1.toString());
         currentPosition = currentPosition1;
-        if(!pathDrawn) {
-            if(currentPosition.getZ() == 0) {
+        if (!pathDrawn) {
+            if (currentPosition.getZ() == 0) {
                 mapView.setImageResource(MAP_EG);
                 currentMap = MAP_EG;
-            } else if(currentPosition.getZ() == 1) {
+            } else if (currentPosition.getZ() == 1) {
                 mapView.setImageResource(MAP_OG1);
                 currentMap = MAP_OG1;
-            } else if(currentPosition.getZ() == 2) {
+            } else if (currentPosition.getZ() == 2) {
                 mapView.setImageResource(MAP_OG2);
                 currentMap = MAP_OG2;
-            } else if(currentPosition.getZ() == 3) {
+            } else if (currentPosition.getZ() == 3) {
                 mapView.setImageResource(MAP_OG3);
                 currentMap = MAP_OG3;
             }
         } else {
-            if(currentPosition.getZ() == 0) {
+            if (currentPosition.getZ() == 0) {
                 mapView.setImageBitmap(bitmapsWithPath.get(0));
                 currentMap = R.drawable.eg;
-            } else if(currentPosition.getZ() == 1) {
+            } else if (currentPosition.getZ() == 1) {
                 mapView.setImageBitmap(bitmapsWithPath.get(1));
                 currentMap = R.drawable.og1example;
-            } else if(currentPosition.getZ() == 2) {
+            } else if (currentPosition.getZ() == 2) {
                 mapView.setImageBitmap(bitmapsWithPath.get(2));
                 currentMap = R.drawable.og2;
-            } else if(currentPosition.getZ() == 3) {
+            } else if (currentPosition.getZ() == 3) {
                 mapView.setImageBitmap(bitmapsWithPath.get(3));
                 currentMap = R.drawable.og345;
             }
@@ -99,17 +99,17 @@ public class DrawingAssistant extends Thread{
     }
 
     public static void setPathToDestination(List<Node> pathToDestination) {
-        System.out.println("DrawingAssistant received Path reaching from Point: "+ pathToDestination.get(0) + " to: " + pathToDestination.get((pathToDestination.size()-1)));
+        System.out.println("DrawingAssistant received Path reaching from Point: " + pathToDestination.get(0) + " to: " + pathToDestination.get((pathToDestination.size() - 1)));
         /*
         for(Node n : pathToDestination) {
             System.out.println(n.toString());
         }
          */
         pathDrawn = false;
-        path =  new ArrayList<>(pathToDestination);
+        path = new ArrayList<>(pathToDestination);
     }
 
-    public static void setPointsOfInterestsNodes(List<Node> POINodes){
+    public static void setPointsOfInterestsNodes(List<Node> POINodes) {
         System.out.println("Drawingassistant recieved POI Nodes");
         POIs = new ArrayList<>(POINodes);
         POIsSet = false;
@@ -133,17 +133,17 @@ public class DrawingAssistant extends Thread{
         paintNewFloor.setStrokeWidth(10);
 
         Bitmap mutableBitmap = allBitmapsOriginal.get(0);
-        float oneX = (float)  mutableBitmap.getWidth()/124f;
-        float oneY = (float)  mutableBitmap.getHeight()/88f;
+        float oneX = (float) mutableBitmap.getWidth() / 124f;
+        float oneY = (float) mutableBitmap.getHeight() / 88f;
 
         bitmapsWithPath = new LinkedList<>();
 
         List<MapPosition> mapPositions = new LinkedList<>();
-        for(int i = 0; i< path.size(); i++) {
+        for (int i = 0; i < path.size(); i++) {
             Node n = path.get(i);
             MapPosition mapPosition = new MapPosition();
-            mapPosition.setX(n.getX()*oneX);
-            mapPosition.setY(n.getY()*oneY);
+            mapPosition.setX(n.getX() * oneX);
+            mapPosition.setY(n.getY() * oneY);
             mapPosition.setZ(n.getZ());
             mapPositions.add(mapPosition);
         }
@@ -153,20 +153,20 @@ public class DrawingAssistant extends Thread{
         bitmapsWithPath.add(allBitmapsOriginal.get(2).copy(Bitmap.Config.ARGB_8888, true));
         bitmapsWithPath.add(allBitmapsOriginal.get(3).copy(Bitmap.Config.ARGB_8888, true));
 
-        for(int i=0;i < mapPositions.size()-1; i++) {
+        for (int i = 0; i < mapPositions.size() - 1; i++) {
             mutableBitmap = bitmapsWithPath.get(mapPositions.get(i).getZ());
             Canvas canvas = new Canvas(mutableBitmap);
-            if(mapPositions.get(i+1).getZ() != mapPositions.get(i).getZ()) {
-                canvas.drawLine(mapPositions.get(i).getX(),mapPositions.get(i).getY(),mapPositions.get(i+1).getX(),mapPositions.get(i+1).getY(),paintEG);
-                canvas.drawCircle(mapPositions.get(i).getX(),mapPositions.get(i).getY(),5f,paintEG);
+            if (mapPositions.get(i + 1).getZ() != mapPositions.get(i).getZ()) {
+                canvas.drawLine(mapPositions.get(i).getX(), mapPositions.get(i).getY(), mapPositions.get(i + 1).getX(), mapPositions.get(i + 1).getY(), paintEG);
+                canvas.drawCircle(mapPositions.get(i).getX(), mapPositions.get(i).getY(), 5f, paintEG);
             } else {
-                canvas.drawLine(mapPositions.get(i).getX(),mapPositions.get(i).getY(),mapPositions.get(i+1).getX(),mapPositions.get(i+1).getY(),paintNewFloor);
-                canvas.drawCircle(mapPositions.get(i).getX(),mapPositions.get(i).getY(),5f,paintNewFloor);
+                canvas.drawLine(mapPositions.get(i).getX(), mapPositions.get(i).getY(), mapPositions.get(i + 1).getX(), mapPositions.get(i + 1).getY(), paintNewFloor);
+                canvas.drawCircle(mapPositions.get(i).getX(), mapPositions.get(i).getY(), 5f, paintNewFloor);
             }
-            if(i == mapPositions.size()-2){
+            if (i == mapPositions.size() - 2) {
                 Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), R.drawable.map_finish);
                 Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
-                canvas.drawBitmap(mutmap,mapPositions.get(i+1).getX()-75,mapPositions.get(i+1).getY()-140,paintEG);
+                canvas.drawBitmap(mutmap, mapPositions.get(i + 1).getX() - 75, mapPositions.get(i + 1).getY() - 140, paintEG);
             }
         }
 
@@ -176,6 +176,7 @@ public class DrawingAssistant extends Thread{
         //mapConverter.setMapView(MainFragment.getMapView());
 
     }
+
     public static void drawPOIs() {
         POIsSet = true;
         System.out.println("XXXXXXXXSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXX");
@@ -186,50 +187,38 @@ public class DrawingAssistant extends Thread{
         Paint paintNewFloor = new Paint();
 
         Bitmap mutableBitmap = allBitmapsOriginal.get(0);
-        float oneX = (float)  mutableBitmap.getWidth()/124f;
-        float oneY = (float)  mutableBitmap.getHeight()/88f;
+        float oneX = (float) mutableBitmap.getWidth() / 124f;
+        float oneY = (float) mutableBitmap.getHeight() / 88f;
 
-        bitmapsWithPath = new LinkedList<>();
 
         List<MapPosition> mapPositions = new LinkedList<>();
-        for(int i = 0; i< POIs.size(); i++) {
+        for (int i = 0; i < POIs.size(); i++) {
             Node n = POIs.get(i);
             MapPosition mapPosition = new MapPosition();
-            mapPosition.setX(n.getX()*oneX);
-            mapPosition.setY(n.getY()*oneY);
+            mapPosition.setX(n.getX() * oneX);
+            mapPosition.setY(n.getY() * oneY);
             mapPosition.setZ(n.getZ());
             mapPositions.add(mapPosition);
             System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLll");
         }
 
-        bitmapsWithPath.add(allBitmapsOriginal.get(0).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(1).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(2).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(3).copy(Bitmap.Config.ARGB_8888, true));
 
-        for(int i=0;i < mapPositions.size()-1; i++) {
-            mutableBitmap = bitmapsWithPath.get(mapPositions.get(i).getZ());
+        for (int i = 0; i < mapPositions.size() -1; i++) {
+            mutableBitmap = allBitmapsOriginal.get(mapPositions.get(i).getZ());
             Canvas canvas = new Canvas(mutableBitmap);
-            if(mapPositions.get(i+1).getZ() != mapPositions.get(i).getZ()) {
-                Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), R.drawable.local_library);
-                Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
-                canvas.drawBitmap(mutmap,mapPositions.get(i).getX()-75,mapPositions.get(i+1).getY()-140,paintEG);
-                canvas.drawLine(mapPositions.get(i).getX(),mapPositions.get(i).getY(),mapPositions.get(i+1).getX(),mapPositions.get(i+1).getY(),paintEG);
-            } else {
-                Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), R.drawable.local_library);
-                Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
-                canvas.drawBitmap(mutmap,mapPositions.get(i).getX()-75,mapPositions.get(i+1).getY()-140,paintNewFloor);
-            }
-            if(i == mapPositions.size()-2){
-                Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), R.drawable.local_library);
-                Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
-                canvas.drawBitmap(mutmap,mapPositions.get(i).getX()-75,mapPositions.get(i+1).getY()-140,paintEG);
-            }
+
+
+            String imgName = POIs.get(i).getId();
+            int resID = MainActivity.mainContext().getResources().getIdentifier(imgName,"drawable",MainActivity.mainContext().getPackageName());
+            Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), resID);
+            Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
+            canvas.drawBitmap(mutmap, mapPositions.get(i).getX() - 75, mapPositions.get(i + 1).getY() - 140, paintEG);
+
 
         }
 
 
-        mutableBitmap = bitmapsWithPath.get(currentPosition.getZ());
+        mutableBitmap = allBitmapsOriginal.get(currentPosition.getZ());
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
 
@@ -241,9 +230,9 @@ public class DrawingAssistant extends Thread{
         setCurrentPosition(currentPosition);
     }
 
-    public int adjustAngle(int angle){
-        if(angle <= -180)
-            return (angle)%180;
+    public int adjustAngle(int angle) {
+        if (angle <= -180)
+            return (angle) % 180;
         return angle;
     }
 
@@ -251,13 +240,13 @@ public class DrawingAssistant extends Thread{
     public void run() {
         float newX = (float) 0;
         float newY = (float) 0;
-        Mover dotMover= new Mover("DotMover",newX,newY);
+        Mover dotMover = new Mover("DotMover", newX, newY);
 
         dotMover.setView(dotView);
         dotMover.start();
 
-        while(!setHW) {
-            if((mapView.getHeight() != 0.0) && (dotView.getHeight() != 0.0f)) {
+        while (!setHW) {
+            if ((mapView.getHeight() != 0.0) && (dotView.getHeight() != 0.0f)) {
                 displayHeight = MainActivity.height;
                 displayWidth = MainActivity.width;
 
@@ -299,16 +288,16 @@ public class DrawingAssistant extends Thread{
             }
         }
 
-        while(true) {
+        while (true) {
             //System.out.println("----------------------------------------------------------------------");
-            dotView.setZoom((float) (2-mapView.getCurrentZoom()));
-            dotView.setRotation(adjustAngle(MainActivity.getAngle()-52));
+            dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
+            dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
-            if(!path.isEmpty() && !pathDrawn) {
+            if (!path.isEmpty() && !pathDrawn) {
                 mapView.setZoom(1.0f);
                 drawPath();
             }
-            if(!POIsSet && !POIs.isEmpty()){
+            if (!POIsSet && !POIs.isEmpty()) {
                 drawPOIs();
             }
 
