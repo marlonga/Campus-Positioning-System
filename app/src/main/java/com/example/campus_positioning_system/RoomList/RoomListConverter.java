@@ -287,4 +287,42 @@ public class RoomListConverter {
         return campus;
     }
 
+    public static List<com.example.campus_positioning_system.Node> generatePOINodes(Context c) {
+        myContext = c;
+        List<com.example.campus_positioning_system.Node> campus = new ArrayList<>();
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document listDoc = dBuilder.parse(c.getAssets().open("quickDialRoomNameList.xml"));
+            NodeList nList = listDoc.getElementsByTagName("building");
+            // Read the hierarchical Structure, starting with all Buildings
+            for (int buildingCounter = 0; buildingCounter < nList.getLength(); buildingCounter++) {
+                if (nList.item(buildingCounter).getNodeType() == Node.ELEMENT_NODE) { // There are other elements that are not relevant,
+                    NodeList building = nList.item(buildingCounter).getChildNodes(); // Floors
+
+                    for (int floorCounter = 0; floorCounter < building.getLength(); floorCounter++) { // Read all Rooms in the building
+                        if (building.item(floorCounter).getNodeType() == Node.ELEMENT_NODE) {
+                            NodeList floors = building.item(floorCounter).getChildNodes();
+                            for (int roomCounter = 0; roomCounter < floors.getLength(); roomCounter++) { // Read all attributes of a room
+                                if (floors.item(roomCounter).getNodeType() == Node.ELEMENT_NODE) {
+                                    RoomItem roomAttributes = new RoomItem(
+                                            ((Element) floors.item(roomCounter)).getAttribute("roomname"),
+                                            floors.item(roomCounter).getChildNodes().item(1).getTextContent(),
+                                            floors.item(roomCounter).getChildNodes().item(3).getTextContent()
+                                    );
+                                    // Rooms get their attributes as RoomItem, this is needed for serialisation in save/readFavorites
+                                    // TreeNode roomNode = new TreeNode(roomAttributes, R.layout.room_list_room_quick_dial);
+                                    campus.add(roomAttributes.asNode());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return campus;
+    }
+
 }
