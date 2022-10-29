@@ -12,6 +12,7 @@ import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.Fragments.MainFragment;
 import com.example.campus_positioning_system.Node;
 import com.example.campus_positioning_system.R;
+import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.ortiz.touchview.TouchImageView;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class DrawingAssistant extends Thread {
 
     //All Map Bitmaps from Original Maps
     private static final List<Bitmap> allBitmapsOriginal = new LinkedList<>();
+    private static final List<Bitmap> allBitmapsForPOI = new LinkedList<>();
     private static List<Bitmap> bitmapsWithPath;
 
     private final static int MAP_EG = R.drawable.egfancy;
@@ -186,7 +188,7 @@ public class DrawingAssistant extends Thread {
         Paint paintOG3 = new Paint();
         Paint paintNewFloor = new Paint();
 
-        Bitmap mutableBitmap = allBitmapsOriginal.get(0);
+        Bitmap mutableBitmap = allBitmapsForPOI.get(0);
         float oneX = (float) mutableBitmap.getWidth() / 124f;
         float oneY = (float) mutableBitmap.getHeight() / 88f;
 
@@ -204,7 +206,7 @@ public class DrawingAssistant extends Thread {
 
 
         for (int i = 0; i < mapPositions.size() -1; i++) {
-            mutableBitmap = allBitmapsOriginal.get(mapPositions.get(i).getZ());
+            mutableBitmap = allBitmapsForPOI.get(mapPositions.get(i).getZ());
             Canvas canvas = new Canvas(mutableBitmap);
 
 
@@ -218,7 +220,7 @@ public class DrawingAssistant extends Thread {
         }
 
 
-        mutableBitmap = allBitmapsOriginal.get(currentPosition.getZ());
+        mutableBitmap = allBitmapsForPOI.get(currentPosition.getZ());
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
 
@@ -283,6 +285,10 @@ public class DrawingAssistant extends Thread {
                 allBitmapsOriginal.add(mutableBitmapOG1);
                 allBitmapsOriginal.add(mutableBitmapOG2);
                 allBitmapsOriginal.add(mutableBitmapOG3);
+                allBitmapsForPOI.add(mutableBitmapEG);
+                allBitmapsForPOI.add(mutableBitmapOG1);
+                allBitmapsForPOI.add(mutableBitmapOG2);
+                allBitmapsForPOI.add(mutableBitmapOG3);
 
                 setHW = true;
             }
@@ -293,6 +299,7 @@ public class DrawingAssistant extends Thread {
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
             dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
+
             if (!path.isEmpty() && !pathDrawn) {
                 mapView.setZoom(1.0f);
                 drawPath();

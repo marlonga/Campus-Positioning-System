@@ -50,7 +50,7 @@ public class QuickDialActivity extends AppCompatActivity {
         list.setAdapter(listadapter);
 
         listadapter.updateTreeNodes(RoomListConverter.generateQuickDialTreeNodeList(this));
-        DrawingAssistant.setPointsOfInterestsNodes(RoomListConverter.generatePOINodes(this));
+        //DrawingAssistant.setPointsOfInterestsNodes(RoomListConverter.generatePOINodes(this));
 
         //RoomListConverter.printList(this);
 

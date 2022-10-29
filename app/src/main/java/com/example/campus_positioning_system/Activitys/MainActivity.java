@@ -39,6 +39,7 @@ import com.amrdeveloper.treeview.TreeNode;
 import com.example.campus_positioning_system.Database.AppDatabase;
 import com.example.campus_positioning_system.Database.NNObjectDao;
 import com.example.campus_positioning_system.LocationNavigation.LocationFakerThread;
+import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.R;
 import com.example.campus_positioning_system.RoomList.RoomItem;
 import com.example.campus_positioning_system.RoomList.RoomListConverter;
@@ -169,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 // No location access granted.
             }
         });
+        //Sets the Points of Interests so they appear as soon as the app starts
+        DrawingAssistant.setPointsOfInterestsNodes(RoomListConverter.generatePOINodes(this));
 
         locationPermissionRequest.launch(new String[] {
                 Manifest.permission.ACCESS_FINE_LOCATION,
