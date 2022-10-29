@@ -8,6 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="ViewPointOfInterestActivity">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="580" />
+                            <option name="y" value="368" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="blankFragment">
                     <value>
                       <LayoutPositions>
@@ -25,8 +37,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="76" />
+                            <option name="x" value="-178" />
+                            <option name="y" value="500" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -36,14 +48,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-<<<<<<< HEAD
-=======
                             <entry key="action_mainFragment_to_quickDial">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
->>>>>>> origin/master
                             <entry key="action_mainFragment_to_roomSelectionActivity">
                               <value>
                                 <LayoutPositions />
@@ -59,28 +68,34 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-<<<<<<< HEAD
-=======
                   <entry key="navQuickdial">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="59" />
-                            <option name="y" value="-310" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
->>>>>>> origin/master
-                  <entry key="roomSelectionActivity">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="256" />
                             <option name="y" value="368" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_navQuickDial_to_ViewPointOfInterestActivity">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="roomSelectionActivity">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="256" />
+                            <option name="y" value="724" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -91,13 +106,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-<<<<<<< HEAD
-                            <option name="x" value="493" />
-                            <option name="y" value="360" />
-=======
                             <option name="x" value="256" />
-                            <option name="y" value="724" />
->>>>>>> origin/master
+                            <option name="y" value="1080" />
                           </Point>
                         </option>
                       </LayoutPositions>

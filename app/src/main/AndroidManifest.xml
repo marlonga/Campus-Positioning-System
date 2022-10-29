@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activitys.QuickDialActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="Quickdial Activity"
             android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
         </activity>

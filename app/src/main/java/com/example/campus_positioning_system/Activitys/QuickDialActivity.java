@@ -1,6 +1,7 @@
 package com.example.campus_positioning_system.Activitys;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ public class QuickDialActivity extends AppCompatActivity {
      * List the Rooms will be displayd in
      */
     RecyclerView list;
+    private View test;
 
 
     /**

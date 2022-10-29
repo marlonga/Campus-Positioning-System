@@ -40,6 +40,6 @@
     <fragment
         android:id="@+id/navQuickdial"
         android:name="com.example.campus_positioning_system.Fragments.QuickDialFragment"
-        android:label="QuickDialFragment"
-        />
+        android:label="QuickDialFragment">
+    </fragment>
 </navigation>

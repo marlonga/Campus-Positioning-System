@@ -1,7 +1,10 @@
 package com.example.campus_positioning_system.RoomList;
 
 
+
 import android.app.Activity;
+
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,24 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
+
 
 import com.amrdeveloper.treeview.TreeNode;
 import com.amrdeveloper.treeview.TreeViewHolder;
 import com.example.campus_positioning_system.Activitys.FavoritesActivity;
-import com.example.campus_positioning_system.Activitys.MainActivity;
-import com.example.campus_positioning_system.Activitys.RoomSelectionActivity;
 import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.R;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.ToDoubleBiFunction;
 
-/** Represents a room entry in the Room List
- * used in {@link FavoritesActivity} and {@link RoomSelectionActivity}
- * Data is rooted in roomNameList.xml asset
+/** Represents a room entry in the QuickDial Room List
  * @version 1.0
  * @author Ben Lutz
  */
@@ -108,15 +106,10 @@ public class QuickDialListViewHolderRoom extends TreeViewHolder {
                 /**TODO
                  * implement code here for the clicklistener of the quick dial icon
                  */
+
             }
         });
-
-
-        /**TODO
-         * add clicklistener for points of interest
-         *
-         */
-
-
     }
+
+
 }
