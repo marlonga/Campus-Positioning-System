@@ -47,8 +47,7 @@ public class FavoritesActivity extends AppCompatActivity {
         list.setAdapter(listadapter);
 
         listadapter.updateTreeNodes(RoomListConverter.getFavoritesAsNodes());
-        //RoomListConverter.printList(this);
-
+        //RoomListConverter.printList(this)
     }
 
     /**
