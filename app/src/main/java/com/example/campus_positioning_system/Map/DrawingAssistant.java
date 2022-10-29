@@ -12,7 +12,6 @@ import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.Fragments.MainFragment;
 import com.example.campus_positioning_system.Node;
 import com.example.campus_positioning_system.R;
-import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.ortiz.touchview.TouchImageView;
 
 import java.util.ArrayList;
@@ -60,6 +59,9 @@ public class DrawingAssistant extends Thread {
     private final static int MAP_OG2 = R.drawable.og2fancy;
     private final static int MAP_OG3 = R.drawable.og3fancy;
 
+    private final static int[] maps = {R.drawable.egfancy, R.drawable.og1fancy, R.drawable.og2fancy, R.drawable.og3fancy};
+    private final static int[] bitmaps = {R.drawable.eg, R.drawable.og1example, R.drawable.og2, R.drawable.og345};
+
     public DrawingAssistant(TouchImageView dotView, TouchImageView mapView) {
         DrawingAssistant.mapView = mapView;
         this.dotView = dotView;
@@ -69,8 +71,12 @@ public class DrawingAssistant extends Thread {
     public static synchronized void setCurrentPosition(Node currentPosition1) {
         System.out.println("Drawing Assistant received current position: " + currentPosition1.toString());
         currentPosition = currentPosition1;
+        int currentZ = currentPosition.getZ();
         if (!pathDrawn) {
-            if (currentPosition.getZ() == 0) {
+            int mapToSet = maps[currentZ];
+            mapView.setImageResource(mapToSet);
+            currentMap = mapToSet;
+            /*if (currentPosition.getZ() == 0) {
                 mapView.setImageResource(MAP_EG);
                 currentMap = MAP_EG;
             } else if (currentPosition.getZ() == 1) {
@@ -82,9 +88,13 @@ public class DrawingAssistant extends Thread {
             } else if (currentPosition.getZ() == 3) {
                 mapView.setImageResource(MAP_OG3);
                 currentMap = MAP_OG3;
-            }
+            }*/
         } else {
-            if (currentPosition.getZ() == 0) {
+
+            int bitmapToSet = bitmaps[currentZ];
+            mapView.setImageBitmap(bitmapsWithPath.get(currentZ));
+            currentMap = bitmapToSet;
+            /*if (currentPosition.getZ() == 0) {
                 mapView.setImageBitmap(bitmapsWithPath.get(0));
                 currentMap = R.drawable.eg;
             } else if (currentPosition.getZ() == 1) {
@@ -96,7 +106,7 @@ public class DrawingAssistant extends Thread {
             } else if (currentPosition.getZ() == 3) {
                 mapView.setImageBitmap(bitmapsWithPath.get(3));
                 currentMap = R.drawable.og345;
-            }
+            }*/
         }
     }
 
@@ -182,6 +192,7 @@ public class DrawingAssistant extends Thread {
     public static void drawPOIs() {
         POIsSet = true;
         System.out.println("XXXXXXXXSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXX");
+
         Paint paintEG = new Paint();
         Paint paintOG1 = new Paint();
         Paint paintOG2 = new Paint();
@@ -206,7 +217,7 @@ public class DrawingAssistant extends Thread {
 
 
         for (int i = 0; i < mapPositions.size() -1; i++) {
-            mutableBitmap = allBitmapsForPOI.get(mapPositions.get(i).getZ());
+            mutableBitmap = allBitmapsOriginal.get(mapPositions.get(i).getZ());
             Canvas canvas = new Canvas(mutableBitmap);
 
 
@@ -220,7 +231,7 @@ public class DrawingAssistant extends Thread {
         }
 
 
-        mutableBitmap = allBitmapsForPOI.get(currentPosition.getZ());
+        mutableBitmap = allBitmapsOriginal.get(currentPosition.getZ());
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
 
@@ -299,7 +310,6 @@ public class DrawingAssistant extends Thread {
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
             dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
-
             if (!path.isEmpty() && !pathDrawn) {
                 mapView.setZoom(1.0f);
                 drawPath();
