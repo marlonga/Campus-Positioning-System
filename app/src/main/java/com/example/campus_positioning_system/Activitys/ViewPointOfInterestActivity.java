@@ -3,6 +3,7 @@ package com.example.campus_positioning_system.Activitys;
 import android.graphics.drawable.Icon;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,16 +38,19 @@ public class ViewPointOfInterestActivity extends AppCompatActivity {
         String extra = getIntent().getStringExtra("Origins_QuickDial");
 
         TextView roomName = findViewById(R.id.poi_title);
-        roomName.setText(RoomListConverter.getPOI_Info(MainActivity.mainContext(),extra,1));
+        roomName.setText(RoomListConverter.getPOI_Info(MainActivity.mainContext(), extra, 1));
 
         TextView roomNumber = findViewById(R.id.poi_roomnumber);
         roomNumber.setText(extra);
 
         TextView roomDescription = findViewById(R.id.poi_description);
-        roomDescription.setText(RoomListConverter.getPOI_Info(MainActivity.mainContext(),extra,3));
+        roomDescription.setText(RoomListConverter.getPOI_Info(MainActivity.mainContext(), extra, 3));
 
         ImageView roomImage = findViewById(R.id.poi_main_image);
-        roomImage.setImageResource(R.drawable.bibliothek);
+        String x = RoomListConverter.getPOI_Info(MainActivity.mainContext(), extra, 1).toLowerCase();
+        roomImage.setImageResource(MainActivity.mainContext().getResources().getIdentifier(
+                x, "drawable", MainActivity.mainContext().getPackageName()));
+
     }
 
     /**

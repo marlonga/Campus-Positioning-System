@@ -2,7 +2,12 @@
 
 <campus>
     <room roomname="A3.01">
-        <roomalias>Bibliothek</roomalias>
+        <roomalias>bibliothek</roomalias>
+        <roomclosestnode></roomclosestnode>
+        <description>Bereitstellung von Lehrnstoffen wie Büchern</description>
+    </room>
+    <room roomname="A1.01">
+        <roomalias>Cafeteria</roomalias>
         <roomclosestnode></roomclosestnode>
         <description>Bereitstellung von Lehrnstoffen wie Büchern</description>
     </room>

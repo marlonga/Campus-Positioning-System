@@ -329,6 +329,7 @@ public class RoomListConverter {
                     info = ((Element) nList.item(roomCounter)).getTextContent();
                     String[] temp = info.split("\n");
                     info = temp[arg];
+                    info = info.substring(8);
                 }
             }
         } catch (Exception e) {
