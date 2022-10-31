@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,11 +18,14 @@ import androidx.annotation.NonNull;
 import com.amrdeveloper.treeview.TreeNode;
 import com.amrdeveloper.treeview.TreeViewHolder;
 import com.example.campus_positioning_system.Activitys.FavoritesActivity;
+import com.example.campus_positioning_system.Activitys.MainActivity;
+import com.example.campus_positioning_system.Activitys.ViewPointOfInterestActivity;
 import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.R;
 
 import org.jetbrains.annotations.Nullable;
+import org.w3c.dom.Text;
 
 
 /** Represents a room entry in the QuickDial Room List
@@ -102,14 +106,18 @@ public class QuickDialListViewHolderRoom extends TreeViewHolder {
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("QUICK DIAL ONCLICKLISTENER");
+                System.out.println("QuickDialActivity to ViewPointOfInterest");
                 /**TODO
-                 * implement code here for the clicklistener of the quick dial icon
+                 * get Button wich was pressed
                  */
 
+                switchActivities(roomName.getText().toString());
             }
         });
     }
-
-
+    private void switchActivities(String origins) {
+        Intent switchActivityIntent = new Intent(roomSelectionActivity, ViewPointOfInterestActivity.class);
+        switchActivityIntent.putExtra("Origins_QuickDial", origins);
+        roomSelectionActivity.startActivity(switchActivityIntent);
+    }
 }

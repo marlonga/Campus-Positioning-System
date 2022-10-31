@@ -4,13 +4,16 @@
     <room roomname="A1.01">
         <roomalias>Pforte</roomalias>
         <roomclosestnode>49/61/1</roomclosestnode>
+        <description>Heyyyyy</description>
     </room>
     <room roomname="A1.19">
         <roomalias>Prüfungsamt</roomalias>
         <roomclosestnode>66/56/1</roomclosestnode>
+        <description>HOOOOOOOOOOOOOOO</description>
     </room>
     <room roomname="A1.25">
         <roomalias>Zulassungsamt</roomalias>
         <roomclosestnode>62/56/1</roomclosestnode>
+        <description>suuuuuuiiii</description>
     </room>
 </campus>

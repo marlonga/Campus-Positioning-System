@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/HFU_Gray_Ternary"
     tools:context=".Fragments.FavoriteListFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/quick_dial_recycler_view"/>
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/poi_main_image"
+            android:layout_width="match_parent"
+            android:layout_height="243dp"
+            android:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/poi_titel"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/poi_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView" />
+    </LinearLayout>
 </FrameLayout>

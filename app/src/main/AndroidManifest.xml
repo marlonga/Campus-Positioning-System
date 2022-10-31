@@ -44,6 +44,15 @@
             android:exported="true"
             android:label="Quickdial Activity"
             android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activitys.ViewPointOfInterestActivity"
+            android:exported="false"
+            android:label="ViewPointOfInterest Activity"
+            android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
         </activity>
     </application>
 

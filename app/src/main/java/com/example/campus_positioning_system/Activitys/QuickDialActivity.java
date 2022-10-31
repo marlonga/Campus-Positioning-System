@@ -30,8 +30,6 @@ public class QuickDialActivity extends AppCompatActivity {
      * List the Rooms will be displayd in
      */
     RecyclerView list;
-    private View test;
-
 
     /**
      * Creates the room list onCreate of the RoomSelectionActivity

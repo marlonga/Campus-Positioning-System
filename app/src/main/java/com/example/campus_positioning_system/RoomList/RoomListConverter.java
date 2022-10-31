@@ -315,4 +315,26 @@ public class RoomListConverter {
         return campus;
     }
 
+    public static String getPOI_Info(Context c, String roomName) {
+        myContext = c;
+        String info = new String();
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document listDoc = dBuilder.parse(c.getAssets().open("quickDialRoomNameList.xml"));
+            NodeList nList = listDoc.getElementsByTagName("room");
+
+            for (int roomCounter = 0; roomCounter < nList.getLength(); roomCounter++) { // Read all attributes of a room
+                if(roomName.equals(((Element) nList.item(roomCounter)).getAttribute("roomname"))) {
+                    info = ((Element) nList.item(roomCounter)).getTextContent();
+                    String[] temp = info.split("\n");
+                    info = temp[3];
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return info;
+    }
+
 }
