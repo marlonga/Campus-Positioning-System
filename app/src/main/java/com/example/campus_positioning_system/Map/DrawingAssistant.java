@@ -7,7 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Picture;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.Fragments.MainFragment;
 import com.example.campus_positioning_system.Node;
@@ -190,6 +194,7 @@ public class DrawingAssistant extends Thread {
     }
 
     public static void drawPOIs() {
+        /*
         POIsSet = true;
         System.out.println("XXXXXXXXSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXX");
 
@@ -223,10 +228,9 @@ public class DrawingAssistant extends Thread {
 
             String imgName = POIs.get(i).getId();
             int resID = MainActivity.mainContext().getResources().getIdentifier(imgName,"drawable",MainActivity.mainContext().getPackageName());
-            Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), resID);
+            Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), resID); // HIER R.id.library_poi
             Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
             canvas.drawBitmap(mutmap, mapPositions.get(i).getX() - 75, mapPositions.get(i + 1).getY() - 140, paintEG);
-
 
         }
 
@@ -234,6 +238,10 @@ public class DrawingAssistant extends Thread {
         mutableBitmap = allBitmapsOriginal.get(currentPosition.getZ());
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
+
+         */
+
+
 
     }
 
