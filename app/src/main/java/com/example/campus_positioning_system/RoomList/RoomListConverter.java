@@ -315,7 +315,7 @@ public class RoomListConverter {
         return campus;
     }
 
-    public static String getPOI_Info(Context c, String roomName) {
+    public static String getPOI_Info(Context c, String roomName,int arg) {
         myContext = c;
         String info = new String();
         try {
@@ -328,7 +328,7 @@ public class RoomListConverter {
                 if(roomName.equals(((Element) nList.item(roomCounter)).getAttribute("roomname"))) {
                     info = ((Element) nList.item(roomCounter)).getTextContent();
                     String[] temp = info.split("\n");
-                    info = temp[3];
+                    info = temp[arg];
                 }
             }
         } catch (Exception e) {

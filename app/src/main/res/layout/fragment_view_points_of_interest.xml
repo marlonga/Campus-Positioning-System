@@ -19,7 +19,7 @@
             android:src="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/poi_titel"
+            android:id="@+id/poi_title"
             android:layout_width="match_parent"
             android:layout_height="59dp"
             android:text="roomname"

@@ -10,8 +10,6 @@ import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
 import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.Fragments.MainFragment;
 import com.example.campus_positioning_system.Node;
@@ -193,7 +191,7 @@ public class DrawingAssistant extends Thread {
 
     }
 
-    public static void drawPOIs() {
+    /*public static void drawPOIs() {
         /*
         POIsSet = true;
         System.out.println("XXXXXXXXSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXX");
@@ -238,12 +236,14 @@ public class DrawingAssistant extends Thread {
         mutableBitmap = allBitmapsOriginal.get(currentPosition.getZ());
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
-
+}
          */
 
 
 
-    }
+
+
+
 
     public void removePath() {
         pathDrawn = false;
@@ -322,9 +322,12 @@ public class DrawingAssistant extends Thread {
                 mapView.setZoom(1.0f);
                 drawPath();
             }
+            /*
             if (!POIsSet && !POIs.isEmpty()) {
                 drawPOIs();
             }
+
+             */
 
             //System.out.println(mapView.getScrollPosition().x);
             //mapConverter.setMapView(MainFragment.getMapView());
