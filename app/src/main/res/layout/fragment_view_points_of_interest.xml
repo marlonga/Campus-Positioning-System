@@ -16,12 +16,13 @@
             android:id="@+id/poi_main_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:maxHeight="50dp"
-            android:maxWidth="50dp"
-            android:minHeight="50dp"
-            android:minWidth="50dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/ic_launcher_background"
+            android:maxHeight="100dp"
+            android:maxWidth="250dp"
+            android:minHeight="100dp"
+            android:minWidth="250dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"/>
 
         <TextView
             android:id="@+id/poi_title"
