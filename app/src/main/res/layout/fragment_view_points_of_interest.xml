@@ -15,13 +15,18 @@
         <ImageView
             android:id="@+id/poi_main_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:maxHeight="50dp"
+            android:maxWidth="50dp"
+            android:minHeight="50dp"
+            android:minWidth="50dp"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_launcher_background" />
 
         <TextView
             android:id="@+id/poi_title"
             android:layout_width="match_parent"
-            android:layout_height="59dp"
+            android:layout_height="60dp"
             android:text="roomname"
             android:layout_gravity="center"
             android:gravity="center"
@@ -46,5 +51,4 @@
             android:typeface="normal" />
 
     </LinearLayout>
-
 </FrameLayout>
