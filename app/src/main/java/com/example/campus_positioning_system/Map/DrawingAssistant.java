@@ -22,6 +22,10 @@ import java.util.List;
 
 
 public class DrawingAssistant extends Thread {
+    //Mover
+    private static Mover dotMover;
+    MapPosition position;
+
     private static Node currentPosition;
     private static List<Node> path = new ArrayList<>();
     private static List<Node> POIs = new ArrayList<>();
@@ -161,11 +165,16 @@ public class DrawingAssistant extends Thread {
             mapPosition.setZ(n.getZ());
             mapPositions.add(mapPosition);
         }
-
+        for(int i = 0;i<4;i++){
+            bitmapsWithPath.add(allBitmapsOriginal.get(i).copy(Bitmap.Config.ARGB_8888, true));
+        }
+        /*
         bitmapsWithPath.add(allBitmapsOriginal.get(0).copy(Bitmap.Config.ARGB_8888, true));
         bitmapsWithPath.add(allBitmapsOriginal.get(1).copy(Bitmap.Config.ARGB_8888, true));
         bitmapsWithPath.add(allBitmapsOriginal.get(2).copy(Bitmap.Config.ARGB_8888, true));
         bitmapsWithPath.add(allBitmapsOriginal.get(3).copy(Bitmap.Config.ARGB_8888, true));
+
+         */
 
         for (int i = 0; i < mapPositions.size() - 1; i++) {
             mutableBitmap = bitmapsWithPath.get(mapPositions.get(i).getZ());
@@ -243,7 +252,9 @@ public class DrawingAssistant extends Thread {
 
 
 
-
+    public static Mover getInstanceMover(){
+        return dotMover;
+    }
 
     public void removePath() {
         pathDrawn = false;
@@ -261,7 +272,7 @@ public class DrawingAssistant extends Thread {
     public void run() {
         float newX = (float) 0;
         float newY = (float) 0;
-        Mover dotMover = new Mover("DotMover", newX, newY);
+        dotMover = new Mover("DotMover", newX, newY);
 
         dotMover.setView(dotView);
         dotMover.start();
@@ -331,9 +342,35 @@ public class DrawingAssistant extends Thread {
 
             //System.out.println(mapView.getScrollPosition().x);
             //mapConverter.setMapView(MainFragment.getMapView());
-            MapPosition position = mapConverter.convertNode(currentPosition);
-            dotMover.setNewPosition(position.getX(), position.getY());
-            dotMover.animationStart();
+
+            /** //TODO
+             * Hier kommt setPosition von den sensoren hin
+             * Mit den Kompass und Schrittzähler muss eine neue x,y Koordinate berechnet werden
+             * danach .animationStart für smoothe übergänge
+             *///---->
+            //Das folgende funktioniert
+
+            /*
+            for (int i = 0; i<50;i++){
+                for (int j = 0; j<50;j++){
+                    dotMover.setNewPosition((float) i, (float) j);
+                    dotMover.animationStart();
+                }
+            }
+
+             */
+            MapPosition m = mapConverter.convertNode(currentPosition);
+            if(m != null) {
+                if (!(position.compare(m) == 0)) {
+                    System.out.println(position.getX() + position.getY());
+                    System.out.println();
+                    position = mapConverter.convertNode(currentPosition);
+                    dotMover.setNewPosition(position.getX(), position.getY());
+                    dotMover.animationStart();
+                    System.out.println("loc changed211KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+                }
+            }
+
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {

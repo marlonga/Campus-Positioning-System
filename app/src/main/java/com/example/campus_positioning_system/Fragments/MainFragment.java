@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.campus_positioning_system.Activitys.LocationSensorActivity;
 import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.LocationNavigation.WifiScanner;
 import com.example.campus_positioning_system.Map.DrawingAssistant;
@@ -35,6 +36,8 @@ public class MainFragment extends Fragment {
     private String mParam2;
 
     private static boolean onlyOnce = true;
+
+    LocationSensorActivity locationSensorActivity;
 
     public MainFragment() {
         // Required empty public constructor
@@ -97,6 +100,7 @@ public class MainFragment extends Fragment {
 
             DrawingAssistant drawingAssistant = new DrawingAssistant(dotView, mapView);
             drawingAssistant.start();
+            locationSensorActivity = new LocationSensorActivity();
 
             onlyOnce = false;
         }

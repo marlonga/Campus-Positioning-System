@@ -44,4 +44,14 @@ public class MapPosition {
     public void setY(float y) {
         this.y = y;
     }
+
+
+
+    public int compare(MapPosition m) {
+        if(m.getX() == this.x && m.getY() == this.y){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
 }
