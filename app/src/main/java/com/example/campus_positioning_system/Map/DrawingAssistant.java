@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
+import android.util.Pair;
 import android.widget.ImageView;
 
 import com.example.campus_positioning_system.Activitys.MainActivity;
@@ -25,6 +26,7 @@ public class DrawingAssistant extends Thread {
     //Mover
     private static Mover dotMover;
     MapPosition position;
+    Pair<Float,Float> pos;
 
     private static Node currentPosition;
     private static List<Node> path = new ArrayList<>();
@@ -45,6 +47,7 @@ public class DrawingAssistant extends Thread {
     //because its depending on when the Views got inflated and we need to wait for that to happen
     //so Width and Height is not null
     private boolean setHW = false;
+    boolean currentPositionChanged = true;
 
     //View's
     private static TouchImageView mapView = null;
@@ -72,6 +75,7 @@ public class DrawingAssistant extends Thread {
         DrawingAssistant.mapView = mapView;
         this.dotView = dotView;
         currentPosition = new Node("PointZero", 62, 44, 1);
+        pos = new Pair<>(0f,0f);
     }
 
     public static synchronized void setCurrentPosition(Node currentPosition1) {
@@ -359,17 +363,34 @@ public class DrawingAssistant extends Thread {
             }
 
              */
-            MapPosition m = mapConverter.convertNode(currentPosition);
-            if(m != null) {
-                if (!(position.compare(m) == 0)) {
-                    System.out.println(position.getX() + position.getY());
-                    System.out.println();
-                    position = mapConverter.convertNode(currentPosition);
-                    dotMover.setNewPosition(position.getX(), position.getY());
-                    dotMover.animationStart();
-                    System.out.println("loc changed211KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-                }
+
+            /*
+            MapPosition position = mapConverter.convertNode(currentPosition);
+            dotMover.setNewPosition(position.getX(), position.getY());
+            dotMover.animationStart();
+            */
+
+            if(currentPositionChanged) {
+                position = mapConverter.convertNode(currentPosition);
+                currentPositionChanged = false;
             }
+
+            position = mapConverter.convertPosition(position);
+            if((pos.first != position.getX() || pos.second != position.getY())){
+                pos = new Pair<>(position.getX(), position.getY());
+                //position.setX(position.getX() + pos.first);
+                //position.setY(position.getY() + pos.second);
+
+                //System.out.println(pos.first + " -- " + position.getX() + " // " + pos.second + " -- " + position.getY());
+
+                dotMover.setNewPosition(pos.first, pos.second);
+                dotMover.animationStart();
+            }
+
+
+
+
+
 
             try {
                 Thread.sleep(50);

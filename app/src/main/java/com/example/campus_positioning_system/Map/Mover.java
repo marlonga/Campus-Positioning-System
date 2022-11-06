@@ -73,6 +73,13 @@ public class Mover extends HandlerThread {
         this.lastY = lastY;
     }
 
+    public Float getX(){
+        return this.x;
+    }
+    public Float getY(){
+        return this.y;
+    }
+
 
     @Override
     public void run() {
@@ -103,12 +110,4 @@ public class Mover extends HandlerThread {
             view.setY(y);
         }
     }
-
-    /* Ansatz für notifyMover -> static erforderlich beim ganzen Mover
-
-    public static synchronized void notifyMover(Pair<Float, Float> coords){
-        this.addToPosition(coords.first,coords.second);
-    }
-
-     */
 }

@@ -83,6 +83,32 @@ public class MapConverter {
         return mapPos;
     }
 
+    public synchronized MapPosition convertPosition(MapPosition toConvert) {
+        MapPosition mapPos = new MapPosition();
+
+
+        if(mapView.getScrollPosition() == null){
+            mapPos.setX(0);
+            mapPos.setY(0);
+            return mapPos;
+        }
+
+        PointF mapViewCenter = mapView.getScrollPosition();
+
+        float xShift;
+        float yShift;
+        currentZoom = mapView.getCurrentZoom();
+        xShift = -(mapViewCenter.x - (float) 0.5)*currentZoom;
+        yShift = -(mapViewCenter.y - (float) 0.5)*(float)(1+(1/currentZoom)-0.1);
+
+        float xForNode = getXCenter((toConvert.getX()*xCoordinatesGap))+xShift;
+        float yForNode = getYCenter((toConvert.getY()*yCoordinatesGap)+ yShiftMap)+yShift;
+
+        mapPos.setX(xForNode);
+        mapPos.setY(yForNode);
+        return mapPos;
+    }
+
     /*
     Converts a relative float Position of the Screen and multiplies it with the zoom
      */
