@@ -64,16 +64,16 @@ public class LocationSensorActivity implements SensorEventListener {
             float azimuthInDegree = (float) Math.toDegrees(azimuthInRadians);
             lastUpdatedTime = System.currentTimeMillis();
             angle = (int) azimuthInDegree;
-            System.out.println(angle);
+            //System.out.println(angle);
         }
 
 
-       // if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
+        //if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
             Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1f);
             DrawingAssistant.getInstanceMover().addToPosition(pair.first, pair.second);
             DrawingAssistant.getInstanceMover().animationStart();
-            System.out.println(DrawingAssistant.getInstanceMover().getX() +"||" +DrawingAssistant.getInstanceMover().getY());
-       // }
+           // System.out.println(DrawingAssistant.getInstanceMover().getX() +"||" +DrawingAssistant.getInstanceMover().getY());
+        //}
     }
 
     @Override
@@ -96,7 +96,6 @@ public class LocationSensorActivity implements SensorEventListener {
             default:
                 break;
         }
-
     }
 
     public Pair<Float,Float> changedPositionBasedOnSensors(int angle,float pathLenght){

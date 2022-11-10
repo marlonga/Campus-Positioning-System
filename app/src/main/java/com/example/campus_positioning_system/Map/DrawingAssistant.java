@@ -26,6 +26,7 @@ public class DrawingAssistant extends Thread {
     //Mover
     private static Mover dotMover;
     MapPosition position;
+    private static MapPosition dotMoverMapPosition;
     Pair<Float,Float> pos;
 
     private static Node currentPosition;
@@ -47,7 +48,7 @@ public class DrawingAssistant extends Thread {
     //because its depending on when the Views got inflated and we need to wait for that to happen
     //so Width and Height is not null
     private boolean setHW = false;
-    boolean currentPositionChanged = true;
+    private static boolean currentPositionChanged = true;
 
     //View's
     private static TouchImageView mapView = null;
@@ -76,6 +77,12 @@ public class DrawingAssistant extends Thread {
         this.dotView = dotView;
         currentPosition = new Node("PointZero", 62, 44, 1);
         pos = new Pair<>(0f,0f);
+    }
+    public static MapPosition getDotMoverMapPosition() {
+        return dotMoverMapPosition;
+    }
+    public static void setCurrentPositionChanged(boolean b) {
+            currentPositionChanged = b;
     }
 
     public static synchronized void setCurrentPosition(Node currentPosition1) {
@@ -371,12 +378,14 @@ public class DrawingAssistant extends Thread {
             */
 
             if(currentPositionChanged) {
-                position = mapConverter.convertNode(currentPosition);
+                position = mapConverter.convertNode(new Node("",37,59,1));
                 currentPositionChanged = false;
+                dotMoverMapPosition = position;
             }
 
-            position = mapConverter.convertPosition(position);
-            if((pos.first != position.getX() || pos.second != position.getY())){
+            position = mapConverter.convertPosition(dotMoverMapPosition);
+
+            if((pos.first != position.getX() || pos.first != position.getY())){ // checks if the mover changed position
                 pos = new Pair<>(position.getX(), position.getY());
                 //position.setX(position.getX() + pos.first);
                 //position.setY(position.getY() + pos.second);
