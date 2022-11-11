@@ -68,12 +68,12 @@ public class LocationSensorActivity implements SensorEventListener {
         }
 
 
-        //if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
+        if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
             Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1f);
             DrawingAssistant.getInstanceMover().addToPosition(pair.first, pair.second);
             DrawingAssistant.getInstanceMover().animationStart();
            // System.out.println(DrawingAssistant.getInstanceMover().getX() +"||" +DrawingAssistant.getInstanceMover().getY());
-        //}
+        }
     }
 
     @Override

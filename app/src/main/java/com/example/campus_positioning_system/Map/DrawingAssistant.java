@@ -341,7 +341,7 @@ public class DrawingAssistant extends Thread {
             dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
             if (!path.isEmpty() && !pathDrawn) {
-                mapView.setZoom(1.0f);
+                //mapView.setZoom(1.0f);
                 drawPath();
             }
             /*
@@ -378,12 +378,13 @@ public class DrawingAssistant extends Thread {
             */
 
             if(currentPositionChanged) {
-                position = mapConverter.convertNode(new Node("",37,59,1));
+                position = mapConverter.convertNode(new Node("",62,44,1));
                 currentPositionChanged = false;
                 dotMoverMapPosition = position;
+            }else {
+                position = mapConverter.convertPosition(dotMoverMapPosition);
             }
 
-            position = mapConverter.convertPosition(dotMoverMapPosition);
 
             if((pos.first != position.getX() || pos.first != position.getY())){ // checks if the mover changed position
                 pos = new Pair<>(position.getX(), position.getY());

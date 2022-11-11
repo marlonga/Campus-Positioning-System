@@ -97,19 +97,23 @@ public class MapConverter {
 
         float xShift;
         float yShift;
+        float xForPos;
+        float yForPos;
         currentZoom = mapView.getCurrentZoom();
-        xShift = (-(mapViewCenter.x - (float) 0.5) ) * mapWidth * currentZoom;
-        yShift = (-(mapViewCenter.y - (float) 0.5)) * mapHeight  *(float)(1+(1/currentZoom)-0.1);
+        xShift = -(mapViewCenter.x - (float) 0.5)  * currentZoom;
+        yShift = -(mapViewCenter.y - (float) 0.5)  * (float)(1+(1/currentZoom)-0.1);
 
-        float xpos = (xShift) + toConvert.getX();
-        float ypos = (yShift) + toConvert.getY();
+        xForPos = getXCenter((toConvert.getX()) / mapWidth)+xShift;
+        yForPos = getYCenter((toConvert.getY() / mapHeight))+yShift;
+        float xpos = (xForPos) * mapWidth;
+        float ypos = (yForPos) * mapHeight;
 
         mapPos.setX(xpos);
         mapPos.setY(ypos);
 
         //System.out.println("xShift: " + xShift + " || center.y: " + mapViewCenter.y );
         //System.out.println(mapPos.getX()+ " || " + mapPos.getY());
-        System.out.println(mapPos.getX()+"||"+ mapPos.getY()+ "||" + mapViewCenter.y);
+        //System.out.println(mapPos.getX()+"||"+ mapPos.getY()+ "||" + mapViewCenter.y);
         return mapPos;
     }
 
