@@ -152,29 +152,10 @@ public class DrawingAssistant extends Thread {
         POIsSet = false;
     }
 
-    // https://developer.android.com/training/animation/reposition-view
-
-    public static void drawPath() {
-        pathDrawn = true;
-
-        Paint paintEG = new Paint();
-        Paint paintOG1 = new Paint();
-        Paint paintOG2 = new Paint();
-        Paint paintOG3 = new Paint();
-        Paint paintNewFloor = new Paint();
-
-        paintEG.setColor(Color.RED);
-        paintEG.setStrokeWidth(10);
-
-        paintNewFloor.setColor(Color.BLUE);
-        paintNewFloor.setStrokeWidth(10);
-
+    public static List<MapPosition> getCurrentPathAsMapPositions() {
         Bitmap mutableBitmap = allBitmapsOriginal.get(0);
         float oneX = (float) mutableBitmap.getWidth() / 124f;
         float oneY = (float) mutableBitmap.getHeight() / 88f;
-
-        bitmapsWithPath = new LinkedList<>();
-
         List<MapPosition> mapPositions = new LinkedList<>();
         for (int i = 0; i < path.size(); i++) {
             Node n = path.get(i);
@@ -184,16 +165,30 @@ public class DrawingAssistant extends Thread {
             mapPosition.setZ(n.getZ());
             mapPositions.add(mapPosition);
         }
+        return mapPositions;
+    }
+    // https://developer.android.com/training/animation/reposition-view
+
+    public static void drawPath() {
+        pathDrawn = true;
+
+        Paint paintEG = new Paint();
+        Paint paintNewFloor = new Paint();
+        paintEG.setColor(Color.RED);
+        paintEG.setStrokeWidth(10);
+        paintNewFloor.setColor(Color.BLUE);
+        paintNewFloor.setStrokeWidth(10);
+
+
+        Bitmap mutableBitmap;
+
+        bitmapsWithPath = new LinkedList<>();
+
+        List<MapPosition> mapPositions = getCurrentPathAsMapPositions();
+
         for(int i = 0;i<4;i++){
             bitmapsWithPath.add(allBitmapsOriginal.get(i).copy(Bitmap.Config.ARGB_8888, true));
         }
-        /*
-        bitmapsWithPath.add(allBitmapsOriginal.get(0).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(1).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(2).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(3).copy(Bitmap.Config.ARGB_8888, true));
-
-         */
 
         for (int i = 0; i < mapPositions.size() - 1; i++) {
             mutableBitmap = bitmapsWithPath.get(mapPositions.get(i).getZ());
@@ -277,9 +272,30 @@ public class DrawingAssistant extends Thread {
 
     public void removePath() {
         pathDrawn = false;
-        path = new LinkedList<>();
-        setCurrentPosition(currentPosition);
+        path.remove(getClosestPosition());
     }
+
+    public Node getClosestPosition() {
+        Node result = new Node();
+
+        //highest double value, because any position on the map will be closer
+        double mathSafe = 1.7976931348623157E+308;
+
+        //theorem of pythagoras for finding closest MapPosition on Path
+        for (Node n: path) {
+            MapPosition mapPosition = mapConverter.convertNode(n);
+            double difX = dotMoverMapPosition.getX() - mapPosition.getX();
+            double difY = dotMoverMapPosition.getY() - mapPosition.getY();
+            double math = Math.sqrt(Math.pow(difX,2) + Math.pow(difY,2));
+            if (mathSafe > math) {
+                mathSafe = math;
+                result = n;
+            }
+        }
+        return result;
+    }
+
+
 
     public int adjustAngle(int angle) {
         if (angle <= -180)
@@ -417,7 +433,8 @@ public class DrawingAssistant extends Thread {
  */
 
 
-
+            //TODO: here is removepath used
+            removePath();
 
 
 
