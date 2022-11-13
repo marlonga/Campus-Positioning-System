@@ -2,6 +2,7 @@ package com.example.campus_positioning_system.Activitys;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -26,7 +27,7 @@ public class LocationSensorActivity implements SensorEventListener {
     private final float[] accelerometerReading = new float[3];
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
-    private int angle;
+    private float angle;
     private long lastUpdatedTime = 0;
 
     private boolean isCopied,isCopied2 = false;
@@ -63,17 +64,20 @@ public class LocationSensorActivity implements SensorEventListener {
             float azimuthInRadians = orientationAngles[0];
             float azimuthInDegree = (float) Math.toDegrees(azimuthInRadians);
             lastUpdatedTime = System.currentTimeMillis();
-            angle = (int) azimuthInDegree;
-            //System.out.println(angle);
+            angle = azimuthInDegree;
+            System.out.println(azimuthInDegree);
         }
 
 
-        if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
-            Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1f);
-            DrawingAssistant.getInstanceMover().addToPosition(pair.first, pair.second);
+        //if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
+            Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1d * DrawingAssistant.getMapView().getCurrentZoom());
+            //System.out.println(DrawingAssistant.getDotMoverMapPosition().getX() + "||1");
+            DrawingAssistant.addToDotMoverMapPosition(pair);
+            //System.out.println(DrawingAssistant.getDotMoverMapPosition().getY()+ "||2");
+
             DrawingAssistant.getInstanceMover().animationStart();
            // System.out.println(DrawingAssistant.getInstanceMover().getX() +"||" +DrawingAssistant.getInstanceMover().getY());
-        }
+        //}
     }
 
     @Override
@@ -98,39 +102,41 @@ public class LocationSensorActivity implements SensorEventListener {
         }
     }
 
-    public Pair<Float,Float> changedPositionBasedOnSensors(int angle,float pathLenght){
+    public Pair<Float,Float> changedPositionBasedOnSensors(float angle,double pathLenght){
+        //TODO winkel hochschule zum norden
+        //angle = angle + 135;// <----
         Pair<Float,Float> result = new Pair<>(0f,0f);
-        int angleForCalculations;
+        float angleForCalculations;
 
         if(angle>0 && angle<=90){ //positive x and positive y coordinate
             angleForCalculations = 90 - angle;
-            float x = (float)(cos(angleForCalculations) * pathLenght);
-            float y = (float)(sin(angleForCalculations) * pathLenght);
-            result = new Pair<>(x,y);
-        }
-
-        if(angle>90 && angle<=180){ //positive x and negative y coordinate
-            angleForCalculations = 90 - angle;
-            float x = (float)(cos(angleForCalculations) * pathLenght);
-            float y = (float)(sin(angleForCalculations) * pathLenght);
-            result = new Pair<>(x,-y);
-        }
-
-        if(angle<0 && angle>=-90){ //negative x and negative y coordinaten
-            angleForCalculations = 90 - angle;
-            float x = (float)(cos(angleForCalculations) * pathLenght);
-            float y = (float)(sin(angleForCalculations) * pathLenght);
-            result = new Pair<>(-x,-y);
-        }
-
-        if(angle<-90 && angle>=-180){ //negative x and positive y coordinaten
-            angleForCalculations = 90 - angle;
-            float x = (float)(cos(angleForCalculations) * pathLenght);
-            float y = (float)(sin(angleForCalculations) * pathLenght);
+            float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
+            float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
             result = new Pair<>(-x,y);
         }
 
-        //System.out.println("x coord: " + result.first +"|| y coord: "+result.second);
+        if(angle>90 && angle<=180){ //positive x and negative y coordinate
+            angleForCalculations = 180 - angle;
+            float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
+            float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
+            result = new Pair<>(-y,-x);
+        }
+
+        if(angle<0 && angle>=-90){ //negative x and negative y coordinaten
+            angleForCalculations = 90 + angle;
+            float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
+            float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
+            result = new Pair<>(x,y);
+        }
+
+        if(angle<-90 && angle>=-180){ //negative x and positive y coordinaten
+            angleForCalculations = 180 + angle;
+            float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
+            float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
+            result = new Pair<>(y,-x);
+        }
+
+        System.out.println( result);
         return result;
     }
 

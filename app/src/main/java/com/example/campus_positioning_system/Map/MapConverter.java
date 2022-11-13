@@ -56,7 +56,6 @@ public class MapConverter {
     public synchronized void setMapView(TouchImageView newMapView) {
         //this.mapView = newMapView;
     }
-
     public synchronized MapPosition convertNode(Node toConvert) {
         MapPosition mapPos = new MapPosition();
 

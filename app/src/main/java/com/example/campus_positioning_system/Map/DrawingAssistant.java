@@ -77,13 +77,21 @@ public class DrawingAssistant extends Thread {
         this.dotView = dotView;
         currentPosition = new Node("PointZero", 62, 44, 1);
         pos = new Pair<>(0f,0f);
+        dotMoverMapPosition = new MapPosition(0.0f,0.0f);
     }
     public static MapPosition getDotMoverMapPosition() {
         return dotMoverMapPosition;
     }
+    public static synchronized void addToDotMoverMapPosition(Pair<Float, Float> toAdd){
+        float one = dotMoverMapPosition.getX();
+        float two = dotMoverMapPosition.getY();
+        dotMoverMapPosition.setX(one + toAdd.first);
+        dotMoverMapPosition.setY(two + toAdd.second);
+    }
     public static void setCurrentPositionChanged(boolean b) {
             currentPositionChanged = b;
     }
+    public static TouchImageView getMapView() {return mapView;}
 
     public static synchronized void setCurrentPosition(Node currentPosition1) {
         System.out.println("Drawing Assistant received current position: " + currentPosition1.toString());
@@ -378,15 +386,24 @@ public class DrawingAssistant extends Thread {
             */
 
             if(currentPositionChanged) {
-                position = mapConverter.convertNode(new Node("",62,44,1));
+                mapView.setZoom(1.0f);
+                position = mapConverter.convertNode(currentPosition);
                 currentPositionChanged = false;
                 dotMoverMapPosition = position;
+                dotMover.setNewPosition(dotMoverMapPosition.getX(), dotMoverMapPosition.getY());
+                dotMover.animationStart();
             }else {
                 position = mapConverter.convertPosition(dotMoverMapPosition);
+                dotMover.setNewPosition(position.getX(), position.getY());
+                dotMover.animationStart();
             }
 
 
-            if((pos.first != position.getX() || pos.first != position.getY())){ // checks if the mover changed position
+
+
+
+/*
+            if((pos.first != dotMover.getX() || pos.first != dotMover.getY())){ // checks if the mover changed position
                 pos = new Pair<>(position.getX(), position.getY());
                 //position.setX(position.getX() + pos.first);
                 //position.setY(position.getY() + pos.second);
@@ -396,6 +413,8 @@ public class DrawingAssistant extends Thread {
                 dotMover.setNewPosition(pos.first, pos.second);
                 dotMover.animationStart();
             }
+
+ */
 
 
 
