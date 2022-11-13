@@ -270,13 +270,22 @@ public class DrawingAssistant extends Thread {
         return dotMover;
     }
 
-    public void removePath() {
+    /**
+     * is used for deleting closest Node to dotMover in Path
+     *
+     * @param precision decides the Coords difference in wich closestnode gets removed
+     */
+    public void removePath(int precision) {
         pathDrawn = false;
-        path.remove(getClosestPosition());
+        Pair<Node, Integer> expectedDeletion = getClosestPosition();
+        if (expectedDeletion.second < precision){
+            path.remove(expectedDeletion.first);
+        }
+
     }
 
-    public Node getClosestPosition() {
-        Node result = new Node();
+    public Pair<Node, Integer> getClosestPosition() {
+        Pair<Node, Integer> result = new Pair<>(null,null);
 
         //highest double value, because any position on the map will be closer
         double mathSafe = 1.7976931348623157E+308;
@@ -289,7 +298,7 @@ public class DrawingAssistant extends Thread {
             double math = Math.sqrt(Math.pow(difX,2) + Math.pow(difY,2));
             if (mathSafe > math) {
                 mathSafe = math;
-                result = n;
+                result = new Pair<Node,Integer>(n,(int) mathSafe);
             }
         }
         return result;
@@ -433,8 +442,11 @@ public class DrawingAssistant extends Thread {
  */
 
 
-            //TODO: here is removepath used
-            removePath();
+
+            if (!path.isEmpty()){
+                removePath(10);
+            }
+
 
 
 
