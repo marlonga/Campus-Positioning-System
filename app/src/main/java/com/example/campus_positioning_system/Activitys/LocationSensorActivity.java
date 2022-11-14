@@ -23,6 +23,7 @@ public class LocationSensorActivity implements SensorEventListener {
     private Sensor step_sensor;
     private Sensor magnetic_sensor;
     private Sensor accelerometer_sensor;
+    private final static int shift_to_northpole = 135;
     private final float[] magnetometerReading = new float[3];
     private final float[] accelerometerReading = new float[3];
     private final float[] rotationMatrix = new float[9];
@@ -64,12 +65,12 @@ public class LocationSensorActivity implements SensorEventListener {
             float azimuthInRadians = orientationAngles[0];
             float azimuthInDegree = (float) Math.toDegrees(azimuthInRadians);
             lastUpdatedTime = System.currentTimeMillis();
-            angle = azimuthInDegree;
+            angle = azimuthInDegree +135;
             System.out.println(azimuthInDegree);
         }
 
 
-        //if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
+        if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
             Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1d * DrawingAssistant.getMapView().getCurrentZoom());
             //System.out.println(DrawingAssistant.getDotMoverMapPosition().getX() + "||1");
             DrawingAssistant.addToDotMoverMapPosition(pair);
@@ -77,7 +78,7 @@ public class LocationSensorActivity implements SensorEventListener {
 
             DrawingAssistant.getInstanceMover().animationStart();
            // System.out.println(DrawingAssistant.getInstanceMover().getX() +"||" +DrawingAssistant.getInstanceMover().getY());
-        //}
+        }
     }
 
     @Override
@@ -104,10 +105,21 @@ public class LocationSensorActivity implements SensorEventListener {
 
     public Pair<Float,Float> changedPositionBasedOnSensors(float angle,double pathLenght){
         //TODO winkel hochschule zum norden
-        //angle = angle + 135;// <----
+      angle += 180;
+      angle += shift_to_northpole;
+      angle += 90;
+      angle = angle % 360;
+
+
+
         Pair<Float,Float> result = new Pair<>(0f,0f);
         float angleForCalculations;
 
+        float x = (float)(cos(toRadians(angle)) * pathLenght);
+        float y = (float)(sin(toRadians(angle)) * pathLenght);
+        result = new Pair<>(-x,-y);
+
+/*
         if(angle>0 && angle<=90){ //positive x and positive y coordinate
             angleForCalculations = 90 - angle;
             float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
@@ -129,13 +141,13 @@ public class LocationSensorActivity implements SensorEventListener {
             result = new Pair<>(x,y);
         }
 
-        if(angle<-90 && angle>=-180){ //negative x and positive y coordinaten
+        if(angle<-90 && angle>=-179){ //negative x and positive y coordinaten
             angleForCalculations = 180 + angle;
             float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
             float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
             result = new Pair<>(y,-x);
         }
-
+*/
         System.out.println( result);
         return result;
     }
