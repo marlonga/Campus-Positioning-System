@@ -309,6 +309,7 @@ public class DrawingAssistant extends Thread {
 
     }
 
+
     public Pair<Node, Integer> getClosestPosition() {
         Pair<Node, Integer> result = new Pair<>(null,null);
 
@@ -332,8 +333,9 @@ public class DrawingAssistant extends Thread {
 
 
     public int adjustAngle(int angle) {
-        if (angle <= -180)
-            return (angle) % 180;
+        angle += 180;
+        angle += 135;
+        angle = angle % 360;
         return angle;
     }
 
@@ -396,7 +398,8 @@ public class DrawingAssistant extends Thread {
         while (true) {
             //System.out.println("----------------------------------------------------------------------");
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
-            dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
+            dotView.setRotation(adjustAngle(MainActivity.getAngle()));
+            //dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
             if (!path.isEmpty() && !pathDrawn) {
                 //mapView.setZoom(1.0f);
