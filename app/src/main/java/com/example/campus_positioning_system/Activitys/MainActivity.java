@@ -49,7 +49,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-@SuppressWarnings("deprecation")
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     //Room Database Object
     private static AppDatabase db;

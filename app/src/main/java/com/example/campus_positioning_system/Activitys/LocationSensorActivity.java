@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.campus_positioning_system.Map.DrawingAssistant;
 
+import java.util.List;
+
 public class LocationSensorActivity implements SensorEventListener {
 
 
@@ -38,15 +40,38 @@ public class LocationSensorActivity implements SensorEventListener {
         this.step_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         this.magnetic_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         this.accelerometer_sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this,step_sensor,sensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this,magnetic_sensor,sensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this,accelerometer_sensor,sensorManager.SENSOR_DELAY_NORMAL);
+        if (step_sensor != null){
+            sensorManager.registerListener(this,step_sensor,sensorManager.SENSOR_DELAY_NORMAL);
+            System.out.println("#Listener for stepsensor done");
+        }
+        if (magnetic_sensor != null){
+            sensorManager.registerListener(this,magnetic_sensor,sensorManager.SENSOR_DELAY_NORMAL);
+            System.out.println("#Listener for magneticsensor done");
+        }
+
+        if(accelerometer_sensor != null) {
+            sensorManager.registerListener(this,accelerometer_sensor,sensorManager.SENSOR_DELAY_NORMAL);
+            System.out.println("#Listener for acceleromatersensor done");
+        }
+
+        /**
+         * TODO: INFO FOR USER IF ALL SENSORS ACTIVE
+         */
+        //use if u want to find out which sensors are avaible on device
+        //List<Sensor> allSensor = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        //System.out.println("all avaible sensors on device:");
+        //System.out.println(allSensor);
+
 
     }
 
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+
+        /**
+         * TODO: SMOOTH VALUES / FILTERING OF SENSORS
+         */
 
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             System.arraycopy(sensorEvent.values, 0, accelerometerReading, 0, accelerometerReading.length);
@@ -69,7 +94,6 @@ public class LocationSensorActivity implements SensorEventListener {
             System.out.println(azimuthInDegree);
         }
 
-
         if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
             Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1d * DrawingAssistant.getMapView().getCurrentZoom());
             //System.out.println(DrawingAssistant.getDotMoverMapPosition().getX() + "||1");
@@ -77,7 +101,9 @@ public class LocationSensorActivity implements SensorEventListener {
             //System.out.println(DrawingAssistant.getDotMoverMapPosition().getY()+ "||2");
 
             DrawingAssistant.getInstanceMover().animationStart();
-           // System.out.println(DrawingAssistant.getInstanceMover().getX() +"||" +DrawingAssistant.getInstanceMover().getY());
+            System.out.println("#Step +" + pair);
+
+            // System.out.println(DrawingAssistant.getInstanceMover().getX() +"||" +DrawingAssistant.getInstanceMover().getY());
         }
     }
 

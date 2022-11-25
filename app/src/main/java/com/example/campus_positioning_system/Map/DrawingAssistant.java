@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.Fragments.MainFragment;
+import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Node;
 import com.example.campus_positioning_system.R;
 import com.ortiz.touchview.TouchImageView;
@@ -82,7 +83,7 @@ public class DrawingAssistant extends Thread {
         this.dotView = dotView;
 
         //first initialization of currentPosition at a default value
-        currentPosition = new Node("PointZero", 62, 44, 1);
+        currentPosition = new Node("PointZero", 52, 64, 1);
 
         //first initialization of dotMoverMapPosition on 0,0 of screen
         dotMoverMapPosition = new MapPosition(0.0f,0.0f);
@@ -191,7 +192,7 @@ public class DrawingAssistant extends Thread {
         return mapPositions;
     }
 
-    /**
+    /** method used for drawing the path on screen, gets redrawn if pathDrawn is false
      *
      */
     public static void drawPath() {
@@ -295,32 +296,23 @@ public class DrawingAssistant extends Thread {
         return dotMover;
     }
 
-    /**
-     * is used for deleting closest Node to dotMover in Path
+
+
+    /** calculates closest node from path to dotMoverPosition
      *
-     * @param precision decides the Coords difference in wich closestnode gets removed
+     * @return closest node and its coordinates difference to dotMoverPosition
      */
-    public void removePath(int precision) {
-        pathDrawn = false;
-        Pair<Node, Integer> expectedDeletion = getClosestPosition();
-        if (expectedDeletion.second < precision){
-            path.remove(expectedDeletion.first);
-        }
-
-    }
-
-
-    public Pair<Node, Integer> getClosestPosition() {
+    public Pair<Node, Integer> getClosestPosition(List<Node> mapOfNodes) {
         Pair<Node, Integer> result = new Pair<>(null,null);
 
         //highest double value, because any position on the map will be closer
         double mathSafe = 1.7976931348623157E+308;
 
         //theorem of pythagoras for finding closest MapPosition on Path
-        for (Node n: path) {
+        for (Node n: mapOfNodes) {
             MapPosition mapPosition = mapConverter.convertNode(n);
-            double difX = dotMoverMapPosition.getX() - mapPosition.getX();
-            double difY = dotMoverMapPosition.getY() - mapPosition.getY();
+            double difX = dotMover.getX() - mapPosition.getX();
+            double difY = dotMover.getY() - mapPosition.getY();
             double math = Math.sqrt(Math.pow(difX,2) + Math.pow(difY,2));
             if (mathSafe > math) {
                 mathSafe = math;
@@ -328,6 +320,14 @@ public class DrawingAssistant extends Thread {
             }
         }
         return result;
+    }
+
+    public void updatePathOnWalk() {
+        if(!path.isEmpty()){
+            PathfindingControl.updateCurrentLocation(getClosestPosition(PathfindingControl.getAllNodesOnFloor(currentPosition.getZ())).first);
+            setPathToDestination(PathfindingControl.calculatePath());
+            pathDrawn = false;
+        }
     }
 
 
@@ -396,11 +396,13 @@ public class DrawingAssistant extends Thread {
         }
 
         while (true) {
-            //System.out.println("----------------------------------------------------------------------");
+
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
             dotView.setRotation(adjustAngle(MainActivity.getAngle()));
+
             //dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
+
             if (!path.isEmpty() && !pathDrawn) {
                 //mapView.setZoom(1.0f);
                 drawPath();
@@ -409,34 +411,12 @@ public class DrawingAssistant extends Thread {
             if (!POIsSet && !POIs.isEmpty()) {
                 drawPOIs();
             }
-
              */
 
-            //System.out.println(mapView.getScrollPosition().x);
-            //mapConverter.setMapView(MainFragment.getMapView());
-
-            /** //TODO
-             * Hier kommt setPosition von den sensoren hin
-             * Mit den Kompass und Schrittzähler muss eine neue x,y Koordinate berechnet werden
-             * danach .animationStart für smoothe übergänge
-             *///---->
-            //Das folgende funktioniert
-
-            /*
-            for (int i = 0; i<50;i++){
-                for (int j = 0; j<50;j++){
-                    dotMover.setNewPosition((float) i, (float) j);
-                    dotMover.animationStart();
-                }
-            }
-
+            /**
+             * TODO: DROSSELUNG VON ZEICHNEN
              */
-
-            /*
-            MapPosition position = mapConverter.convertNode(currentPosition);
-            dotMover.setNewPosition(position.getX(), position.getY());
-            dotMover.animationStart();
-            */
+            updatePathOnWalk();
 
             if(currentPositionChanged) {
                 mapView.setZoom(1.0f);
@@ -445,6 +425,7 @@ public class DrawingAssistant extends Thread {
                 dotMoverMapPosition = position;
                 dotMover.setNewPosition(dotMoverMapPosition.getX(), dotMoverMapPosition.getY());
                 dotMover.animationStart();
+
             }else {
                 position = mapConverter.convertPosition(dotMoverMapPosition);
                 dotMover.setNewPosition(position.getX(), position.getY());
@@ -452,34 +433,8 @@ public class DrawingAssistant extends Thread {
             }
 
 
-
-
-
-/*
-            if((pos.first != dotMover.getX() || pos.first != dotMover.getY())){ // checks if the mover changed position
-                pos = new Pair<>(position.getX(), position.getY());
-                //position.setX(position.getX() + pos.first);
-                //position.setY(position.getY() + pos.second);
-
-                //System.out.println(pos.first + " -- " + position.getX() + " // " + pos.second + " -- " + position.getY());
-
-                dotMover.setNewPosition(pos.first, pos.second);
-                dotMover.animationStart();
-            }
-
- */
-
-
-
-            if (!path.isEmpty()){
-                removePath(10);
-            }
-
-
-
-
             try {
-                Thread.sleep(50);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

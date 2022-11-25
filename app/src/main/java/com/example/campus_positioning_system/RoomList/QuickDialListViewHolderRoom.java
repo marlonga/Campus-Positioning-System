@@ -29,8 +29,7 @@ import org.w3c.dom.Text;
 
 
 /** Represents a room entry in the QuickDial Room List
- * @version 1.0
- * @author Ben Lutz
+ *
  */
 public class QuickDialListViewHolderRoom extends TreeViewHolder {
 
@@ -107,10 +106,6 @@ public class QuickDialListViewHolderRoom extends TreeViewHolder {
             @Override
             public void onClick(View v) {
                 System.out.println("QuickDialActivity to ViewPointOfInterest");
-                /**TODO
-                 * get Button wich was pressed
-                 */
-
                 switchActivities(roomName.getText().toString());
             }
         });
