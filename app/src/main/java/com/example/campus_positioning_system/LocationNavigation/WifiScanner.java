@@ -28,7 +28,7 @@ NearestWifiScanner
  */
 
 
-public class WifiScanner extends Thread{
+public class  WifiScanner extends Thread{
 
     private static int scanInterval = 5000;
     private final WifiManager wifiManager;

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.campus_positioning_system.Map.DrawingAssistant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationSensorActivity implements SensorEventListener {
@@ -32,6 +33,8 @@ public class LocationSensorActivity implements SensorEventListener {
     private final float[] orientationAngles = new float[3];
     private float angle;
     private long lastUpdatedTime = 0;
+    private static ArrayList<String> unfound_sensors = new ArrayList<>();
+    private static boolean wait_for_sensors = true;
 
     private boolean isCopied,isCopied2 = false;
 
@@ -43,26 +46,30 @@ public class LocationSensorActivity implements SensorEventListener {
         if (step_sensor != null){
             sensorManager.registerListener(this,step_sensor,sensorManager.SENSOR_DELAY_NORMAL);
             System.out.println("#Listener for stepsensor done");
+        } else {
+            unfound_sensors.add("Pedometer");
         }
         if (magnetic_sensor != null){
             sensorManager.registerListener(this,magnetic_sensor,sensorManager.SENSOR_DELAY_NORMAL);
             System.out.println("#Listener for magneticsensor done");
+        } else {
+            unfound_sensors.add("Magnetometer");
         }
 
         if(accelerometer_sensor != null) {
             sensorManager.registerListener(this,accelerometer_sensor,sensorManager.SENSOR_DELAY_NORMAL);
             System.out.println("#Listener for acceleromatersensor done");
+        } else {
+            unfound_sensors.add("Accelerometer");
         }
-
-        /**
-         * TODO: INFO FOR USER IF ALL SENSORS ACTIVE
-         */
         //use if u want to find out which sensors are avaible on device
         //List<Sensor> allSensor = sensorManager.getSensorList(Sensor.TYPE_ALL);
         //System.out.println("all avaible sensors on device:");
         //System.out.println(allSensor);
-
-
+        wait_for_sensors = false;
+    }
+    public static boolean isWait_for_sensors() {
+        return wait_for_sensors;
     }
 
 
@@ -90,8 +97,8 @@ public class LocationSensorActivity implements SensorEventListener {
             float azimuthInRadians = orientationAngles[0];
             float azimuthInDegree = (float) Math.toDegrees(azimuthInRadians);
             lastUpdatedTime = System.currentTimeMillis();
-            angle = azimuthInDegree +135;
-            System.out.println(azimuthInDegree);
+            angle = (int) azimuthInDegree;
+            //System.out.println(azimuthInDegree);
         }
 
         if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
@@ -131,10 +138,13 @@ public class LocationSensorActivity implements SensorEventListener {
 
     public Pair<Float,Float> changedPositionBasedOnSensors(float angle,double pathLenght){
         //TODO winkel hochschule zum norden
-      angle += 180;
-      angle += shift_to_northpole;
-      angle += 90;
-      angle = angle % 360;
+        angle = MainActivity.getAngle();
+        angle = (angle +360);
+        angle = angle % 360;
+        angle = angle +53;
+        if(angle < 0){
+            angle = 360 - (Math.abs(angle));
+        }
 
 
 
@@ -176,6 +186,10 @@ public class LocationSensorActivity implements SensorEventListener {
 */
         System.out.println( result);
         return result;
+    }
+
+    public static ArrayList<String> getUnfoundSensors(){
+        return unfound_sensors;
     }
 
 

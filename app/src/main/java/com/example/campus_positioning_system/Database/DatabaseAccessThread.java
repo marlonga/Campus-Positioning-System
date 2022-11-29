@@ -45,9 +45,7 @@ public class DatabaseAccessThread extends Thread{
 
         //if(!() == null))
         //PathfindingControl.updateCurrentLocation(new LocationControl().locate(nearestWifiList));
-        if( currentPosition != new LocationControl().locate(nearestWifiList)){
-            DrawingAssistant.setCurrentPositionChanged(true);
-        }
+
 
         currentPosition = new LocationControl().locate(nearestWifiList);
         DrawingAssistant.setCurrentPosition(currentPosition); // currentPosition

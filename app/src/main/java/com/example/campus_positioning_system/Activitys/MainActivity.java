@@ -22,8 +22,17 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +42,7 @@ import android.widget.Toast;
 // View
 
 // Room Database
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.amrdeveloper.treeview.TreeNode;
@@ -46,6 +56,7 @@ import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -85,6 +96,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static WifiManager wifiManager;
     private static List<ScanResult> availableNetworks;
 
+    //popup
+    private LayoutInflater layoutInflater;
+    private PopupWindow popupWindow;
+    private PopupWindow popupWindowButton;
+    private FragmentContainerView fragmentContainerView;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -114,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //------------------------------------------------------------------------------
         //Sensors
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        LocationSensorActivity locationSensorActivity = new LocationSensorActivity();
 
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -175,8 +194,65 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         locationPermissionRequest.launch(new String[] {
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACTIVITY_RECOGNITION
         });
+
+
+        ArrayList<String> unfound_sensors = LocationSensorActivity.getUnfoundSensors();
+        //unfound_sensors.add("Magnetometer");
+        //unfound_sensors.add("Pedometer");
+        final ImageButton button = (ImageButton) findViewById(R.id.sensor_popup_button);
+        button.setVisibility(View.GONE);
+
+        if(!unfound_sensors.isEmpty()){
+            //POPUP_WINDOW IF SENSOR MISSING
+            fragmentContainerView = (FragmentContainerView) findViewById(R.id.nav_host_fragment);
+            layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+            ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.sensor_info_popup,null);
+            popupWindow = new PopupWindow(container,400,650,true);
+
+            String resulting_info = "";
+            if (unfound_sensors.size() == 1){
+                resulting_info += "Folgender Sensor wurde an ihrem Gerät nicht erkannt: \n";
+            } else if (unfound_sensors.size() > 1){
+                resulting_info += "Folgende Sensoren wurden an ihrem Gerät nicht erkannt: \n";
+            }
+            for (String s : unfound_sensors){
+                resulting_info += " >" + s + "\n";
+            }
+            resulting_info += "Es könnte also zu Ungenauigkeiten ihrer Position in der App kommen.";
+
+            TextView infoText = (TextView) container.findViewById(R.id.info_of_sensors_popup);
+
+            infoText.setText(resulting_info);
+
+            findViewById(R.id.nav_host_fragment).post(new Runnable() {
+                public void run() {
+                    popupWindow.showAtLocation(fragmentContainerView, Gravity.CENTER, 0, 0);
+                }
+            });
+            popupWindow.setElevation(10);
+
+            container.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popupWindow.dismiss();
+                    return false;
+                }
+            });
+
+
+            button.setVisibility(View.VISIBLE);
+            button.setElevation(3);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    popupWindow.showAtLocation(fragmentContainerView, Gravity.CENTER, 0, 0);
+                }
+            });
+
+        }
 
         System.out.println("On Create Ende Main Activity");
     }
@@ -185,8 +261,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Intent switchActivityIntent = new Intent(this, activityClass);
         startActivity(switchActivityIntent);
     }
-
-
 
 
     public static NNObjectDao getNNObjectDaoFromDB(){

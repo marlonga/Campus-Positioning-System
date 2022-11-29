@@ -35,6 +35,7 @@ public class DrawingAssistant extends Thread {
 
     private static boolean pathDrawn = false;
     private static boolean POIsSet = false;
+    private static int testThrotteling = 0;
 
     //Height and Width of our View's
     private static int dotHeight;
@@ -83,7 +84,7 @@ public class DrawingAssistant extends Thread {
         this.dotView = dotView;
 
         //first initialization of currentPosition at a default value
-        currentPosition = new Node("PointZero", 52, 64, 1);
+        currentPosition = new Node("PointZero", 62, 44, 1);
 
         //first initialization of dotMoverMapPosition on 0,0 of screen
         dotMoverMapPosition = new MapPosition(0.0f,0.0f);
@@ -132,6 +133,7 @@ public class DrawingAssistant extends Thread {
      */
     public static synchronized void setCurrentPosition(Node newCurrentPosition) {
         System.out.println("Drawing Assistant received current position: " + newCurrentPosition.toString());
+        currentPositionChanged = true;
         currentPosition = newCurrentPosition;
         int currentZ = currentPosition.getZ();
         if (!pathDrawn) {
@@ -333,9 +335,13 @@ public class DrawingAssistant extends Thread {
 
 
     public int adjustAngle(int angle) {
-        angle += 180;
-        angle += 135;
+        angle = (angle +360);
         angle = angle % 360;
+        angle = angle -52;
+        if(angle < 0){
+            angle = 360 - (Math.abs(angle));
+        }
+        //System.out.println("adust  " + angle);
         return angle;
     }
 
@@ -416,7 +422,13 @@ public class DrawingAssistant extends Thread {
             /**
              * TODO: DROSSELUNG VON ZEICHNEN
              */
-            updatePathOnWalk();
+            if (testThrotteling > 20){
+                //updatePathOnWalk();
+                testThrotteling = 0;
+            } else {
+                testThrotteling++;
+            }
+
 
             if(currentPositionChanged) {
                 mapView.setZoom(1.0f);
@@ -434,7 +446,7 @@ public class DrawingAssistant extends Thread {
 
 
             try {
-                Thread.sleep(20);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

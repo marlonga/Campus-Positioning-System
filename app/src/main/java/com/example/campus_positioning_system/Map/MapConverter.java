@@ -104,8 +104,8 @@ public class MapConverter {
 
         xForPos = getXCenter((toConvert.getX()) / mapWidth)+xShift;
         yForPos = getYCenter((toConvert.getY() / mapHeight))+yShift;
-        float xpos = (xForPos) * mapWidth;
-        float ypos = (yForPos) * mapHeight;
+        float xpos = (xForPos) * mapWidth - (dotWidth/(float)2);
+        float ypos = (yForPos) * mapHeight - (dotHeight/(float)2);
 
         mapPos.setX(xpos);
         mapPos.setY(ypos);
