@@ -10,10 +10,12 @@ import com.example.campus_positioning_system.Node;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.TreeSet;
+import java.util.logging.Handler;
 
 import es.usc.citius.hipster.algorithm.Hipster;
 import es.usc.citius.hipster.graph.GraphBuilder;
@@ -108,5 +110,25 @@ public class PathfindingControl{
         return tree;
     }
 
+    /** get all set Nodes of GraphRef
+     *
+     * @return allNodes on Map
+     */
+    public static List<Node> getAllNodes(){
+        List<Node> result = new ArrayList<>();
+        for (Node n: tree) {
+            result.add(n);
+        }
+        return result;
+    }
+    public static List<Node> getAllNodesOnFloor (int floor){
+        List<Node> result = new ArrayList<>();
+        for (Node n: tree) {
+            if(n.getZ() == floor){
+                result.add(n);
+            }
+        }
+        return result;
+    }
 
 }

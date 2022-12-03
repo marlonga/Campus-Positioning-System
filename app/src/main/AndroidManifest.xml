@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
     <uses-permission android:name="NETWORK_SETTINGS" />
 
     <application
@@ -44,10 +45,6 @@
             android:exported="true"
             android:label="Quickdial Activity"
             android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Activitys.ViewPointOfInterestActivity"
             android:exported="false"

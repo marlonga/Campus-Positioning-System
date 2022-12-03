@@ -13,4 +13,5 @@
     <color name="HFU_Gray_Secondary">#EAEAEA</color>
     <color name="HFU_Gray_Ternary">#D6D6D6</color>
     <color name="HFU_Accent">#019DDF</color>
+    <color name="grey">#EBECF0</color>
 </resources>

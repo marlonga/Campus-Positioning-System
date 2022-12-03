@@ -7,7 +7,7 @@
     </room>
     <room roomname="A1.01">
         <roomalias>local_library</roomalias>
-        <roomclosestnode>49/61/1</roomclosestnode>
+        <roomclosestnode>49/60/1</roomclosestnode>
     </room>
     <room roomname="A1.19">
         <roomalias>dotnew</roomalias>
