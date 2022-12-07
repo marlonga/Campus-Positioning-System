@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
             ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.sensor_info_popup,null);
             popupWindow = new PopupWindow(container,400,650,true);
-
+            button.startAnimation(AnimationUtils.loadAnimation(mainContext(),R.anim.heartbeat_anim));
             String resulting_info = "";
             if (unfound_sensors.size() == 1){
                 resulting_info += "Folgender Sensor wurde an ihrem Gerät nicht erkannt: \n";
