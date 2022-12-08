@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_mainFragment_to_quickDial"
             app:destination="@id/navQuickdial" />
+        <action
+            android:id="@+id/action_mainFragment_to_QRcode"
+            app:destination="@id/qrcode" />
     </fragment>
     <activity
         android:id="@+id/roomSelectionActivity"
@@ -36,10 +39,16 @@
         android:id="@+id/blankFragment"
         android:name="com.example.campus_positioning_system.Fragments.FavoriteListFragment"
         android:label="fragment_blank"
-        tools:layout="@layout/fragment_favorites_list" />
+        tools:layout="@layout/fragment_favorites_list">
+    </fragment>
     <fragment
         android:id="@+id/navQuickdial"
         android:name="com.example.campus_positioning_system.Fragments.QuickDialFragment"
         android:label="QuickDialFragment">
+    </fragment>
+    <fragment
+        android:id="@+id/qrcode"
+        android:name="com.example.campus_positioning_system.Fragments.QRcodeFragment"
+        android:label="QRcodeFragment">
     </fragment>
 </navigation>

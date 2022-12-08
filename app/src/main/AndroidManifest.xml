@@ -51,6 +51,11 @@
             android:label="ViewPointOfInterest Activity"
             android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
         </activity>
+        <activity android:name=".Activitys.QRcodeActivity"
+            android:exported="false"
+            android:label="QRcode Activity"
+            android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

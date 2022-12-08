@@ -102,7 +102,7 @@ public class LocationSensorActivity implements SensorEventListener {
         }
 
         if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
-            Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1d * DrawingAssistant.getMapView().getCurrentZoom());
+            Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1.3d * DrawingAssistant.getMapView().getCurrentZoom());
             //System.out.println(DrawingAssistant.getDotMoverMapPosition().getX() + "||1");
             DrawingAssistant.addToDotMoverMapPosition(pair);
             //System.out.println(DrawingAssistant.getDotMoverMapPosition().getY()+ "||2");

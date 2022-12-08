@@ -171,6 +171,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     case R.id.nav_quickdial:
                         switchActivities(QuickDialActivity.class);
                         break;
+                    case R.id.nav_qrcode:
+                        switchActivities(QRcodeActivity.class);
+                        break;
                 }
                 return false;
             }

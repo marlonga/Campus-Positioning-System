@@ -4,23 +4,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.example.campus_positioning_system.Activitys.LocationSensorActivity;
 import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.LocationNavigation.WifiScanner;
 import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.R;
 import com.ortiz.touchview.TouchImageView;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.

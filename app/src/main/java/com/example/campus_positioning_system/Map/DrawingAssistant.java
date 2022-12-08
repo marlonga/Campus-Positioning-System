@@ -5,14 +5,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Picture;
-import android.graphics.drawable.Drawable;
 import android.util.Pair;
-import android.widget.ImageView;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.example.campus_positioning_system.Activitys.MainActivity;
-import com.example.campus_positioning_system.Fragments.MainFragment;
 import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Node;
 import com.example.campus_positioning_system.R;
@@ -72,7 +69,6 @@ public class DrawingAssistant extends Thread {
 
     private final static int[] maps = {R.drawable.egfancy, R.drawable.og1fancy, R.drawable.og2fancy, R.drawable.og3fancy};
     private final static int[] bitmaps = {R.drawable.eg, R.drawable.og1example, R.drawable.og2, R.drawable.og345};
-
     /**
      *
      * @param dotView
@@ -82,7 +78,6 @@ public class DrawingAssistant extends Thread {
 
         DrawingAssistant.mapView = mapView;
         this.dotView = dotView;
-
         //first initialization of currentPosition at a default value
         currentPosition = new Node("PointZero", 62, 44, 1);
 
@@ -242,8 +237,8 @@ public class DrawingAssistant extends Thread {
 
     }
 
-    /*public static void drawPOIs() {
-        /*
+    public static void drawPOIs() {
+
         POIsSet = true;
         System.out.println("XXXXXXXXSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXX");
 
@@ -279,8 +274,7 @@ public class DrawingAssistant extends Thread {
             int resID = MainActivity.mainContext().getResources().getIdentifier(imgName,"drawable",MainActivity.mainContext().getPackageName());
             Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), resID); // HIER R.id.library_poi
             Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
-            canvas.drawBitmap(mutmap, mapPositions.get(i).getX() - 75, mapPositions.get(i + 1).getY() - 140, paintEG);
-
+            canvas.drawBitmap(mutmap, mapPositions.get(i).getX() -75, mapPositions.get(i + 1).getY() - 140, paintEG);
         }
 
 
@@ -288,8 +282,6 @@ public class DrawingAssistant extends Thread {
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
 }
-         */
-
 
 
 
@@ -413,11 +405,11 @@ public class DrawingAssistant extends Thread {
                 //mapView.setZoom(1.0f);
                 drawPath();
             }
-            /*
+
             if (!POIsSet && !POIs.isEmpty()) {
                 drawPOIs();
             }
-             */
+
 
             /**
              * TODO: DROSSELUNG VON ZEICHNEN

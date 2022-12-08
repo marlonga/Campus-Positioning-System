@@ -84,11 +84,10 @@ public class MapConverter {
     public synchronized MapPosition convertPosition(MapPosition toConvert) {
         MapPosition mapPos = new MapPosition();
 
-
         if(mapView.getScrollPosition() == null){
-            mapPos.setX(0);
-            mapPos.setY(0);
-            return mapPos;
+            //mapPos.setX(0);
+            //mapPos.setY(0);
+            return toConvert;
         }
 
         PointF mapViewCenter = mapView.getScrollPosition();
@@ -99,11 +98,12 @@ public class MapConverter {
         float xForPos;
         float yForPos;
         currentZoom = mapView.getCurrentZoom();
-        xShift = -(mapViewCenter.x - (float) 0.5)  * currentZoom;
-        yShift = -(mapViewCenter.y - (float) 0.5)  * (float)(1+(1/currentZoom)-0.1);
+        xShift = -(mapViewCenter.x - 0.5f)  * currentZoom;
+        yShift = -(mapViewCenter.y - 0.5f)  * (1+(1/currentZoom)+0.1f);
 
-        xForPos = getXCenter((toConvert.getX()) / mapWidth)+xShift;
-        yForPos = getYCenter((toConvert.getY() / mapHeight))+yShift;
+
+        xForPos = getXCenter((toConvert.getX()+28) / mapWidth)+xShift;     //(mapView.getWidth()/y)/pngWidth)*mapView.getWidth()
+        yForPos = getYCenter((toConvert.getY()+28) / mapHeight)+yShift;
         float xpos = (xForPos) * mapWidth - (dotWidth/(float)2);
         float ypos = (yForPos) * mapHeight - (dotHeight/(float)2);
 
@@ -113,6 +113,7 @@ public class MapConverter {
         //System.out.println("xShift: " + xShift + " || center.y: " + mapViewCenter.y );
         //System.out.println(mapPos.getX()+ " || " + mapPos.getY());
         //System.out.println(mapPos.getX()+"||"+ mapPos.getY()+ "||" + mapViewCenter.y);
+        //System.out.println(mapHeight);
         return mapPos;
     }
 
