@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".Fragments.MainFragment"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/mainlayout">
 
     <com.ortiz.touchview.TouchImageView
         android:id="@+id/map1"

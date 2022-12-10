@@ -34,6 +34,9 @@ dependencies {
     // dependency for google play service for maps SDK
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
+    //dependency for zxing barcode scanning library
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
     // dependency for ImageViewZoom for Map
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1' // last SupportLib version
 

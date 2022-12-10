@@ -4,10 +4,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
@@ -69,8 +77,8 @@ public class DrawingAssistant extends Thread {
 
     private final static int[] maps = {R.drawable.egfancy, R.drawable.og1fancy, R.drawable.og2fancy, R.drawable.og3fancy};
     private final static int[] bitmaps = {R.drawable.eg, R.drawable.og1example, R.drawable.og2, R.drawable.og345};
+
     /**
-     *
      * @param dotView
      * @param mapView
      */
@@ -82,11 +90,11 @@ public class DrawingAssistant extends Thread {
         currentPosition = new Node("PointZero", 62, 44, 1);
 
         //first initialization of dotMoverMapPosition on 0,0 of screen
-        dotMoverMapPosition = new MapPosition(0.0f,0.0f);
+        dotMoverMapPosition = new MapPosition(0.0f, 0.0f);
     }
 
-    /** returns static MapPosition of dotMover
-     *
+    /**
+     * returns static MapPosition of dotMover
      *
      * @return static MapPosition of dotMover
      */
@@ -94,18 +102,20 @@ public class DrawingAssistant extends Thread {
         return dotMoverMapPosition;
     }
 
-    /** adds Pair (X,Y) to current coordinates of the dotMover
+    /**
+     * adds Pair (X,Y) to current coordinates of the dotMover
      *
      * @param toAdd values of X and Y coordinates
      */
-    public static synchronized void addToDotMoverMapPosition(Pair<Float, Float> toAdd){
+    public static synchronized void addToDotMoverMapPosition(Pair<Float, Float> toAdd) {
         float one = dotMoverMapPosition.getX();
         float two = dotMoverMapPosition.getY();
         dotMoverMapPosition.setX(one + toAdd.first);
         dotMoverMapPosition.setY(two + toAdd.second);
     }
 
-    /** overrides current value of currentPositionChanged in DrawingAssistant
+    /**
+     * overrides current value of currentPositionChanged in DrawingAssistant
      *
      * @param bool new value of currentPositionChanged
      */
@@ -113,7 +123,8 @@ public class DrawingAssistant extends Thread {
         currentPositionChanged = bool;
     }
 
-    /** returns static TouchImageView of mapView
+    /**
+     * returns static TouchImageView of mapView
      *
      * @return static TouchImageView of MapView
      */
@@ -121,7 +132,8 @@ public class DrawingAssistant extends Thread {
         return mapView;
     }
 
-    /** changes currentPosition (Node object which is changed by WifiScanner)
+    /**
+     * changes currentPosition (Node object which is changed by WifiScanner)
      * and changes background-image of floor with the z-coordinate of currentPosition
      *
      * @param newCurrentPosition overrides currentPosition
@@ -142,7 +154,8 @@ public class DrawingAssistant extends Thread {
         }
     }
 
-    /** creates copy of @param pathToDestination in path
+    /**
+     * creates copy of @param pathToDestination in path
      *
      * @param pathToDestination list to copy into path
      */
@@ -152,9 +165,10 @@ public class DrawingAssistant extends Thread {
         path = new ArrayList<>(pathToDestination);
     }
 
-    /** WORK IN PROGRESS
+    /**
+     * WORK IN PROGRESS
      * - POTENTIAL setter for POINodes
-     *
+     * <p>
      * - TODO: viable POIs
      *
      * @param POINodes list to copy into POIs
@@ -165,7 +179,8 @@ public class DrawingAssistant extends Thread {
         POIsSet = false;
     }
 
-    /** translates list of nodes 'path' into list  of MapPositions
+    /**
+     * translates list of nodes 'path' into list  of MapPositions
      *
      * @return translated MapPositions of path
      */
@@ -189,8 +204,8 @@ public class DrawingAssistant extends Thread {
         return mapPositions;
     }
 
-    /** method used for drawing the path on screen, gets redrawn if pathDrawn is false
-     *
+    /**
+     * method used for drawing the path on screen, gets redrawn if pathDrawn is false
      */
     public static void drawPath() {
         pathDrawn = true;
@@ -209,7 +224,7 @@ public class DrawingAssistant extends Thread {
 
         List<MapPosition> mapPositions = getCurrentPathAsMapPositions();
 
-        for(int i = 0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             bitmapsWithPath.add(allBitmapsOriginal.get(i).copy(Bitmap.Config.ARGB_8888, true));
         }
 
@@ -265,59 +280,58 @@ public class DrawingAssistant extends Thread {
         }
 
 
-        for (int i = 0; i < mapPositions.size() -1; i++) {
+        for (int i = 0; i < mapPositions.size() - 1; i++) {
             mutableBitmap = allBitmapsOriginal.get(mapPositions.get(i).getZ());
             Canvas canvas = new Canvas(mutableBitmap);
 
 
             String imgName = POIs.get(i).getId();
-            int resID = MainActivity.mainContext().getResources().getIdentifier(imgName,"drawable",MainActivity.mainContext().getPackageName());
+            int resID = MainActivity.mainContext().getResources().getIdentifier(imgName, "drawable", MainActivity.mainContext().getPackageName());
             Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), resID); // HIER R.id.library_poi
             Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
-            canvas.drawBitmap(mutmap, mapPositions.get(i).getX() -75, mapPositions.get(i + 1).getY() - 140, paintEG);
+            canvas.drawBitmap(mutmap, mapPositions.get(i).getX() - 75, mapPositions.get(i + 1).getY() - 140, paintEG);
         }
 
 
         mutableBitmap = allBitmapsOriginal.get(currentPosition.getZ());
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
-}
-
-
-
-
-    public static Mover getInstanceMover(){
-        return dotMover;
     }
 
 
 
-    /** calculates closest node from path to dotMoverPosition
+    public static Mover getInstanceMover() {
+        return dotMover;
+    }
+
+
+    /**
+     * calculates closest node from path to dotMoverPosition
      *
      * @return closest node and its coordinates difference to dotMoverPosition
      */
     public Pair<Node, Integer> getClosestPosition(List<Node> mapOfNodes) {
-        Pair<Node, Integer> result = new Pair<>(null,null);
+        Pair<Node, Integer> result = new Pair<>(null, null);
 
         //highest double value, because any position on the map will be closer
         double mathSafe = 1.7976931348623157E+308;
 
         //theorem of pythagoras for finding closest MapPosition on Path
-        for (Node n: mapOfNodes) {
+        for (Node n : mapOfNodes) {
             MapPosition mapPosition = mapConverter.convertNode(n);
             double difX = dotMover.getX() - mapPosition.getX();
             double difY = dotMover.getY() - mapPosition.getY();
-            double math = Math.sqrt(Math.pow(difX,2) + Math.pow(difY,2));
+            double math = Math.sqrt(Math.pow(difX, 2) + Math.pow(difY, 2));
             if (mathSafe > math) {
                 mathSafe = math;
-                result = new Pair<Node,Integer>(n,(int) mathSafe);
+                result = new Pair<Node, Integer>(n, (int) mathSafe);
             }
         }
         return result;
     }
 
     public void updatePathOnWalk() {
-        if(!path.isEmpty()){
+        if (!path.isEmpty()) {
             PathfindingControl.updateCurrentLocation(getClosestPosition(PathfindingControl.getAllNodesOnFloor(currentPosition.getZ())).first);
             setPathToDestination(PathfindingControl.calculatePath());
             pathDrawn = false;
@@ -325,12 +339,11 @@ public class DrawingAssistant extends Thread {
     }
 
 
-
     public int adjustAngle(int angle) {
-        angle = (angle +360);
+        angle = (angle + 360);
         angle = angle % 360;
-        angle = angle -52;
-        if(angle < 0){
+        angle = angle - 52;
+        if (angle < 0) {
             angle = 360 - (Math.abs(angle));
         }
         //System.out.println("adust  " + angle);
@@ -405,7 +418,6 @@ public class DrawingAssistant extends Thread {
                 //mapView.setZoom(1.0f);
                 drawPath();
             }
-
             if (!POIsSet && !POIs.isEmpty()) {
                 drawPOIs();
             }
@@ -414,7 +426,7 @@ public class DrawingAssistant extends Thread {
             /**
              * TODO: DROSSELUNG VON ZEICHNEN
              */
-            if (testThrotteling > 20){
+            if (testThrotteling > 20) {
                 //updatePathOnWalk();
                 testThrotteling = 0;
             } else {
@@ -422,7 +434,7 @@ public class DrawingAssistant extends Thread {
             }
 
 
-            if(currentPositionChanged) {
+            if (currentPositionChanged) {
                 mapView.setZoom(1.0f);
                 position = mapConverter.convertNode(currentPosition);
                 currentPositionChanged = false;
@@ -430,7 +442,7 @@ public class DrawingAssistant extends Thread {
                 dotMover.setNewPosition(dotMoverMapPosition.getX(), dotMoverMapPosition.getY());
                 dotMover.animationStart();
 
-            }else {
+            } else {
                 position = mapConverter.convertPosition(dotMoverMapPosition);
                 dotMover.setNewPosition(position.getX(), position.getY());
                 dotMover.animationStart();
@@ -442,7 +454,6 @@ public class DrawingAssistant extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }

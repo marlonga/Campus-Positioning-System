@@ -16,7 +16,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CampusPositioningSystem">
+        android:theme="@style/Theme.CampusPositioningSystem"
+        android:hardwareAccelerated="true">
+
         <activity android:name=".Activitys.FavoritesActivity"
             android:exported="false"
             android:label="Room Favorites Activity"
