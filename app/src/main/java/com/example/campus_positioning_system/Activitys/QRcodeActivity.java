@@ -16,9 +16,18 @@ import androidx.fragment.app.Fragment;
 
 import com.example.campus_positioning_system.Fragments.SettingsFragment;
 import com.example.campus_positioning_system.R;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.client.android.Intents;
+import com.google.zxing.common.HybridBinarizer;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+import com.google.zxing.*;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
 
 public class QRcodeActivity extends AppCompatActivity {
 
@@ -36,6 +45,7 @@ public class QRcodeActivity extends AppCompatActivity {
                     }
                 } else {
                     Log.d("QRcodeActivity", "Scanned");
+                    System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXx"+result.getContents());
                     Toast.makeText(QRcodeActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 }
             });
@@ -51,7 +61,7 @@ public class QRcodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_qrcode);
         View v = findViewById(R.id.qrcode_mainview);
-        scanBarcode(v);
+        scanQRCodes(v);
     }
 
     public void scanBarcode(View view) {
@@ -67,6 +77,12 @@ public class QRcodeActivity extends AppCompatActivity {
     public void scanMixedBarcodes(View view){
         ScanOptions options = new ScanOptions();
         options.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN);
+        barcodeLauncher.launch(options);
+    }
+
+    public void scanQRCodes(View view){
+        ScanOptions options = new ScanOptions();
+        options.addExtra(Intents.Scan.SCAN_TYPE,Intents.Scan.QR_CODE_MODE);
         barcodeLauncher.launch(options);
     }
 
