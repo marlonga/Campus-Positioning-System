@@ -7,8 +7,14 @@ public class Node implements Comparable<Node>{
     private String identifier;
     private Integer x, y, z;
 
-
     public Node(){}
+
+    public Node(int x, int y, int z){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     public Node(String id, int x, int y, int z) {
         this.identifier = id;
         this.x = x;

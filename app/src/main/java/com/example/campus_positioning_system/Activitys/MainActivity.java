@@ -50,6 +50,7 @@ import com.amrdeveloper.treeview.TreeNode;
 import com.example.campus_positioning_system.Database.AppDatabase;
 import com.example.campus_positioning_system.Database.NNObjectDao;
 import com.example.campus_positioning_system.LocationNavigation.LocationFakerThread;
+import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.R;
 import com.example.campus_positioning_system.RoomList.RoomItem;
@@ -57,6 +58,7 @@ import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -255,8 +257,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     popupWindow.showAtLocation(fragmentContainerView, Gravity.CENTER, 0, 0);
                 }
             });
-
         }
+        final ImageButton quick_exit = (ImageButton) findViewById(R.id.quick_Exit);
+        quick_exit.setElevation(3);
+        quick_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread (() -> {
+                    PathfindingControl.calculatePathForExits();
+                    DrawingAssistant.setPathToDestination(PathfindingControl.calculatePath());
+                }).start();
+            }
+        });
+
 
         System.out.println("On Create Ende Main Activity");
     }

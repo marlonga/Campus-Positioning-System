@@ -104,6 +104,34 @@ public class PathfindingControl{
         List<List<Node>> listTest = Hipster.createAStar(p).search(tree.floor(targetLocation)).getOptimalPaths();
         return listTest.get(0);
     }
+    public static List<Node> calculatePathForExits(){
+        System.out.println("Calculating Path from: " + currentLocation.toString() + " to: closest Exit");
+        ArrayList<Node> exits = new ArrayList<>();
+        exits.add(new Node(55,34,1));
+        exits.add(new Node(35,54,1));
+        exits.add(new Node(55,34,2));
+        /*
+        TODO: actual values of exits
+         */
+        List<List<Node>> listTest = null;
+        for (Node n: exits) {
+            updateTargetLocation(n);
+            SearchProblem p = GraphSearchProblem.startingFrom(tree.floor(currentLocation)).in(graph).takeCostsFromEdges().build();
+            List<List<Node>> result = Hipster.createAStar(p).search(tree.floor(targetLocation)).getOptimalPaths();
+            if(!(listTest == null)){
+                if (result.size() < listTest.size()){
+                /*
+                TODO: better check for best Path
+                 */
+                    listTest = result;
+                }
+            } else {
+                listTest = result;
+            }
+
+        }
+        return listTest.get(0);
+    }
 
 
     public static TreeSet<Node> getTree(){
