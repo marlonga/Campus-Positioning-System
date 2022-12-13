@@ -332,6 +332,9 @@ public class DrawingAssistant extends Thread {
 
     public void updatePathOnWalk() {
         if (!path.isEmpty()) {
+            /*
+            TODO: comepare currentLocation with get closestposition node to safe Pathfindingcontrol.calculate
+             */
             PathfindingControl.updateCurrentLocation(getClosestPosition(PathfindingControl.getAllNodesOnFloor(currentPosition.getZ())).first);
             setPathToDestination(PathfindingControl.calculatePath());
             pathDrawn = false;
@@ -418,16 +421,16 @@ public class DrawingAssistant extends Thread {
                 //mapView.setZoom(1.0f);
                 drawPath();
             }
-            if (!POIsSet && !POIs.isEmpty()) {
-                drawPOIs();
-            }
+            //if (!POIsSet && !POIs.isEmpty()) {
+            //    drawPOIs();
+            //}
 
 
             /**
              * TODO: DROSSELUNG VON ZEICHNEN
              */
-            if (testThrotteling > 20) {
-                //updatePathOnWalk();
+            if (testThrotteling > 30) {
+                updatePathOnWalk();
                 testThrotteling = 0;
             } else {
                 testThrotteling++;

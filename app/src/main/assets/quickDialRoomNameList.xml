@@ -3,12 +3,12 @@
 <campus>
     <room roomname="A3.01">
         <roomalias>bibliothek</roomalias>
-        <roomclosestnode></roomclosestnode>
+        <roomclosestnode>58/57/3</roomclosestnode>
         <description>Bereitstellung von Lehrnstoffen wie Büchern</description>
     </room>
     <room roomname="A1.01">
         <roomalias>Cafeteria</roomalias>
-        <roomclosestnode></roomclosestnode>
-        <description>Bereitstellung von Lehrnstoffen wie Büchern</description>
+        <roomclosestnode>55/62/1</roomclosestnode>
+        <description>Essen, Snacks, Getränke</description>
     </room>
 </campus>
