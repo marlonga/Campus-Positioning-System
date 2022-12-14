@@ -107,9 +107,7 @@ public class PathfindingControl{
     public static List<Node> calculatePathForExits(){
         System.out.println("Calculating Path from: " + currentLocation.toString() + " to: closest Exit");
         ArrayList<Node> exits = new ArrayList<>();
-        exits.add(new Node(55,34,1));
-        exits.add(new Node(35,54,1));
-        exits.add(new Node(55,34,2));
+        exits.add(new Node(55,67,1));
         /*
         TODO: actual values of exits
          */

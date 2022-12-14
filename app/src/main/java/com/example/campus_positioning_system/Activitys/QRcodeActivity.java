@@ -46,6 +46,7 @@ public class QRcodeActivity extends AppCompatActivity {
                 } else {
                     Log.d("QRcodeActivity", "Scanned");
                     System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXx"+result.getContents());
+                    switchActivities(result.getContents());
                     Toast.makeText(QRcodeActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 }
             });
@@ -153,5 +154,10 @@ public class QRcodeActivity extends AppCompatActivity {
         //System.out.println("User wants to go back from Room list");
         //System.out.println("Navigating from Room List back to Main");
         finish();
+    }
+    private void switchActivities(String origins) {
+        Intent switchActivityIntent = new Intent(this, ViewPointOfInterestActivity.class);
+        switchActivityIntent.putExtra("Origins_QuickDial", origins);
+        this.startActivity(switchActivityIntent);
     }
 }

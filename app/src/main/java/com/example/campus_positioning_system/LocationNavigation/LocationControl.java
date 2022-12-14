@@ -83,7 +83,7 @@ public class LocationControl {
         }
 
         for (; !search.isEmpty(); search.remove(0))
-            found.addAll(new NNControl().getKNN(search.get(0), 3, tree));
+            found.addAll(new NNControl().getKNN(search.get(0), 5, tree));
 
         Node loc = findLocation(found);
         PathfindingControl.updateCurrentLocation(loc);

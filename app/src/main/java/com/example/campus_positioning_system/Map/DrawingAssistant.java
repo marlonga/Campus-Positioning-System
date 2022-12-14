@@ -37,6 +37,7 @@ public class DrawingAssistant extends Thread {
     private static Node currentPosition;
     private static List<Node> path = new ArrayList<>();
     private static List<Node> POIs = new ArrayList<>();
+    private static LinkedList<Integer> toSmooth = new LinkedList<>();
 
     private static boolean pathDrawn = false;
     private static boolean POIsSet = false;
@@ -354,21 +355,22 @@ public class DrawingAssistant extends Thread {
         return angle;
     }
 
-    LinkedList<Integer> toSmooth;
 
-    public int smoothValues(int angle){
+
+    public int smoothValues(int angle1){
+        int angle = angle1;
         if(toSmooth.size() < 5){
             toSmooth.add(angle);
             return  angle;
         }else{
-            int result = 0;
+            float result = 0;
             toSmooth.removeFirst();
             toSmooth.add(angle);
             for (Integer i : toSmooth){
                 result += i;
             }
             result /= 5;
-            return result;
+            return (int)result;
         }
     }
 
@@ -431,7 +433,7 @@ public class DrawingAssistant extends Thread {
         while (true) {
 
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
-            dotView.setRotation(smoothValues(adjustAngle(MainActivity.getAngle())));
+            dotView.setRotation(adjustAngle(smoothValues((MainActivity.getAngle()))));
 
             //dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
