@@ -342,7 +342,8 @@ public class DrawingAssistant extends Thread {
     }
 
 
-    public int adjustAngle(int angle) {
+    public int adjustAngle(int angle1) {
+        int angle = angle1;
         angle = (angle + 360);
         angle = angle % 360;
         angle = angle - 52;
@@ -351,6 +352,24 @@ public class DrawingAssistant extends Thread {
         }
         //System.out.println("adust  " + angle);
         return angle;
+    }
+
+    LinkedList<Integer> toSmooth;
+
+    public int smoothValues(int angle){
+        if(toSmooth.size() < 5){
+            toSmooth.add(angle);
+            return  angle;
+        }else{
+            int result = 0;
+            toSmooth.removeFirst();
+            toSmooth.add(angle);
+            for (Integer i : toSmooth){
+                result += i;
+            }
+            result /= 5;
+            return result;
+        }
     }
 
     @Override
@@ -412,7 +431,7 @@ public class DrawingAssistant extends Thread {
         while (true) {
 
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
-            dotView.setRotation(adjustAngle(MainActivity.getAngle()));
+            dotView.setRotation(smoothValues(adjustAngle(MainActivity.getAngle())));
 
             //dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
