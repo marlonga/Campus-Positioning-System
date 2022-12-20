@@ -8,6 +8,8 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.Pair;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,14 +81,11 @@ public class DrawingAssistant extends Thread {
     private final static int[] maps = {R.drawable.egfancy, R.drawable.og1fancy, R.drawable.og2fancy, R.drawable.og3fancy};
     private final static int[] bitmaps = {R.drawable.eg, R.drawable.og1example, R.drawable.og2, R.drawable.og345};
 
-    /**
-     * @param dotView
-     * @param mapView
-     */
-    public DrawingAssistant(TouchImageView dotView, TouchImageView mapView) {
+    public DrawingAssistant(View[] allViews) {
 
-        DrawingAssistant.mapView = mapView;
-        this.dotView = dotView;
+        DrawingAssistant.mapView = (TouchImageView) allViews[0];
+        this.dotView = (TouchImageView) allViews[1];
+
         //first initialization of currentPosition at a default value
         currentPosition = new Node("PointZero", 62, 44, 1);
 
@@ -256,7 +255,6 @@ public class DrawingAssistant extends Thread {
     public static void drawPOIs() {
 
         POIsSet = true;
-        System.out.println("XXXXXXXXSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXX");
 
         Paint paintEG = new Paint();
         Paint paintOG1 = new Paint();
@@ -277,7 +275,6 @@ public class DrawingAssistant extends Thread {
             mapPosition.setY(n.getY() * oneY);
             mapPosition.setZ(n.getZ());
             mapPositions.add(mapPosition);
-            System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLll");
         }
 
 
@@ -334,7 +331,7 @@ public class DrawingAssistant extends Thread {
     public void updatePathOnWalk() {
         if (!path.isEmpty()) {
             /*
-            TODO: comepare currentLocation with get closestposition node to safe Pathfindingcontrol.calculate
+            TODO: comepare currentLocation with get closestposition node to not do Pathfindingcontrol.calculate
              */
             PathfindingControl.updateCurrentLocation(getClosestPosition(PathfindingControl.getAllNodesOnFloor(currentPosition.getZ())).first);
             setPathToDestination(PathfindingControl.calculatePath());
@@ -373,7 +370,7 @@ public class DrawingAssistant extends Thread {
             }
             result /= 5;
             return (int)result;
-        }
+            }
     }
 
     @Override
@@ -435,7 +432,7 @@ public class DrawingAssistant extends Thread {
         while (true) {
 
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
-            dotView.setRotation(adjustAngle(smoothValues((MainActivity.getAngle()))));
+            dotView.setRotation(adjustAngle(smoothValues(MainActivity.getAngle())));
 
             //dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
@@ -452,9 +449,8 @@ public class DrawingAssistant extends Thread {
             /**
              * TODO: DROSSELUNG VON ZEICHNEN
              */
-            if (testThrotteling > 30) {
+            if (testThrotteling > 30 && !path.isEmpty()) {
                 updatePathOnWalk();
-
                 testThrotteling = 0;
             } else {
                 testThrotteling++;

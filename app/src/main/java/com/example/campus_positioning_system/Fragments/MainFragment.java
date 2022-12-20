@@ -2,11 +2,17 @@ package com.example.campus_positioning_system.Fragments;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.text.Layout;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.campus_positioning_system.Activitys.MainActivity;
@@ -86,15 +92,30 @@ public class MainFragment extends Fragment {
 
             TextView textView = rootView.findViewById(R.id.stockwerkView);
 
+            TextView textView_direction = rootView.findViewById(R.id.text_direction);
+            ImageView image_direction  = rootView.findViewById(R.id.direction_nextdirection);
+            View background_direction = rootView.findViewById(R.id.background_nextdirection);
+            ConstraintLayout layout = (ConstraintLayout) background_direction;
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
+            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);
+            float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, displayMetrics);
+            params.height = (int) height;
+            params.width= (int) width;
+            layout.setLayoutParams(params);
+            textView_direction.setVisibility(View.GONE);
+            image_direction.setVisibility(View.GONE);
+
+            View[] allViews = new View[] {mapView,dotView,textView_direction,image_direction,background_direction};
+
 
             WifiScanner.setStockwerkView(textView);
 
             WifiScanner wifiScanner = new WifiScanner(MainActivity.mainContext());
             new Thread(wifiScanner).start();
 
-            DrawingAssistant drawingAssistant = new DrawingAssistant(dotView, mapView);
+            DrawingAssistant drawingAssistant = new DrawingAssistant(allViews);
             drawingAssistant.start();
-
 
             onlyOnce = false;
         }

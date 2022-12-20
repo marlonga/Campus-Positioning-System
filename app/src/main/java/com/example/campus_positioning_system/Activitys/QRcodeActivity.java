@@ -45,7 +45,6 @@ public class QRcodeActivity extends AppCompatActivity {
                     }
                 } else {
                     Log.d("QRcodeActivity", "Scanned");
-                    System.out.println(result.getContents());
                     switchActivities(result.getContents());
                     Toast.makeText(QRcodeActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 }
@@ -65,51 +64,12 @@ public class QRcodeActivity extends AppCompatActivity {
         scanQRCodes(v);
     }
 
-    public void scanBarcode(View view) {
-        barcodeLauncher.launch(new ScanOptions());
-    }
-
-    public void scanBarcodeInverted(View view){
-        ScanOptions options = new ScanOptions();
-        options.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.INVERTED_SCAN);
-        barcodeLauncher.launch(options);
-    }
-
-    public void scanMixedBarcodes(View view){
-        ScanOptions options = new ScanOptions();
-        options.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN);
-        barcodeLauncher.launch(options);
-    }
-
     public void scanQRCodes(View view){
         ScanOptions options = new ScanOptions();
         options.addExtra(Intents.Scan.SCAN_TYPE,Intents.Scan.QR_CODE_MODE);
         barcodeLauncher.launch(options);
     }
 
-
-    public void scanPDF417(View view) {
-        ScanOptions options = new ScanOptions();
-        options.setDesiredBarcodeFormats(ScanOptions.PDF_417);
-        options.setPrompt("Scan something");
-        options.setOrientationLocked(false);
-        options.setBeepEnabled(false);
-        barcodeLauncher.launch(options);
-    }
-
-    @SuppressWarnings("deprecation")
-    public void scanBarcodeFrontCamera(View view) {
-        ScanOptions options = new ScanOptions();
-        options.setCameraId(Camera.CameraInfo.CAMERA_FACING_FRONT);
-        barcodeLauncher.launch(options);
-    }
-
-
-    public void scanWithTimeout(View view) {
-        ScanOptions options = new ScanOptions();
-        options.setTimeout(8000);
-        barcodeLauncher.launch(options);
-    }
 
 
     /**
@@ -159,5 +119,9 @@ public class QRcodeActivity extends AppCompatActivity {
         Intent switchActivityIntent = new Intent(this, ViewPointOfInterestActivity.class);
         switchActivityIntent.putExtra("Origins_QuickDial", origins);
         this.startActivity(switchActivityIntent);
+    }
+    private void switchActivitiesOut() {
+        Intent switchActivityIntent = new Intent(this, MainActivity.class);
+        startActivity(switchActivityIntent);
     }
 }

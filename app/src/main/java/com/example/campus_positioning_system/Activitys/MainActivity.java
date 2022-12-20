@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -22,6 +23,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -57,6 +59,9 @@ import com.example.campus_positioning_system.RoomList.RoomItem;
 import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.zxing.client.android.Intents;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -269,8 +274,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }).start();
             }
         });
-
-
         System.out.println("On Create Ende Main Activity");
     }
 
