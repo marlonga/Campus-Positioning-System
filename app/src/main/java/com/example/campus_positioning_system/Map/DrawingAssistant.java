@@ -141,8 +141,8 @@ public class DrawingAssistant extends Thread {
      */
     public static synchronized void setCurrentPosition(Node newCurrentPosition) {
         System.out.println("Drawing Assistant received current position: " + newCurrentPosition.toString());
-        currentPositionChanged = true;
         currentPosition = newCurrentPosition;
+        currentPositionChanged = true;         // TODO diese beiden zurücktauschen
         int currentZ = currentPosition.getZ();
         if (!pathDrawn) {
             int mapToSet = maps[currentZ];
@@ -342,6 +342,8 @@ public class DrawingAssistant extends Thread {
         }
     }
 
+    public void updatePathInfo(List<Node> mapOfNodes, View view){
+    }
 
     public int adjustAngle(int angle1) {
         int angle = angle1;
@@ -441,17 +443,18 @@ public class DrawingAssistant extends Thread {
             if (!path.isEmpty() && !pathDrawn) {
                 //mapView.setZoom(1.0f);
                 drawPath();
+                new NextDirectionThread(path).start();
             }
             //if (!POIsSet && !POIs.isEmpty()) {
             //    drawPOIs();
             //}
-
 
             /**
              * TODO: DROSSELUNG VON ZEICHNEN
              */
             if (testThrotteling > 30) {
                 updatePathOnWalk();
+
                 testThrotteling = 0;
             } else {
                 testThrotteling++;

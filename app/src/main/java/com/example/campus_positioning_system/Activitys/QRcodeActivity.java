@@ -45,7 +45,7 @@ public class QRcodeActivity extends AppCompatActivity {
                     }
                 } else {
                     Log.d("QRcodeActivity", "Scanned");
-                    System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXx"+result.getContents());
+                    System.out.println(result.getContents());
                     switchActivities(result.getContents());
                     Toast.makeText(QRcodeActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 }

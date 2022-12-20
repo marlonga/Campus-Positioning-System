@@ -30,7 +30,7 @@ NearestWifiScanner
 
 public class  WifiScanner extends Thread{
 
-    private static int scanInterval = 5000;
+    private static int scanInterval = 30000;
     private final WifiManager wifiManager;
 
     private List<ScanResult> availableNetworks;
@@ -115,7 +115,15 @@ public class  WifiScanner extends Thread{
                 //System.out.println("Scan did succeed in run()");
                 scanSuccess();
             } else {
-                System.out.println("Scan did not succeed.");
+                System.out.println("Scan did not succeed. retrying");
+                while (!success) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    success = wifiManager.startScan();
+                }
             }
             try {
                 Thread.sleep(scanInterval);
