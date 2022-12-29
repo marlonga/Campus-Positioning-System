@@ -39,6 +39,12 @@ public class MainFragment extends Fragment {
 
     private static boolean onlyOnce = true;
 
+    private static TextView textView_direction;
+    private static ImageView image_direction;
+    private static View background_direction;
+    private static ConstraintLayout layout;
+    private static DisplayMetrics displayMetrics;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -92,12 +98,12 @@ public class MainFragment extends Fragment {
 
             TextView textView = rootView.findViewById(R.id.stockwerkView);
 
-            TextView textView_direction = rootView.findViewById(R.id.text_direction);
-            ImageView image_direction  = rootView.findViewById(R.id.direction_nextdirection);
-            View background_direction = rootView.findViewById(R.id.background_nextdirection);
-            ConstraintLayout layout = (ConstraintLayout) background_direction;
+            textView_direction = rootView.findViewById(R.id.text_direction);
+            image_direction  = rootView.findViewById(R.id.direction_nextdirection);
+            background_direction = rootView.findViewById(R.id.background_nextdirection);
+            layout = (ConstraintLayout) background_direction;
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
-            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            displayMetrics = getResources().getDisplayMetrics();
             float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);
             float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, displayMetrics);
             params.height = (int) height;
@@ -106,7 +112,7 @@ public class MainFragment extends Fragment {
             textView_direction.setVisibility(View.GONE);
             image_direction.setVisibility(View.GONE);
 
-            View[] allViews = new View[] {mapView,dotView,textView_direction,image_direction,background_direction};
+            View[] allViews = new View[] {mapView,dotView};
 
 
             WifiScanner.setStockwerkView(textView);
@@ -121,5 +127,69 @@ public class MainFragment extends Fragment {
         }
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    public static void setDirection (String direction) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
+        float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, displayMetrics);
+        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 350, displayMetrics);
+        params.height = (int) height;
+        params.width= (int) width;
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                layout.setLayoutParams(params);
+            }
+        });
+
+        switch(direction){
+            case "right":
+                buildDirection("Rechts abbiegen", R.drawable.turn_right);
+                break;
+            case "left":
+                buildDirection("Links abbiegen", R.drawable.turn_left);
+                break;
+            case "up":
+                buildDirection("Treppen hoch", R.drawable.go_upstairs);
+                break;
+            case "down":
+                buildDirection("Treppen runter", R.drawable.go_downstairs);
+                break;
+            default:
+                break;
+        }
+    }
+    public static void removeDirection() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
+        float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);
+        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, displayMetrics);
+        params.height = (int) height;
+        params.width= (int) width;
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                layout.setLayoutParams(params);
+            }
+        });
+        textView_direction.setVisibility(View.GONE);
+        image_direction.setVisibility(View.GONE);
+    }
+
+    private static void buildDirection (String text, int residPicture){
+        textView_direction.post(new Runnable() {
+            @Override
+            public void run() {
+                textView_direction.setText(text);
+                textView_direction.setVisibility(View.VISIBLE);
+            }
+        });
+        image_direction.post(new Runnable() {
+            @Override
+            public void run() {
+                image_direction.setImageResource(residPicture);
+                image_direction.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 }

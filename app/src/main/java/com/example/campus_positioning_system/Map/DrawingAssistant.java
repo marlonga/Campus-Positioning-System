@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.campus_positioning_system.Activitys.MainActivity;
+import com.example.campus_positioning_system.Fragments.MainFragment;
 import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Node;
 import com.example.campus_positioning_system.R;
@@ -428,6 +429,7 @@ public class DrawingAssistant extends Thread {
                 setHW = true;
             }
         }
+        int testnumb = 0;
 
         while (true) {
 
@@ -446,9 +448,6 @@ public class DrawingAssistant extends Thread {
             //    drawPOIs();
             //}
 
-            /**
-             * TODO: DROSSELUNG VON ZEICHNEN
-             */
             if (testThrotteling > 30 && !path.isEmpty()) {
                 updatePathOnWalk();
                 testThrotteling = 0;
