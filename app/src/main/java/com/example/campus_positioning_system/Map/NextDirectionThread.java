@@ -19,7 +19,18 @@ public class NextDirectionThread extends Thread {
         this.path = path;
     }
 
+    private double calculateCrossProduct(Node first, Node second, Node third){
+        double factionVector, numeratorVector, denominatorVector = 0.0d;
+        double result = 0d;
 
+        Pair<Integer,Integer> vector1 = new Pair<>((second.getX() - first.getX()), (second.getY() - first.getY()));
+        Pair<Integer,Integer> vector2 = new Pair<>((second.getX() - third.getX()), (second.getY() - third.getY()));
+
+        result = vector1.first * vector2.second - vector1.second * vector2.first;
+
+
+        return result;
+    }
 
     private double calculateDirectionsAngle(Node first, Node second, Node third){
         double phi = 0.0d;
@@ -33,13 +44,13 @@ public class NextDirectionThread extends Thread {
         numeratorVector = (vector1.first * vector2.first) + (vector1.second * vector2.second);
 
         denominatorVector = (sqrt(((pow(vector1.first, 2) + (pow(vector1.second, 2))))) *
-                            (sqrt(((pow(vector2.first, 2) + (pow(vector2.second, 2)))))));
+                (sqrt(((pow(vector2.first, 2) + (pow(vector2.second, 2)))))));
 
         factionVector = numeratorVector/denominatorVector;
 
         phi = Math.toDegrees(Math.acos(factionVector));
 
-       // System.out.println("Vector1: " + vector1 + "  Vector2: " + vector2 + "||" + numeratorVector + " | " + denominatorVector + " | " + factionVector + " | phi: " + phi );
+        // System.out.println("Vector1: " + vector1 + "  Vector2: " + vector2 + "||" + numeratorVector + " | " + denominatorVector + " | " + factionVector + " | phi: " + phi );
         return phi;
     }
     // 4 möglichkeiten : Rechts Links Hoch Runter
@@ -65,7 +76,7 @@ public class NextDirectionThread extends Thread {
             }
 
             if(angle>45 && angle<135){
-                if(path.get(i+1).getX() < path.get(i+2).getX()){
+                if(calculateCrossProduct(path.get(i),path.get(i+1),path.get(i+2)) < 0 ){
                     direction = "right";
                 }else{
                     direction = "left";
