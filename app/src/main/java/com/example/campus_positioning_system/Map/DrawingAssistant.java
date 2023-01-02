@@ -447,6 +447,9 @@ public class DrawingAssistant extends Thread {
             //if (!POIsSet && !POIs.isEmpty()) {
             //    drawPOIs();
             //}
+            if(path.isEmpty()){
+                MainFragment.removeDirection();
+            }
 
             if (testThrotteling > 30 && !path.isEmpty()) {
                 updatePathOnWalk();
