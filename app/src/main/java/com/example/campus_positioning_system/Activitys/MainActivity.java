@@ -5,25 +5,19 @@ package com.example.campus_positioning_system.Activitys;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -31,13 +25,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 // Wifi and Compass Manager
 
@@ -48,25 +38,17 @@ import android.widget.Toast;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
-import com.amrdeveloper.treeview.TreeNode;
 import com.example.campus_positioning_system.Database.AppDatabase;
 import com.example.campus_positioning_system.Database.NNObjectDao;
-import com.example.campus_positioning_system.LocationNavigation.LocationFakerThread;
 import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.R;
-import com.example.campus_positioning_system.RoomList.RoomItem;
 import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.zxing.client.android.Intents;
-import com.journeyapps.barcodescanner.ScanContract;
-import com.journeyapps.barcodescanner.ScanOptions;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {

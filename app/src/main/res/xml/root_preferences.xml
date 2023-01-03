@@ -3,7 +3,12 @@
 
 
     <PreferenceCategory app:title="Lokalisierung">
-
+        <SeekBarPreference
+            app:defaultValue="1"
+            app:key="seekbar"
+            app:title="Schrittgröße"
+            app:showSeekBarValue="true"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Verhalten">

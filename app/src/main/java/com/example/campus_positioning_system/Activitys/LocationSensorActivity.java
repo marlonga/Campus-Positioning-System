@@ -35,6 +35,7 @@ public class LocationSensorActivity implements SensorEventListener {
     private static ArrayList<String> unfound_sensors = new ArrayList<>();
     private static boolean wait_for_sensors = true;
     private boolean isCopied,isCopied2 = false;
+    private static double pathLenght = 1.3d;
 
     public LocationSensorActivity(){
         this.sensorManager = (SensorManager) MainActivity.mainContext().getSystemService(Context.SENSOR_SERVICE);
@@ -69,7 +70,9 @@ public class LocationSensorActivity implements SensorEventListener {
         return wait_for_sensors;
     }
 
-
+    public static void setPathLenght(double pathLenght1){
+        pathLenght = pathLenght1;
+    }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -91,7 +94,7 @@ public class LocationSensorActivity implements SensorEventListener {
         }
 
         if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) {
-            Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1.3d * DrawingAssistant.getMapView().getCurrentZoom());
+            Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,pathLenght * DrawingAssistant.getMapView().getCurrentZoom());
             DrawingAssistant.addToDotMoverMapPosition(pair);
             DrawingAssistant.getInstanceMover().animationStart();
             System.out.println("#Step +" + pair);
