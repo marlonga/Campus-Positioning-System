@@ -24,8 +24,8 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="350dp"
-        android:layout_height="100dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:background="@drawable/level_text_background"
         android:id="@+id/background_nextdirection">
 
@@ -52,7 +52,8 @@
             android:layout_marginTop="30dp"
             android:layout_marginLeft="260dp"
             app:layout_constraintTop_toTopOf="@id/background_nextdirection"
-            app:layout_constraintLeft_toLeftOf="@id/background_nextdirection"/>
+            app:layout_constraintLeft_toLeftOf="@id/background_nextdirection"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/text_direction"
@@ -64,7 +65,8 @@
             android:layout_marginTop="50dp"
             android:layout_marginLeft="5dp"
             app:layout_constraintTop_toTopOf="@id/background_nextdirection"
-            app:layout_constraintLeft_toLeftOf="@id/background_nextdirection"/>
+            app:layout_constraintLeft_toLeftOf="@id/background_nextdirection"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

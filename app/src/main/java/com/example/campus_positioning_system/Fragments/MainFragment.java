@@ -92,27 +92,20 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootViewSave = rootView;
 
-        if(onlyOnce) {
+        if (onlyOnce) {
             TouchImageView mapView = rootView.findViewById(R.id.map1);
             TouchImageView dotView = rootView.findViewById(R.id.dot);
 
             TextView textView = rootView.findViewById(R.id.stockwerkView);
 
             textView_direction = rootView.findViewById(R.id.text_direction);
-            image_direction  = rootView.findViewById(R.id.direction_nextdirection);
+            image_direction = rootView.findViewById(R.id.direction_nextdirection);
             background_direction = rootView.findViewById(R.id.background_nextdirection);
             layout = (ConstraintLayout) background_direction;
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
             displayMetrics = getResources().getDisplayMetrics();
-            float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);
-            float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, displayMetrics);
-            params.height = (int) height;
-            params.width= (int) width;
-            layout.setLayoutParams(params);
-            textView_direction.setVisibility(View.GONE);
-            image_direction.setVisibility(View.GONE);
 
-            View[] allViews = new View[] {mapView,dotView};
+            View[] allViews = new View[]{mapView, dotView};
 
 
             WifiScanner.setStockwerkView(textView);
@@ -129,12 +122,12 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
-    public static void setDirection (String direction) {
+    public static void setDirection(String direction) {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
         float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, displayMetrics);
         float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 350, displayMetrics);
         params.height = (int) height;
-        params.width= (int) width;
+        params.width = (int) width;
         layout.post(new Runnable() {
             @Override
             public void run() {
@@ -142,7 +135,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        switch(direction){
+        switch (direction) {
             case "right":
                 buildDirection("Rechts abbiegen", R.drawable.turn_right);
                 break;
@@ -159,23 +152,34 @@ public class MainFragment extends Fragment {
                 break;
         }
     }
+
     public static void removeDirection() {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
         float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);
         float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, displayMetrics);
         params.height = (int) height;
-        params.width= (int) width;
+        params.width = (int) width;
         layout.post(new Runnable() {
             @Override
             public void run() {
                 layout.setLayoutParams(params);
             }
         });
-        textView_direction.setVisibility(View.GONE);
-        image_direction.setVisibility(View.GONE);
+        textView_direction.post(new Runnable() {
+            @Override
+            public void run() {
+                textView_direction.setVisibility(View.GONE);
+            }
+        });
+        image_direction.post(new Runnable() {
+            @Override
+            public void run() {
+                image_direction.setVisibility(View.GONE);
+            }
+        });
     }
 
-    private static void buildDirection (String text, int residPicture){
+    private static void buildDirection(String text, int residPicture) {
         textView_direction.post(new Runnable() {
             @Override
             public void run() {
