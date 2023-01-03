@@ -31,7 +31,9 @@ import java.util.Map;
 
 public class QRcodeActivity extends AppCompatActivity {
 
-
+    /**
+     * ActivityResultLauncher barcodeLauncher
+     */
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if(result.getContents() == null) {
@@ -64,6 +66,10 @@ public class QRcodeActivity extends AppCompatActivity {
         scanQRCodes(v);
     }
 
+    /**
+     *
+     * @param view the view where the camera opens
+     */
     public void scanQRCodes(View view){
         ScanOptions options = new ScanOptions();
         options.addExtra(Intents.Scan.SCAN_TYPE,Intents.Scan.QR_CODE_MODE);

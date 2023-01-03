@@ -12,7 +12,6 @@ import java.util.List;
 
 
 public class NextDirectionThread extends Thread {
-
     private List<Node> path;
 
     public NextDirectionThread(List<Node> path){
@@ -20,40 +19,28 @@ public class NextDirectionThread extends Thread {
     }
 
     private double calculateCrossProduct(Node first, Node second, Node third){
-        double factionVector, numeratorVector, denominatorVector = 0.0d;
         double result = 0d;
-
         Pair<Integer,Integer> vector1 = new Pair<>((second.getX() - first.getX()), (second.getY() - first.getY()));
         Pair<Integer,Integer> vector2 = new Pair<>((second.getX() - third.getX()), (second.getY() - third.getY()));
-
         result = vector1.first * vector2.second - vector1.second * vector2.first;
-
-
         return result;
     }
+
 
     private double calculateDirectionsAngle(Node first, Node second, Node third){
         double phi = 0.0d;
         double factionVector, numeratorVector, denominatorVector = 0.0d;
-
         Pair<Integer,Integer> vector1 = new Pair<>((second.getX() - first.getX()), (second.getY() - first.getY()));
         Pair<Integer,Integer> vector2 = new Pair<>((second.getX() - third.getX()), (second.getY() - third.getY()));
-
-
         //Vector calculations for phi
         numeratorVector = (vector1.first * vector2.first) + (vector1.second * vector2.second);
-
         denominatorVector = (sqrt(((pow(vector1.first, 2) + (pow(vector1.second, 2))))) *
                 (sqrt(((pow(vector2.first, 2) + (pow(vector2.second, 2)))))));
-
         factionVector = numeratorVector/denominatorVector;
-
         phi = Math.toDegrees(Math.acos(factionVector));
-
         // System.out.println("Vector1: " + vector1 + "  Vector2: " + vector2 + "||" + numeratorVector + " | " + denominatorVector + " | " + factionVector + " | phi: " + phi );
         return phi;
     }
-    // 4 möglichkeiten : Rechts Links Hoch Runter
 
     @Override
     public void run(){
@@ -61,7 +48,6 @@ public class NextDirectionThread extends Thread {
         int currentZ = path.get(0).getZ();
         for(int i = 0; i<path.size()-2;i++){
             double angle = calculateDirectionsAngle(path.get(i),path.get(i+1),path.get(i+2));
-
             if(path.get(i+2).getZ() != currentZ){
                 if(path.get(+2).getZ() > currentZ) {
                     direction = "up";
@@ -86,6 +72,4 @@ public class NextDirectionThread extends Thread {
             }
         }
     }
-
-
 }

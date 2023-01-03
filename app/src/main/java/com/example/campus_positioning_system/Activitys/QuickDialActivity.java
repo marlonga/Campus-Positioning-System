@@ -37,23 +37,15 @@ public class QuickDialActivity extends AppCompatActivity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_quick_dial_list);
         RoomListConverter.setMyContext(MainActivity.mainContext());
-
         list = findViewById(R.id.quick_dial_recycler_view);
         list.setLayoutManager(new LinearLayoutManager(this));
-
         TreeViewHolderFactory factory = (v, layout) -> new QuickDialListViewHolderRoom(v,this);
         TreeViewAdapter listadapter = new TreeViewAdapter(factory);
         list.setAdapter(listadapter);
-
         listadapter.updateTreeNodes(RoomListConverter.generateQuickDialTreeNodeList(this));
-        //DrawingAssistant.setPointsOfInterestsNodes(RoomListConverter.generatePOINodes(this));
-
-        //RoomListConverter.printList(this);
-
     }
 
 

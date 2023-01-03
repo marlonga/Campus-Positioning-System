@@ -268,9 +268,7 @@ public class RoomListConverter {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document listDoc = dBuilder.parse(c.getAssets().open("quickDialRoomNameList.xml"));
             NodeList nList = listDoc.getElementsByTagName("room");
-            // Read the hierarchical Structure, starting with all Buildings
-
-            for (int roomCounter = 0; roomCounter < nList.getLength(); roomCounter++) { // Read all attributes of a room
+            for (int roomCounter = 0; roomCounter < nList.getLength(); roomCounter++) {
                 if (nList.item(roomCounter).getNodeType() == Node.ELEMENT_NODE) {
                     RoomItem roomAttributes = new RoomItem(
                             ((Element) nList.item(roomCounter)).getAttribute("roomname"),

@@ -21,7 +21,6 @@ import java.util.List;
 
 public class LocationSensorActivity implements SensorEventListener {
 
-
     private SensorManager sensorManager;
     private Sensor step_sensor;
     private Sensor magnetic_sensor;
@@ -35,7 +34,6 @@ public class LocationSensorActivity implements SensorEventListener {
     private long lastUpdatedTime = 0;
     private static ArrayList<String> unfound_sensors = new ArrayList<>();
     private static boolean wait_for_sensors = true;
-
     private boolean isCopied,isCopied2 = false;
 
     public LocationSensorActivity(){
@@ -55,7 +53,6 @@ public class LocationSensorActivity implements SensorEventListener {
         } else {
             unfound_sensors.add("Magnetometer");
         }
-
         if(accelerometer_sensor != null) {
             sensorManager.registerListener(this,accelerometer_sensor,sensorManager.SENSOR_DELAY_NORMAL);
             System.out.println("#Listener for acceleromatersensor done");
@@ -75,21 +72,14 @@ public class LocationSensorActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
-        /**
-         * TODO: SMOOTH VALUES / FILTERING OF SENSORS
-         */
-
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             System.arraycopy(sensorEvent.values, 0, accelerometerReading, 0, accelerometerReading.length);
             isCopied = true;
         }
-
         if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             System.arraycopy(sensorEvent.values, 0, magnetometerReading, 0, magnetometerReading.length);
             isCopied2 = true;
         }
-
 
         if (isCopied && isCopied2 && System.currentTimeMillis() - lastUpdatedTime > 250) {
             SensorManager.getRotationMatrix(rotationMatrix, null, accelerometerReading, magnetometerReading);
@@ -98,19 +88,13 @@ public class LocationSensorActivity implements SensorEventListener {
             float azimuthInDegree = (float) Math.toDegrees(azimuthInRadians);
             lastUpdatedTime = System.currentTimeMillis();
             angle = (int) azimuthInDegree;
-            //System.out.println(azimuthInDegree);
         }
 
-        if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) { // Hier nochmal überprüfen ob man das nicht anders lösen kann mit isCopied und isCopied2
+        if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && isCopied && isCopied2) {
             Pair<Float,Float> pair = changedPositionBasedOnSensors(angle,1.3d * DrawingAssistant.getMapView().getCurrentZoom());
-            //System.out.println(DrawingAssistant.getDotMoverMapPosition().getX() + "||1");
             DrawingAssistant.addToDotMoverMapPosition(pair);
-            //System.out.println(DrawingAssistant.getDotMoverMapPosition().getY()+ "||2");
-
             DrawingAssistant.getInstanceMover().animationStart();
             System.out.println("#Step +" + pair);
-
-            // System.out.println(DrawingAssistant.getInstanceMover().getX() +"||" +DrawingAssistant.getInstanceMover().getY());
         }
     }
 
@@ -136,8 +120,13 @@ public class LocationSensorActivity implements SensorEventListener {
         }
     }
 
+    /**
+     *
+     * @param angle Azimuth for the calculations
+     * @param pathLenght a double value that represents the step lenght
+     * @return  return a Pair<Float,Float> with two coordinates based on angle and pathlenght
+     */
     public Pair<Float,Float> changedPositionBasedOnSensors(float angle,double pathLenght){
-        //TODO winkel hochschule zum norden
         angle = MainActivity.getAngle();
         angle = (angle +360);
         angle = angle % 360;
@@ -145,46 +134,10 @@ public class LocationSensorActivity implements SensorEventListener {
         if(angle < 0){
             angle = 360 - (Math.abs(angle));
         }
-
-
-
         Pair<Float,Float> result = new Pair<>(0f,0f);
-        float angleForCalculations;
-
         float x = (float)(cos(toRadians(angle)) * pathLenght);
         float y = (float)(sin(toRadians(angle)) * pathLenght);
         result = new Pair<>(-x,-y);
-
-/*
-        if(angle>0 && angle<=90){ //positive x and positive y coordinate
-            angleForCalculations = 90 - angle;
-            float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
-            float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
-            result = new Pair<>(-x,y);
-        }
-
-        if(angle>90 && angle<=180){ //positive x and negative y coordinate
-            angleForCalculations = 180 - angle;
-            float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
-            float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
-            result = new Pair<>(-y,-x);
-        }
-
-        if(angle<0 && angle>=-90){ //negative x and negative y coordinaten
-            angleForCalculations = 90 + angle;
-            float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
-            float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
-            result = new Pair<>(x,y);
-        }
-
-        if(angle<-90 && angle>=-179){ //negative x and positive y coordinaten
-            angleForCalculations = 180 + angle;
-            float x = (float)(cos(toRadians(angleForCalculations)) * pathLenght);
-            float y = (float)(sin(toRadians(angleForCalculations)) * pathLenght);
-            result = new Pair<>(y,-x);
-        }
-*/
-        System.out.println( result);
         return result;
     }
 
