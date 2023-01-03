@@ -429,7 +429,6 @@ public class DrawingAssistant extends Thread {
                 setHW = true;
             }
         }
-        int testnumb = 0;
 
         while (true) {
 
