@@ -431,7 +431,6 @@ public class DrawingAssistant extends Thread {
         }
 
         while (true) {
-
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
             dotView.setRotation(adjustAngle(smoothValues(MainActivity.getAngle())));
 
