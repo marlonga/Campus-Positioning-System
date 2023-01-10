@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_popup"
     android:layout_width="350dp"
     android:layout_height="475dp"
     android:layout_gravity="center"
-    android:background="@color/grey"
+    android:background="@drawable/background_layout"
+    android:backgroundTint="#AAEA3030"
+    android:fadingEdge="horizontal|vertical"
     android:orientation="vertical"
-    android:padding="5dp"
-    android:id="@+id/parent_popup">
+    android:padding="5dp">
 
 
     <TextView
         android:id="@+id/hinweis_text_popup"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_marginTop="5dp"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="Hinweis zu ihren Sensoren"
         android:textColor="@color/black"
