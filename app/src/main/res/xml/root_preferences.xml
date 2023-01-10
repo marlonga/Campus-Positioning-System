@@ -18,11 +18,18 @@
             app:summaryOn="Display eingeschaltet"
             app:title="Display während der Nutzung eingeschaltet lassen" />
     </PreferenceCategory>
+    <PreferenceCategory app:title="Feedback und Hilfe">
+        <Preference
+            app:key="feedback"
+            app:title="Feedback geben"
+            app:summary="@string/preferences_feedback_summary"/>
+        <SwitchPreferenceCompat
+            app:key="onBoarding"
+            app:title="Tutorial"
+            app:summary="Hier startest du das Tutorial neu"
+            />
+    </PreferenceCategory>
 
-    <Preference
-        app:key="feedback"
-        app:title="Feedback geben"
-        app:summary="@string/preferences_feedback_summary"/>
 
 
 </PreferenceScreen>

@@ -59,6 +59,11 @@
             android:label="QRcode Activity"
             android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
         </activity>
+        <activity android:name=".Activitys.OnBoardingActivity"
+            android:exported="false"
+            android:label="OnBoarding Activity"
+            android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

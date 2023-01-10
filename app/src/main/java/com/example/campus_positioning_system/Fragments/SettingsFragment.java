@@ -5,7 +5,6 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -16,14 +15,12 @@ import androidx.preference.SeekBarPreference;
 
 import com.example.campus_positioning_system.Activitys.LocationSensorActivity;
 import com.example.campus_positioning_system.Activitys.MainActivity;
+import com.example.campus_positioning_system.Activitys.OnBoardingActivity;
 import com.example.campus_positioning_system.R;
-import com.example.campus_positioning_system.RoomList.RoomItem;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -46,6 +43,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 double valueToChange = (double) value/10;
                 LocationSensorActivity.setPathLenght(valueToChange);
                 setStepLenghtOfData(value);
+                return false;
+            }
+        });
+        Preference tutorial = findPreference("onBoarding");
+        tutorial.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                switchActivities();
+                System.out.println("TUUUUUUUUUUUUUUUUUUUTOOOOOOOOOOOOOOOOORIal");
                 return false;
             }
         });
@@ -80,5 +86,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         //MainActivity.setOnlyNavigateOnceTrue();
 
         System.out.println("Navigating from Room List back to Main");
+    }
+
+    private void switchActivities() {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), OnBoardingActivity.class);
+        getActivity().startActivity(intent);
     }
 }
