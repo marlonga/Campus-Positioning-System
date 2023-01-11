@@ -16,6 +16,7 @@ import androidx.preference.SeekBarPreference;
 import com.example.campus_positioning_system.Activitys.LocationSensorActivity;
 import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.Activitys.OnBoardingActivity;
+import com.example.campus_positioning_system.BuildConfig;
 import com.example.campus_positioning_system.R;
 
 import java.io.IOException;
@@ -28,6 +29,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
         SeekBarPreference s = findPreference("seekbar");
+        Preference buildnumber = findPreference("buildnumber");
+        buildnumber.setTitle(BuildConfig.VERSION_NAME);
         s.setMin(10);
         s.setMax(30);
         s.setAdjustable(true);

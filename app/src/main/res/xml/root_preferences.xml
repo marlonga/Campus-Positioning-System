@@ -31,5 +31,10 @@
     </PreferenceCategory>
 
 
+        <Preference
+            app:key="buildnumber"
+            app:title="x"
+        />
+
 
 </PreferenceScreen>
