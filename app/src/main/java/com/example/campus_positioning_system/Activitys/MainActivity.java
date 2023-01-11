@@ -47,6 +47,9 @@ import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,6 +193,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACTIVITY_RECOGNITION
         });
+        ;
+        //Onboarding here
+        if(!readOnboardingData()){
+            setOnboardingDataTrue();
+            switchActivities(OnBoardingActivity.class);
+        }
+
 
 
         ArrayList<String> unfound_sensors = LocationSensorActivity.getUnfoundSensors();
@@ -369,6 +379,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    private void setOnboardingDataTrue(){
+        try (ObjectOutputStream oos = new ObjectOutputStream(MainActivity.mainContext().openFileOutput("onboarding.data", Context.MODE_PRIVATE))) {
+            oos.writeBoolean(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean readOnboardingData() {
+        try (ObjectInputStream oos = new ObjectInputStream(MainActivity.mainContext().openFileInput("onboarding.data"))) {
+            boolean isTrue = oos.readBoolean();
+            return isTrue;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
 
