@@ -4,7 +4,12 @@
     <room roomname="A3.01">
         <roomalias>bibliothek</roomalias>
         <roomclosestnode>58/57/3</roomclosestnode>
-        <description>Bereitstellung von Lehrnstoffen wie Büchern</description>
+        <description>Bereitstellung von Lehrnstoffen wie Büchern, Berichte und Fachzeitschriften.</description>
+    </room>
+    <room roomname="A1.19">
+        <roomalias>Prüfungsamt</roomalias>
+        <roomclosestnode>45/21/1</roomclosestnode>
+        <description>Erfassung, Bearbeitung und Auswertung von Prüfungsdaten - Einschreibung/Immatrikulation - Kontaktstelle bei Fragen bezüglich der Prüfungsanmeldung und Prüfungsabmeldung, Beurlaubung, Zulassung in das nächste Semester, Notenspiegel, Bonus- und Maluskonto</description>
     </room>
     <room roomname="A1.01">
         <roomalias>Cafeteria</roomalias>

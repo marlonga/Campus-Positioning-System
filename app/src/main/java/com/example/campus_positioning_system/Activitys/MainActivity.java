@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
 
-        ArrayList<String> unfound_sensors = LocationSensorActivity.getUnfoundSensors();
+        ArrayList<String> unfound_sensors = locationSensorActivity.getUnfoundSensors();
         //unfound_sensors.add("Magnetometer");
         //unfound_sensors.add("Pedometer");
         final ImageButton button = (ImageButton) findViewById(R.id.sensor_popup_button);
@@ -396,7 +396,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
 }
 

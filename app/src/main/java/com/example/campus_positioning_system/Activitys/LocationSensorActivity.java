@@ -32,7 +32,7 @@ public class LocationSensorActivity implements SensorEventListener {
     private final float[] orientationAngles = new float[3];
     private float angle;
     private long lastUpdatedTime = 0;
-    private static ArrayList<String> unfound_sensors = new ArrayList<>();
+    private ArrayList<String> unfound_sensors = new ArrayList<>();
     private static boolean wait_for_sensors = true;
     private boolean isCopied,isCopied2 = false;
     private static double pathLenght = 1.3d;
@@ -144,7 +144,7 @@ public class LocationSensorActivity implements SensorEventListener {
         return result;
     }
 
-    public static ArrayList<String> getUnfoundSensors(){
+    public ArrayList<String> getUnfoundSensors(){
         return unfound_sensors;
     }
 

@@ -38,12 +38,15 @@ public class QRcodeActivity extends AppCompatActivity {
             result -> {
                 if(result.getContents() == null) {
                     Intent originalIntent = result.getOriginalIntent();
+                    switchActivitiesOut();
                     if (originalIntent == null) {
                         Log.d("QRcodeActivity", "Cancelled scan");
                         Toast.makeText(QRcodeActivity.this, "Cancelled", Toast.LENGTH_LONG).show();
+                        switchActivitiesOut();
                     } else if(originalIntent.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION)) {
                         Log.d("QRcodeActivity", "Cancelled scan due to missing camera permission");
                         Toast.makeText(QRcodeActivity.this, "Cancelled due to missing camera permission", Toast.LENGTH_LONG).show();
+                        switchActivitiesOut();
                     }
                 } else {
                     Log.d("QRcodeActivity", "Scanned");
@@ -72,6 +75,8 @@ public class QRcodeActivity extends AppCompatActivity {
      */
     public void scanQRCodes(View view){
         ScanOptions options = new ScanOptions();
+        options.setBeepEnabled(false);
+        options.setOrientationLocked(false);
         options.addExtra(Intents.Scan.SCAN_TYPE,Intents.Scan.QR_CODE_MODE);
         barcodeLauncher.launch(options);
     }

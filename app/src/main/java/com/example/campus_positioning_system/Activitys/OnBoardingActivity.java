@@ -27,8 +27,11 @@ public class OnBoardingActivity extends AppCompatActivity {
     SliderAdapter sliderAdapter;
     TextView[] dots;
     Button letsGetStarted;
+    Button skip_btn;
+    Button next_btn;
     Animation animation;
     int currentPos;
+    int listItems_leng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +43,26 @@ public class OnBoardingActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.slider);
         dotsLayout = findViewById(R.id.dots);
         letsGetStarted = findViewById(R.id.get_started_btn);
+        skip_btn = findViewById(R.id.skip_btn);
+        next_btn = findViewById(R.id.next_btn);
 
         //Call adapter
         ArrayList listItems = new ArrayList<>() ;
-        listItems.add(new SlideModel(R.drawable.bibliothek,"Slider 1 Title","Slide 1 desc"));
+        listItems.add(new SlideModel(R.drawable.screen_onboarding_one,"Hauptmenu","Das ist das Hauptmenu der App. Hier sehen sie sich in der mitte der Karte als Grüner Pfeil. Oben Links ist eine Info wo sie sich auf der Karte befinden."));
+        listItems.add(new SlideModel(R.drawable.app_icon_background,"Lorem Ipsum", "dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et."));
+        listItems.add(new SlideModel(R.drawable.app_icon_background,"Lorem Ipsum", "dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et."));
         sliderAdapter = new SliderAdapter(this,listItems);
+        listItems_leng = listItems.size();
         viewPager.setAdapter(sliderAdapter);
-
+        //lets get started switch activity
+        letsGetStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchActivities(MainActivity.class);
+            }
+        });
         //Dots
-        addDots(0);
+        addDots(listItems.size());
         viewPager.addOnPageChangeListener(changeListener);
     }
 
@@ -62,22 +76,19 @@ public class OnBoardingActivity extends AppCompatActivity {
     }
 
     private void addDots(int position) {
-
-        dots = new TextView[4];
+        dots = new TextView[listItems_leng];
         dotsLayout.removeAllViews();
 
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
             dots[i].setTextSize(35);
-
+            dots[i].setTextColor(getResources().getColor(R.color.black));
             dotsLayout.addView(dots[i]);
         }
-
-        if (dots.length > 0) {
-            dots[position].setTextColor(getResources().getColor(R.color.HFU_Gray_Primary));
+        if(dots.length > 0){
+            dots[0].setTextColor(getResources().getColor(R.color.teal_700));
         }
-
     }
 
     ViewPager.OnPageChangeListener changeListener = new ViewPager.OnPageChangeListener() {
@@ -91,20 +102,27 @@ public class OnBoardingActivity extends AppCompatActivity {
             addDots(position);
             currentPos = position;
 
-            if (position == 0) {
+            if (position != listItems_leng-1) {
                 letsGetStarted.setVisibility(View.INVISIBLE);
-            } else if (position == 1) {
-                letsGetStarted.setVisibility(View.INVISIBLE);
-            } else if (position == 2) {
-                letsGetStarted.setVisibility(View.INVISIBLE);
+                skip_btn.setVisibility(View.VISIBLE);
+                next_btn.setVisibility(View.VISIBLE);
             } else {
                 /*
                 animation = AnimationUtils.loadAnimation(OnBoardingActivity.this, R.anim.bottom_anim);
                 letsGetStarted.setAnimation(animation);
 
                  */
+                skip_btn.setVisibility(View.INVISIBLE);
+                next_btn.setVisibility(View.INVISIBLE);
                 letsGetStarted.setVisibility(View.VISIBLE);
+
+
             }
+            for (TextView t: dots) {
+                t.setTextColor(getResources().getColor(R.color.black));
+            }
+            dots[position].setTextColor(getResources().getColor(R.color.teal_700));
+
 
         }
 
@@ -113,5 +131,9 @@ public class OnBoardingActivity extends AppCompatActivity {
 
         }
     };
+    private void switchActivities(Class<?> activityClass) {
+        Intent switchActivityIntent = new Intent(this, activityClass);
+        startActivity(switchActivityIntent);
+    }
 
 }

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slider"
@@ -41,7 +42,7 @@
             android:id="@+id/get_started_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/HFU_Gray_Primary"
+            android:background="@color/white"
             android:text="@string/let_get_started"
             android:visibility="invisible" />
 
