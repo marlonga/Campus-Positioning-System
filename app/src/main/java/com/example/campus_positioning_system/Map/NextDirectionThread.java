@@ -60,7 +60,6 @@ public class NextDirectionThread extends Thread {
                     break;
                 }
             }
-
             if(angle>45 && angle<135){
                 if(calculateCrossProduct(path.get(i),path.get(i+1),path.get(i+2)) < 0 ){
                     direction = "right";
