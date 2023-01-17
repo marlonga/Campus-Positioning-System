@@ -45,8 +45,12 @@ public class NextDirectionThread extends Thread {
     @Override
     public void run(){
         String direction = "";
+        int pathm = 3;
         int currentZ = path.get(0).getZ();
-        for(int i = 0; i<path.size()-2;i++){
+        if(path.size()<4){
+            pathm = 0;
+        }
+        for(int i = 0; i<path.size()-(path.size()-pathm);i++){
             double angle = calculateDirectionsAngle(path.get(i),path.get(i+1),path.get(i+2));
             if(path.get(i+2).getZ() != currentZ){
                 if(path.get(+2).getZ() > currentZ) {
@@ -71,5 +75,6 @@ public class NextDirectionThread extends Thread {
                 break;
             }
         }
+        MainFragment.setDirection("straight");
     }
 }

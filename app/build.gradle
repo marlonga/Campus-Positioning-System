@@ -40,6 +40,9 @@ dependencies {
     //dependency for zxing barcode scanning library
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
+    //dependency for low pass filtering
+    implementation 'com.github.KalebKE:FSensor:v2.0'
+
     // dependency for ImageViewZoom for Map
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1' // last SupportLib version
 

@@ -53,7 +53,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     //Room Database Object
     private static AppDatabase db;

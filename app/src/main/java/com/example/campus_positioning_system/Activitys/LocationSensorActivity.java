@@ -30,7 +30,7 @@ public class LocationSensorActivity implements SensorEventListener {
     private final float[] accelerometerReading = new float[3];
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
-    private float angle;
+    private float angle =180;
     private long lastUpdatedTime = 0;
     private ArrayList<String> unfound_sensors = new ArrayList<>();
     private static boolean wait_for_sensors = true;

@@ -440,7 +440,6 @@ public class DrawingAssistant extends Thread {
             if (!path.isEmpty() && !pathDrawn) {
                 //mapView.setZoom(1.0f);
                 drawPath();
-                new NextDirectionThread(path).start();
             }
             //if (!POIsSet && !POIs.isEmpty()) {
             //    drawPOIs();
@@ -451,6 +450,7 @@ public class DrawingAssistant extends Thread {
 
             if (testThrotteling > 30 && !path.isEmpty()) {
                 updatePathOnWalk();
+                new NextDirectionThread(path).start();
                 testThrotteling = 0;
             } else {
                 testThrotteling++;

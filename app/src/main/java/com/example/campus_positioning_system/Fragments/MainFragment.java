@@ -148,6 +148,8 @@ public class MainFragment extends Fragment {
             case "down":
                 buildDirection("Treppen runter", R.drawable.go_downstairs);
                 break;
+            case "straight":
+                buildDirection("Gerade aus", R.drawable.go_striaght);
             default:
                 break;
         }
