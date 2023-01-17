@@ -49,9 +49,15 @@ public class OnBoardingActivity extends AppCompatActivity {
         //Call adapter
         ArrayList listItems = new ArrayList<>() ;
         listItems.add(new SlideModel(R.drawable.screen_onboarding_one,"Hauptmenu","Das ist das Hauptmenu der App. Hier sehen sie sich in der mitte der Karte als Grüner Pfeil. Oben Links ist eine Info wo sie sich auf der Karte befinden."));
-        listItems.add(new SlideModel(R.drawable.app_icon_background,"Lorem Ipsum", "dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et."));
-        listItems.add(new SlideModel(R.drawable.app_icon_background,"Lorem Ipsum", "dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et."));
-        sliderAdapter = new SliderAdapter(this,listItems);
+        listItems.add(new SlideModel(R.drawable.navbarbottom,"Navigationsleiste", "In der Navigationsleiste finden Sie verschieden Kategorien der App. Dazu zählen: Favoriten, Schnellwahl, Raumwahl, Einstellungen und einen QR Code Scanner."));
+        listItems.add(new SlideModel(R.drawable.favorites,"Favoriten Liste", "In der Favoriten Liste können Sie ihre persönlichen Raum-Favoriten festlegen. Sie können Räume ganz einfach zu ihren Favoriten hinzufügen aber auch entfernen, indem Sie das Herz-Symbol neben dem jeweiligen Raum anklicken "));
+        listItems.add(new SlideModel(R.drawable.quickdial,"Schnellwahl", "Die Schnellwahl Liste enthält alle wichtigen Räume der Hochschule. Sie können von ihr aus direkt zu dem gewünschten Raum navigieren ohne ihn in der raum Liste suchen zu müssen. Klicken Sie auf das Karten Symbol und weitere Informationen über den Raum zu erfahren"));
+        listItems.add(new SlideModel(R.drawable.roomlist,"Raum Liste", "In der raum Liste finden Sie alle Räume der Hochschule. Um die Navigation zu starten müssen Sie einfach den grünen Pfeil drücken"));
+        listItems.add(new SlideModel(R.drawable.settings,"Einstellungen","In den Einstellungen können Sie die App nach ihren Wünschen anpassen. Hier können Sie auch die Schrittgröße anpassen um die Präzision des Standorts auf der Karte zu verbessern."));
+        listItems.add(new SlideModel(R.drawable.qrcode, "QR-Code Scanner","Scannen Sie aufgehängte QR-Codes um eine Navigation zu einem Raum zu starten oder um die Informationsseite zu öffnen."));
+        listItems.add(new SlideModel(R.drawable.topinfo,"Weg Information", "Im oberen Bereich des Hauptmenüs finden Sie die Positions- und Weginformationen. Hier wird ihnen gezeigt in welchem Stockwerk Sie sich befinden und wann sie Rechts, Links, Treppen hoch oder Treppen runter gehen müssen."));
+        listItems.add(new SlideModel(R.drawable.buttonsright,"Sensoren und Ausgang","Auf der rechten Seite erfahren Sie ob ihr Handy alle benötigten Sensoren besitzt. Ist dies der Fall leuchtet das Symbol grün. Andernfalls erscheint ein rotes Warnsymbol. \n Falls Sie die Hochschule schnell verlassen wollen klicken Sie einfach auf das Symbol darunter. Damit wird eine navigation zu dem nächstliegenden Ausgang gestartet." ));
+        sliderAdapter = new SliderAdapter(this, listItems);
         listItems_leng = listItems.size();
         viewPager.setAdapter(sliderAdapter);
         //lets get started switch activity

@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
@@ -30,7 +32,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
         SeekBarPreference s = findPreference("seekbar");
         Preference buildnumber = findPreference("buildnumber");
-        buildnumber.setTitle(BuildConfig.VERSION_NAME);
+        buildnumber.setTitle("Buildnumber");
+        CharSequence text = BuildConfig.VERSION_NAME;
+        buildnumber.setSummary(text);
         s.setMin(10);
         s.setMax(30);
         s.setAdjustable(true);
@@ -54,7 +58,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
                 switchActivities();
-                System.out.println("TUUUUUUUUUUUUUUUUUUUTOOOOOOOOOOOOOOOOORIal");
                 return false;
             }
         });
