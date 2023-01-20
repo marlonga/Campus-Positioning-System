@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private PopupWindow popupWindow;
     private PopupWindow popupWindowButton;
     private FragmentContainerView fragmentContainerView;
+    private static ImageButton stop_path;
 
 
     @Override
@@ -194,9 +195,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });
         ;
         //Onboarding here
-        if(!readOnboardingData()){
+        if( !readOnboardingData() ){
             setOnboardingDataTrue();
-            switchActivities(OnBoardingActivity.class);
+            switchActivities(IntroSequence.class);
         }
 
 
@@ -265,6 +266,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }).start();
             }
         });
+
+        stop_path = (ImageButton) findViewById(R.id.stop_path);
+        stop_path.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                DrawingAssistant.stopPath();
+            }
+        });
+
         System.out.println("On Create Ende Main Activity");
     }
 
@@ -397,7 +408,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         return false;
     }
+    public static void showStopPath(){
+
+        stop_path.post(new Runnable() {
+            @Override
+            public void run() {
+                stop_path.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+    public static void removeStopPath(){
+        stop_path.post(new Runnable() {
+            @Override
+            public void run() {
+                stop_path.setVisibility(View.GONE);
+            }
+        });
+    }
 }
+
 
 /*
         DrawingAssistant drawingAssistant = new DrawingAssistant();

@@ -2,7 +2,7 @@
 
 <campus>
     <room roomname="A3.01">
-        <roomalias>bibliothek</roomalias>
+        <roomalias>Bibliothek</roomalias>
         <roomclosestnode>58/57/3</roomclosestnode>
         <description>Bereitstellung von Lehrnstoffen wie Büchern, Berichte und Fachzeitschriften.</description>
     </room>

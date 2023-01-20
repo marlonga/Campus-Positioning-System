@@ -88,7 +88,7 @@ public class DrawingAssistant extends Thread {
         this.dotView = (TouchImageView) allViews[1];
 
         //first initialization of currentPosition at a default value
-        currentPosition = new Node("PointZero", 62, 44, 1);
+        currentPosition = new Node("PointZero", 64, 44, 1);
 
         //first initialization of dotMoverMapPosition on 0,0 of screen
         dotMoverMapPosition = new MapPosition(0.0f, 0.0f);
@@ -331,9 +331,7 @@ public class DrawingAssistant extends Thread {
 
     public void updatePathOnWalk() {
         if (!path.isEmpty()) {
-            /*
-            TODO: comepare currentLocation with get closestposition node to not do Pathfindingcontrol.calculate
-             */
+            MainActivity.showStopPath();
             PathfindingControl.updateCurrentLocation(getClosestPosition(PathfindingControl.getAllNodesOnFloor(currentPosition.getZ())).first);
             setPathToDestination(PathfindingControl.calculatePath());
             pathDrawn = false;
@@ -355,6 +353,11 @@ public class DrawingAssistant extends Thread {
         return angle;
     }
 
+    public static void stopPath(){
+        path = new ArrayList<>();
+        pathDrawn = false;
+        MainActivity.removeStopPath();
+    }
 
 
     public int smoothValues(int angle1){
@@ -437,7 +440,7 @@ public class DrawingAssistant extends Thread {
             //dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
 
-            if (!path.isEmpty() && !pathDrawn) {
+            if (!pathDrawn) {
                 //mapView.setZoom(1.0f);
                 drawPath();
             }

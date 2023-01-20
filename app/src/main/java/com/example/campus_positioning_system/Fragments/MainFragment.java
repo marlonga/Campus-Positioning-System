@@ -125,7 +125,7 @@ public class MainFragment extends Fragment {
     public static void setDirection(String direction) {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
         float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, displayMetrics);
-        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 350, displayMetrics);
+        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 320, displayMetrics);
         params.height = (int) height;
         params.width = (int) width;
         layout.post(new Runnable() {

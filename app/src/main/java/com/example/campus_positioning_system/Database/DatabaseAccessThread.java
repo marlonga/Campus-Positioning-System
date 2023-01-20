@@ -51,7 +51,7 @@ public class DatabaseAccessThread extends Thread{
         DrawingAssistant.setCurrentPosition(currentPosition); // currentPosition
         if(stockwerkView != null) {
             if(currentPosition.compareTo(new Node("",55,67,1)) == 0){
-                stockwerkView.setText("Keine Position.");
+                stockwerkView.setText("Keine Position");
                 return;
             }
             if(currentPosition.getZ() == 0) {
