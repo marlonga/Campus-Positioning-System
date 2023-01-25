@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.example.campus_positioning_system.LocationNavigation.LocationControl;
 import com.example.campus_positioning_system.Map.DrawingAssistant;
+import com.example.campus_positioning_system.Map.MapConverter;
 import com.example.campus_positioning_system.NNObject;
 import com.example.campus_positioning_system.Node;
 
@@ -45,11 +46,12 @@ public class DatabaseAccessThread extends Thread{
         //if(!() == null))
         //PathfindingControl.updateCurrentLocation(new LocationControl().locate(nearestWifiList));
 
+
         currentPosition = new LocationControl().locate(nearestWifiList);
         DrawingAssistant.setCurrentPosition(currentPosition); // currentPosition
         if(stockwerkView != null) {
             if(currentPosition.compareTo(new Node("",55,67,1)) == 0){
-                stockwerkView.setText("Keine Position.");
+                stockwerkView.setText("Keine Position");
                 return;
             }
             if(currentPosition.getZ() == 0) {

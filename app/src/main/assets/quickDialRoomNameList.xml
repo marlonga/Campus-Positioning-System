@@ -2,13 +2,36 @@
 
 <campus>
     <room roomname="A3.01">
-        <roomalias>bibliothek</roomalias>
-        <roomclosestnode></roomclosestnode>
-        <description>Bereitstellung von Lehrnstoffen wie Büchern</description>
+        <roomalias>Bibliothek</roomalias>
+        <roomclosestnode>58/57/3</roomclosestnode>
+        <description>Bereitstellung von Lehrnstoffen wie Büchern, Berichte und Fachzeitschriften.</description>
+    </room>
+    <room roomname="A1.19">
+        <roomalias>Prüfungsamt</roomalias>
+        <roomclosestnode>45/21/1</roomclosestnode>
+        <description>Erfassung, Bearbeitung und Auswertung von Prüfungsdaten - Einschreibung/Immatrikulation - Kontaktstelle bei Fragen bezüglich der Prüfungsanmeldung und Prüfungsabmeldung, Beurlaubung, Zulassung in das nächste Semester, Notenspiegel, Bonus- und Maluskonto</description>
     </room>
     <room roomname="A1.01">
         <roomalias>Cafeteria</roomalias>
-        <roomclosestnode></roomclosestnode>
-        <description>Bereitstellung von Lehrnstoffen wie Büchern</description>
+        <roomclosestnode>55/62/1</roomclosestnode>
+        <description>Essen, Snacks, Getränke - große Auswahl an frisch belegten Brötchen, Laugengebäck, verschiedene Plunder,
+            Muffins und Donuts, frische Kuchenschnitten und warmen Snacks (FleischkäseBrötchen, Pizza). In unserem Sortiment gibt es auch viele vegetarische und vegane
+            Produkte. Süßigkeiten und Eiscreme, sowie natürlich auch eine große Auswahl an
+            warmen sowie kalten Getränken hat die Cafeteria zu bieten.</description>
+    </room>
+    <room roomname="A1.25">
+        <roomalias>Zulassungsamt</roomalias>
+        <roomclosestnode>62/56/1</roomclosestnode>
+        <description>bearbeitet Bewerbungen von Studieninteressierten - Kontaktstelle bei Fragen bezüglich der Bewerbungsphase und der Zulassung</description>
+    </room>
+    <room roomname="B1.03">
+        <roomalias>Druckerei</roomalias>
+        <roomclosestnode>50/50/1</roomclosestnode>
+        <description>Drucken von jeglichen Dokumenten (Thesis, Ausarbeitungen etc.), Flyer und Informationsmaterialien Binden von Zeitschriften und Büchern</description>
+    </room>
+    <room roomname="B1.01">
+        <roomalias>Magazin</roomalias>
+        <roomclosestnode>50/50/1</roomclosestnode>
+        <description>Beschaffung von Skripten und Lehrunterlagen - Verkauf von Merchandising-Artikeln</description>
     </room>
 </campus>

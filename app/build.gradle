@@ -1,15 +1,18 @@
 plugins {
     id 'com.android.application'
 }
-
+def versionMajor = 2
+def versionMinor = 3
+def versionPatch = 1
+def versionBuild = 0
 android {
     compileSdk 32
     defaultConfig {
         applicationId "com.example.campus_positioning_system"
         minSdk 29
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +36,12 @@ android {
 dependencies {
     // dependency for google play service for maps SDK
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
+
+    //dependency for zxing barcode scanning library
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
+    //dependency for low pass filtering
+    implementation 'com.github.KalebKE:FSensor:v2.0'
 
     // dependency for ImageViewZoom for Map
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1' // last SupportLib version

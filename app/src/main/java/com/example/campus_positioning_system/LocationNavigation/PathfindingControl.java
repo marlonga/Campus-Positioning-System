@@ -10,10 +10,12 @@ import com.example.campus_positioning_system.Node;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.TreeSet;
+import java.util.logging.Handler;
 
 import es.usc.citius.hipster.algorithm.Hipster;
 import es.usc.citius.hipster.graph.GraphBuilder;
@@ -102,11 +104,57 @@ public class PathfindingControl{
         List<List<Node>> listTest = Hipster.createAStar(p).search(tree.floor(targetLocation)).getOptimalPaths();
         return listTest.get(0);
     }
+    public static List<Node> calculatePathForExits(){
+        System.out.println("Calculating Path from: " + currentLocation.toString() + " to: closest Exit");
+        ArrayList<Node> exits = new ArrayList<>();
+        exits.add(new Node(55,67,1));
+        /*
+        TODO: actual values of exits
+         */
+        List<List<Node>> listTest = null;
+        for (Node n: exits) {
+            updateTargetLocation(n);
+            SearchProblem p = GraphSearchProblem.startingFrom(tree.floor(currentLocation)).in(graph).takeCostsFromEdges().build();
+            List<List<Node>> result = Hipster.createAStar(p).search(tree.floor(targetLocation)).getOptimalPaths();
+            if(!(listTest == null)){
+                if (result.size() < listTest.size()){
+                /*
+                TODO: better check for best Path
+                 */
+                    listTest = result;
+                }
+            } else {
+                listTest = result;
+            }
+
+        }
+        return listTest.get(0);
+    }
 
 
     public static TreeSet<Node> getTree(){
         return tree;
     }
 
+    /** get all set Nodes of GraphRef
+     *
+     * @return allNodes on Map
+     */
+    public static List<Node> getAllNodes(){
+        List<Node> result = new ArrayList<>();
+        for (Node n: tree) {
+            result.add(n);
+        }
+        return result;
+    }
+    public static List<Node> getAllNodesOnFloor (int floor){
+        List<Node> result = new ArrayList<>();
+        for (Node n: tree) {
+            if(n.getZ() == floor){
+                result.add(n);
+            }
+        }
+        return result;
+    }
 
 }

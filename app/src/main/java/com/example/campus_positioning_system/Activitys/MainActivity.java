@@ -5,27 +5,29 @@ package com.example.campus_positioning_system.Activitys;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 // Wifi and Compass Manager
 
@@ -33,23 +35,24 @@ import android.widget.Toast;
 // View
 
 // Room Database
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
-import com.amrdeveloper.treeview.TreeNode;
 import com.example.campus_positioning_system.Database.AppDatabase;
 import com.example.campus_positioning_system.Database.NNObjectDao;
-import com.example.campus_positioning_system.LocationNavigation.LocationFakerThread;
+import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Map.DrawingAssistant;
 import com.example.campus_positioning_system.R;
-import com.example.campus_positioning_system.RoomList.RoomItem;
 import com.example.campus_positioning_system.RoomList.RoomListConverter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
-@SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     //Room Database Object
     private static AppDatabase db;
@@ -85,6 +88,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static WifiManager wifiManager;
     private static List<ScanResult> availableNetworks;
 
+    //popup
+    private LayoutInflater layoutInflater;
+    private PopupWindow popupWindow;
+    private PopupWindow popupWindowButton;
+    private FragmentContainerView fragmentContainerView;
+    private static ImageButton stop_path;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -114,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //------------------------------------------------------------------------------
         //Sensors
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        LocationSensorActivity locationSensorActivity = new LocationSensorActivity();
 
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -151,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     case R.id.nav_quickdial:
                         switchActivities(QuickDialActivity.class);
                         break;
+                    case R.id.nav_qrcode:
+                        switchActivities(QRcodeActivity.class);
+                        break;
                 }
                 return false;
             }
@@ -175,7 +190,90 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         locationPermissionRequest.launch(new String[] {
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACTIVITY_RECOGNITION
+        });
+        ;
+        //Onboarding here
+        if( !readOnboardingData() ){
+            setOnboardingDataTrue();
+            switchActivities(IntroSequence.class);
+        }
+
+
+
+        ArrayList<String> unfound_sensors = locationSensorActivity.getUnfoundSensors();
+        //unfound_sensors.add("Magnetometer");
+        //unfound_sensors.add("Pedometer");
+        final ImageButton button = (ImageButton) findViewById(R.id.sensor_popup_button);
+        button.setVisibility(View.GONE);
+
+        if(!unfound_sensors.isEmpty()){
+            //POPUP_WINDOW IF SENSOR MISSING
+            fragmentContainerView = (FragmentContainerView) findViewById(R.id.nav_host_fragment);
+            layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+            ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.sensor_info_popup,null);
+            popupWindow = new PopupWindow(container,400,650,true);
+            button.startAnimation(AnimationUtils.loadAnimation(mainContext(),R.anim.heartbeat_anim));
+            String resulting_info = "";
+            if (unfound_sensors.size() == 1){
+                resulting_info += "Folgender Sensor wurde an ihrem Gerät nicht erkannt: \n";
+            } else if (unfound_sensors.size() > 1){
+                resulting_info += "Folgende Sensoren wurden an ihrem Gerät nicht erkannt: \n";
+            }
+            for (String s : unfound_sensors){
+                resulting_info += " >" + s + "\n";
+            }
+            resulting_info += "Es könnte also zu Ungenauigkeiten ihrer Position in der App kommen.";
+
+            TextView infoText = (TextView) container.findViewById(R.id.info_of_sensors_popup);
+
+            infoText.setText(resulting_info);
+
+            findViewById(R.id.nav_host_fragment).post(new Runnable() {
+                public void run() {
+                    popupWindow.showAtLocation(fragmentContainerView, Gravity.CENTER, 0, 0);
+                }
+            });
+            popupWindow.setElevation(10);
+
+            container.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popupWindow.dismiss();
+                    return false;
+                }
+            });
+
+
+            button.setVisibility(View.VISIBLE);
+            button.setElevation(3);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    popupWindow.showAtLocation(fragmentContainerView, Gravity.CENTER, 0, 0);
+                }
+            });
+        }
+        final ImageButton quick_exit = (ImageButton) findViewById(R.id.quick_Exit);
+        quick_exit.setElevation(3);
+        quick_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread (() -> {
+                    PathfindingControl.calculatePathForExits();
+                    DrawingAssistant.setPathToDestination(PathfindingControl.calculatePath());
+                }).start();
+            }
+        });
+
+        stop_path = (ImageButton) findViewById(R.id.stop_path);
+        stop_path.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                DrawingAssistant.stopPath();
+            }
         });
 
         System.out.println("On Create Ende Main Activity");
@@ -185,8 +283,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Intent switchActivityIntent = new Intent(this, activityClass);
         startActivity(switchActivityIntent);
     }
-
-
 
 
     public static NNObjectDao getNNObjectDaoFromDB(){
@@ -294,7 +390,43 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         return result;
     }
+
+    private void setOnboardingDataTrue(){
+        try (ObjectOutputStream oos = new ObjectOutputStream(MainActivity.mainContext().openFileOutput("onboarding.data", Context.MODE_PRIVATE))) {
+            oos.writeBoolean(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean readOnboardingData() {
+        try (ObjectInputStream oos = new ObjectInputStream(MainActivity.mainContext().openFileInput("onboarding.data"))) {
+            boolean isTrue = oos.readBoolean();
+            return isTrue;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static void showStopPath(){
+
+        stop_path.post(new Runnable() {
+            @Override
+            public void run() {
+                stop_path.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+    public static void removeStopPath(){
+        stop_path.post(new Runnable() {
+            @Override
+            public void run() {
+                stop_path.setVisibility(View.GONE);
+            }
+        });
+    }
 }
+
 
 /*
         DrawingAssistant drawingAssistant = new DrawingAssistant();

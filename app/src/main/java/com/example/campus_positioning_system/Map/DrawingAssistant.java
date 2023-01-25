@@ -4,14 +4,24 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
+import android.util.Pair;
+import android.util.TypedValue;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.campus_positioning_system.Activitys.MainActivity;
 import com.example.campus_positioning_system.Fragments.MainFragment;
+import com.example.campus_positioning_system.LocationNavigation.PathfindingControl;
 import com.example.campus_positioning_system.Node;
 import com.example.campus_positioning_system.R;
 import com.ortiz.touchview.TouchImageView;
@@ -22,12 +32,19 @@ import java.util.List;
 
 
 public class DrawingAssistant extends Thread {
+    //Mover
+    private static Mover dotMover;
+    MapPosition position;
+    private static MapPosition dotMoverMapPosition;
+
     private static Node currentPosition;
     private static List<Node> path = new ArrayList<>();
     private static List<Node> POIs = new ArrayList<>();
+    private static LinkedList<Integer> toSmooth = new LinkedList<>();
 
     private static boolean pathDrawn = false;
     private static boolean POIsSet = false;
+    private static int testThrotteling = 0;
 
     //Height and Width of our View's
     private static int dotHeight;
@@ -41,6 +58,7 @@ public class DrawingAssistant extends Thread {
     //because its depending on when the Views got inflated and we need to wait for that to happen
     //so Width and Height is not null
     private boolean setHW = false;
+    private static boolean currentPositionChanged = true;
 
     //View's
     private static TouchImageView mapView = null;
@@ -64,95 +82,117 @@ public class DrawingAssistant extends Thread {
     private final static int[] maps = {R.drawable.egfancy, R.drawable.og1fancy, R.drawable.og2fancy, R.drawable.og3fancy};
     private final static int[] bitmaps = {R.drawable.eg, R.drawable.og1example, R.drawable.og2, R.drawable.og345};
 
-    public DrawingAssistant(TouchImageView dotView, TouchImageView mapView) {
-        DrawingAssistant.mapView = mapView;
-        this.dotView = dotView;
-        currentPosition = new Node("PointZero", 62, 44, 1);
+    public DrawingAssistant(View[] allViews) {
+
+        DrawingAssistant.mapView = (TouchImageView) allViews[0];
+        this.dotView = (TouchImageView) allViews[1];
+
+        //first initialization of currentPosition at a default value
+        currentPosition = new Node("PointZero", 64, 44, 1);
+
+        //first initialization of dotMoverMapPosition on 0,0 of screen
+        dotMoverMapPosition = new MapPosition(0.0f, 0.0f);
     }
 
-    public static synchronized void setCurrentPosition(Node currentPosition1) {
-        System.out.println("Drawing Assistant received current position: " + currentPosition1.toString());
-        currentPosition = currentPosition1;
+    /**
+     * returns static MapPosition of dotMover
+     *
+     * @return static MapPosition of dotMover
+     */
+    public static MapPosition getDotMoverMapPosition() {
+        return dotMoverMapPosition;
+    }
+
+    /**
+     * adds Pair (X,Y) to current coordinates of the dotMover
+     *
+     * @param toAdd values of X and Y coordinates
+     */
+    public static synchronized void addToDotMoverMapPosition(Pair<Float, Float> toAdd) {
+        float one = dotMoverMapPosition.getX();
+        float two = dotMoverMapPosition.getY();
+        dotMoverMapPosition.setX(one + toAdd.first);
+        dotMoverMapPosition.setY(two + toAdd.second);
+    }
+
+    /**
+     * overrides current value of currentPositionChanged in DrawingAssistant
+     *
+     * @param bool new value of currentPositionChanged
+     */
+    public static void setCurrentPositionChanged(boolean bool) {
+        currentPositionChanged = bool;
+    }
+
+    /**
+     * returns static TouchImageView of mapView
+     *
+     * @return static TouchImageView of MapView
+     */
+    public static TouchImageView getMapView() {
+        return mapView;
+    }
+
+    /**
+     * changes currentPosition (Node object which is changed by WifiScanner)
+     * and changes background-image of floor with the z-coordinate of currentPosition
+     *
+     * @param newCurrentPosition overrides currentPosition
+     */
+    public static synchronized void setCurrentPosition(Node newCurrentPosition) {
+        System.out.println("Drawing Assistant received current position: " + newCurrentPosition.toString());
+        currentPosition = newCurrentPosition;
+        currentPositionChanged = true;         // TODO diese beiden zurücktauschen
         int currentZ = currentPosition.getZ();
         if (!pathDrawn) {
             int mapToSet = maps[currentZ];
             mapView.setImageResource(mapToSet);
             currentMap = mapToSet;
-            /*if (currentPosition.getZ() == 0) {
-                mapView.setImageResource(MAP_EG);
-                currentMap = MAP_EG;
-            } else if (currentPosition.getZ() == 1) {
-                mapView.setImageResource(MAP_OG1);
-                currentMap = MAP_OG1;
-            } else if (currentPosition.getZ() == 2) {
-                mapView.setImageResource(MAP_OG2);
-                currentMap = MAP_OG2;
-            } else if (currentPosition.getZ() == 3) {
-                mapView.setImageResource(MAP_OG3);
-                currentMap = MAP_OG3;
-            }*/
         } else {
-
             int bitmapToSet = bitmaps[currentZ];
             mapView.setImageBitmap(bitmapsWithPath.get(currentZ));
             currentMap = bitmapToSet;
-            /*if (currentPosition.getZ() == 0) {
-                mapView.setImageBitmap(bitmapsWithPath.get(0));
-                currentMap = R.drawable.eg;
-            } else if (currentPosition.getZ() == 1) {
-                mapView.setImageBitmap(bitmapsWithPath.get(1));
-                currentMap = R.drawable.og1example;
-            } else if (currentPosition.getZ() == 2) {
-                mapView.setImageBitmap(bitmapsWithPath.get(2));
-                currentMap = R.drawable.og2;
-            } else if (currentPosition.getZ() == 3) {
-                mapView.setImageBitmap(bitmapsWithPath.get(3));
-                currentMap = R.drawable.og345;
-            }*/
         }
     }
 
+    /**
+     * creates copy of @param pathToDestination in path
+     *
+     * @param pathToDestination list to copy into path
+     */
     public static void setPathToDestination(List<Node> pathToDestination) {
         System.out.println("DrawingAssistant received Path reaching from Point: " + pathToDestination.get(0) + " to: " + pathToDestination.get((pathToDestination.size() - 1)));
-        /*
-        for(Node n : pathToDestination) {
-            System.out.println(n.toString());
-        }
-         */
         pathDrawn = false;
         path = new ArrayList<>(pathToDestination);
     }
 
+    /**
+     * WORK IN PROGRESS
+     * - POTENTIAL setter for POINodes
+     * <p>
+     * - TODO: viable POIs
+     *
+     * @param POINodes list to copy into POIs
+     */
     public static void setPointsOfInterestsNodes(List<Node> POINodes) {
         System.out.println("Drawingassistant recieved POI Nodes");
         POIs = new ArrayList<>(POINodes);
         POIsSet = false;
     }
 
-    // https://developer.android.com/training/animation/reposition-view
-
-    public static void drawPath() {
-        pathDrawn = true;
-
-        Paint paintEG = new Paint();
-        Paint paintOG1 = new Paint();
-        Paint paintOG2 = new Paint();
-        Paint paintOG3 = new Paint();
-        Paint paintNewFloor = new Paint();
-
-        paintEG.setColor(Color.RED);
-        paintEG.setStrokeWidth(10);
-
-        paintNewFloor.setColor(Color.BLUE);
-        paintNewFloor.setStrokeWidth(10);
-
+    /**
+     * translates list of nodes 'path' into list  of MapPositions
+     *
+     * @return translated MapPositions of path
+     */
+    public static List<MapPosition> getCurrentPathAsMapPositions() {
         Bitmap mutableBitmap = allBitmapsOriginal.get(0);
+
         float oneX = (float) mutableBitmap.getWidth() / 124f;
         float oneY = (float) mutableBitmap.getHeight() / 88f;
 
-        bitmapsWithPath = new LinkedList<>();
-
         List<MapPosition> mapPositions = new LinkedList<>();
+
         for (int i = 0; i < path.size(); i++) {
             Node n = path.get(i);
             MapPosition mapPosition = new MapPosition();
@@ -162,10 +202,32 @@ public class DrawingAssistant extends Thread {
             mapPositions.add(mapPosition);
         }
 
-        bitmapsWithPath.add(allBitmapsOriginal.get(0).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(1).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(2).copy(Bitmap.Config.ARGB_8888, true));
-        bitmapsWithPath.add(allBitmapsOriginal.get(3).copy(Bitmap.Config.ARGB_8888, true));
+        return mapPositions;
+    }
+
+    /**
+     * method used for drawing the path on screen, gets redrawn if pathDrawn is false
+     */
+    public static void drawPath() {
+        pathDrawn = true;
+
+        Paint paintEG = new Paint();
+        Paint paintNewFloor = new Paint();
+        paintEG.setColor(Color.RED);
+        paintEG.setStrokeWidth(10);
+        paintNewFloor.setColor(Color.BLUE);
+        paintNewFloor.setStrokeWidth(10);
+
+
+        Bitmap mutableBitmap;
+
+        bitmapsWithPath = new LinkedList<>();
+
+        List<MapPosition> mapPositions = getCurrentPathAsMapPositions();
+
+        for (int i = 0; i < 4; i++) {
+            bitmapsWithPath.add(allBitmapsOriginal.get(i).copy(Bitmap.Config.ARGB_8888, true));
+        }
 
         for (int i = 0; i < mapPositions.size() - 1; i++) {
             mutableBitmap = bitmapsWithPath.get(mapPositions.get(i).getZ());
@@ -191,10 +253,9 @@ public class DrawingAssistant extends Thread {
 
     }
 
-    /*public static void drawPOIs() {
-        /*
+    public static void drawPOIs() {
+
         POIsSet = true;
-        System.out.println("XXXXXXXXSSSSSSSSSSSSSSSSSSSSXXXXXXXXXXXXXXXX");
 
         Paint paintEG = new Paint();
         Paint paintOG1 = new Paint();
@@ -215,53 +276,112 @@ public class DrawingAssistant extends Thread {
             mapPosition.setY(n.getY() * oneY);
             mapPosition.setZ(n.getZ());
             mapPositions.add(mapPosition);
-            System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLll");
         }
 
 
-        for (int i = 0; i < mapPositions.size() -1; i++) {
+        for (int i = 0; i < mapPositions.size() - 1; i++) {
             mutableBitmap = allBitmapsOriginal.get(mapPositions.get(i).getZ());
             Canvas canvas = new Canvas(mutableBitmap);
 
 
             String imgName = POIs.get(i).getId();
-            int resID = MainActivity.mainContext().getResources().getIdentifier(imgName,"drawable",MainActivity.mainContext().getPackageName());
+            int resID = MainActivity.mainContext().getResources().getIdentifier(imgName, "drawable", MainActivity.mainContext().getPackageName());
             Bitmap ogbitmap = BitmapFactory.decodeResource(MainActivity.mainContext().getResources(), resID); // HIER R.id.library_poi
             Bitmap mutmap = ogbitmap.copy(Bitmap.Config.ARGB_8888, true);
             canvas.drawBitmap(mutmap, mapPositions.get(i).getX() - 75, mapPositions.get(i + 1).getY() - 140, paintEG);
-
         }
 
 
         mutableBitmap = allBitmapsOriginal.get(currentPosition.getZ());
         mapView.setImageBitmap(mutableBitmap);
         //mapConverter.setMapView(MainFragment.getMapView());
-}
-         */
-
-
-
-
-
-
-
-    public void removePath() {
-        pathDrawn = false;
-        path = new LinkedList<>();
-        setCurrentPosition(currentPosition);
     }
 
-    public int adjustAngle(int angle) {
-        if (angle <= -180)
-            return (angle) % 180;
+
+
+    public static Mover getInstanceMover() {
+        return dotMover;
+    }
+
+
+    /**
+     * calculates closest node from path to dotMoverPosition
+     *
+     * @return closest node and its coordinates difference to dotMoverPosition
+     */
+    public Pair<Node, Integer> getClosestPosition(List<Node> mapOfNodes) {
+        Pair<Node, Integer> result = new Pair<>(null, null);
+
+        //highest double value, because any position on the map will be closer
+        double mathSafe = 1.7976931348623157E+308;
+
+        //theorem of pythagoras for finding closest MapPosition on Path
+        for (Node n : mapOfNodes) {
+            MapPosition mapPosition = mapConverter.convertNode(n);
+            double difX = dotMover.getX() - mapPosition.getX();
+            double difY = dotMover.getY() - mapPosition.getY();
+            double math = Math.sqrt(Math.pow(difX, 2) + Math.pow(difY, 2));
+            if (mathSafe > math) {
+                mathSafe = math;
+                result = new Pair<Node, Integer>(n, (int) mathSafe);
+            }
+        }
+        return result;
+    }
+
+    public void updatePathOnWalk() {
+        if (!path.isEmpty()) {
+            MainActivity.showStopPath();
+            PathfindingControl.updateCurrentLocation(getClosestPosition(PathfindingControl.getAllNodesOnFloor(currentPosition.getZ())).first);
+            setPathToDestination(PathfindingControl.calculatePath());
+            pathDrawn = false;
+        }
+    }
+
+    public void updatePathInfo(List<Node> mapOfNodes, View view){
+    }
+
+    public int adjustAngle(int angle1) {
+        int angle = angle1;
+        angle = (angle + 360);
+        angle = angle % 360;
+        angle = angle - 52;
+        if (angle < 0) {
+            angle = 360 - (Math.abs(angle));
+        }
+        //System.out.println("adust  " + angle);
         return angle;
+    }
+
+    public static void stopPath(){
+        path = new ArrayList<>();
+        pathDrawn = false;
+        MainActivity.removeStopPath();
+    }
+
+
+    public int smoothValues(int angle1){
+        int angle = angle1;
+        if(toSmooth.size() < 5){
+            toSmooth.add(angle);
+            return  angle;
+        }else{
+            float result = 0;
+            toSmooth.removeFirst();
+            toSmooth.add(angle);
+            for (Integer i : toSmooth){
+                result += i;
+            }
+            result /= 5;
+            return (int)result;
+            }
     }
 
     @Override
     public void run() {
         float newX = (float) 0;
         float newY = (float) 0;
-        Mover dotMover = new Mover("DotMover", newX, newY);
+        dotMover = new Mover("DotMover", newX, newY);
 
         dotMover.setView(dotView);
         dotMover.start();
@@ -314,32 +434,52 @@ public class DrawingAssistant extends Thread {
         }
 
         while (true) {
-            //System.out.println("----------------------------------------------------------------------");
             dotView.setZoom((float) (2 - mapView.getCurrentZoom()));
-            dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
+            dotView.setRotation(adjustAngle(smoothValues(MainActivity.getAngle())));
+
+            //dotView.setRotation(adjustAngle(MainActivity.getAngle() - 52));
             //System.out.println("Angle is : " + adjustAngle(MainActivity.getAngle()-52));
-            if (!path.isEmpty() && !pathDrawn) {
-                mapView.setZoom(1.0f);
+
+            if (!pathDrawn) {
+                //mapView.setZoom(1.0f);
                 drawPath();
             }
-            /*
-            if (!POIsSet && !POIs.isEmpty()) {
-                drawPOIs();
+            //if (!POIsSet && !POIs.isEmpty()) {
+            //    drawPOIs();
+            //}
+            if(path.isEmpty()){
+                MainFragment.removeDirection();
             }
 
-             */
+            if (testThrotteling > 30 && !path.isEmpty()) {
+                updatePathOnWalk();
+                new NextDirectionThread(path).start();
+                testThrotteling = 0;
+            } else {
+                testThrotteling++;
+            }
 
-            //System.out.println(mapView.getScrollPosition().x);
-            //mapConverter.setMapView(MainFragment.getMapView());
-            MapPosition position = mapConverter.convertNode(currentPosition);
-            dotMover.setNewPosition(position.getX(), position.getY());
-            dotMover.animationStart();
+
+            if (currentPositionChanged) {
+                mapView.setZoom(1.0f);
+                position = mapConverter.convertNode(currentPosition);
+                currentPositionChanged = false;
+                dotMoverMapPosition = position;
+                dotMover.setNewPosition(dotMoverMapPosition.getX(), dotMoverMapPosition.getY());
+                dotMover.animationStart();
+
+            } else {
+                position = mapConverter.convertPosition(dotMoverMapPosition);
+                dotMover.setNewPosition(position.getX(), position.getY());
+                dotMover.animationStart();
+            }
+
+
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }

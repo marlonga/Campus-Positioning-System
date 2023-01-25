@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Pair;
 import android.view.View;
 
 import com.ortiz.touchview.TouchImageView;
@@ -32,8 +33,8 @@ public class Mover extends HandlerThread {
     private ObjectAnimator animator;
     private View view;
 
-    private Float x,y;
-    private Float lastX,lastY;
+    private  Float x,y;
+    private  Float lastX,lastY;
 
     private static Handler handler;
 
@@ -60,9 +61,23 @@ public class Mover extends HandlerThread {
         this.y = y;
     }
 
+    public void addToPosition(Float x, Float y){
+        this.lastX = this.x;
+        this.lastY = this.y;
+        this.x += x;
+        this.y += y;
+    }
+
     public void setOldPosition(Float lastX, Float lastY) {
         this.lastX = lastX;
         this.lastY = lastY;
+    }
+
+    public Float getX(){
+        return this.x;
+    }
+    public Float getY(){
+        return this.y;
     }
 
 

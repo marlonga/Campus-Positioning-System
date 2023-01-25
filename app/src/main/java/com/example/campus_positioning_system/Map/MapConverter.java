@@ -56,10 +56,8 @@ public class MapConverter {
     public synchronized void setMapView(TouchImageView newMapView) {
         //this.mapView = newMapView;
     }
-
     public synchronized MapPosition convertNode(Node toConvert) {
         MapPosition mapPos = new MapPosition();
-
 
         if(mapView.getScrollPosition() == null){
             mapPos.setX(0);
@@ -80,6 +78,28 @@ public class MapConverter {
 
         mapPos.setX(xForNode * (mapWidth) - (dotWidth/(float)2));
         mapPos.setY(yForNode * (mapHeight) - (dotHeight/(float)2));
+        return mapPos;
+    }
+
+    public synchronized MapPosition convertPosition(MapPosition toConvert) {
+        MapPosition mapPos = new MapPosition();
+        if(mapView.getScrollPosition() == null){
+            return toConvert;
+        }
+        PointF mapViewCenter = mapView.getScrollPosition();
+        float xShift;
+        float yShift;
+        float xForPos;
+        float yForPos;
+        currentZoom = mapView.getCurrentZoom();
+        xShift = -(mapViewCenter.x - 0.5f)  * currentZoom;
+        yShift = -(mapViewCenter.y - 0.5f)  * (1+(1/currentZoom)+0.1f);
+        xForPos = getXCenter((toConvert.getX()+28) / mapWidth)+xShift;     //(mapView.getWidth()/y)/pngWidth)*mapView.getWidth()
+        yForPos = getYCenter((toConvert.getY()+28) / mapHeight)+yShift;
+        float xpos = (xForPos) * mapWidth - (dotWidth/(float)2);
+        float ypos = (yForPos) * mapHeight - (dotHeight/(float)2);
+        mapPos.setX(xpos);
+        mapPos.setY(ypos);
         return mapPos;
     }
 

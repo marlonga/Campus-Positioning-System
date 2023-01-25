@@ -3,7 +3,12 @@
 
 
     <PreferenceCategory app:title="Lokalisierung">
-
+        <SeekBarPreference
+            app:defaultValue="1"
+            app:key="seekbar"
+            app:title="Schrittgröße"
+            app:showSeekBarValue="true"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Verhalten">
@@ -13,11 +18,23 @@
             app:summaryOn="Display eingeschaltet"
             app:title="Display während der Nutzung eingeschaltet lassen" />
     </PreferenceCategory>
+    <PreferenceCategory app:title="Feedback und Hilfe">
+        <Preference
+            app:key="feedback"
+            app:title="Feedback geben"
+            app:summary="@string/preferences_feedback_summary"/>
+        <SwitchPreferenceCompat
+            app:key="onBoarding"
+            app:title="Tutorial"
+            app:summary="Hier startest du das Tutorial neu"
+            />
+    </PreferenceCategory>
 
-    <Preference
-        app:key="feedback"
-        app:title="Feedback geben"
-        app:summary="@string/preferences_feedback_summary"/>
+
+        <Preference
+            app:key="buildnumber"
+            app:title="x"
+        />
 
 
 </PreferenceScreen>
