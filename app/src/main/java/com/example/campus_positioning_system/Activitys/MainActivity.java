@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });
         ;
         //Onboarding here
-        if( !readOnboardingData() ){
+        if(!readOnboardingData()){
             setOnboardingDataTrue();
             switchActivities(IntroSequence.class);
         }

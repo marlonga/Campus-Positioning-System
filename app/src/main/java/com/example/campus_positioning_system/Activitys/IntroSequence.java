@@ -47,9 +47,9 @@ public class IntroSequence extends AppCompatActivity {
 
         //Call adapter
         ArrayList listItems = new ArrayList<>() ;
-        listItems.add(new SlideModel(R.drawable.ob_1_main,"Herzlich Willkommen zu HFU-Maps","desc"));
-        listItems.add(new SlideModel(R.drawable.ob_2_navbar,"b", "desc"));
-        listItems.add(new SlideModel(R.drawable.ob_3_favorites,"c", "desc"));
+        listItems.add(new SlideModel(R.drawable.ob_1_main,"Campus-Positioning-\nSystem","Willkommen zum Campus-Positioning-System der Hochschule Furtwangen. \n Mit diesem Indoor-Positioning-System können Sie einfach durch die Hochschule navigieren. \n Diese App hilft ihnen sich in der Hochschule zurecht zu finden, auch wenn Sie sich hier nicht auskennen! "));
+        listItems.add(new SlideModel(R.drawable.ob_2_navbar,"Einfache Navigation", "Öffnen Sie einfach die Raum Liste, wählen Sie ihren gewünschten Raum und starten Sie die Navigation mit dem grünen Pfeil. \n So einfach gehts!"));
+        listItems.add(new SlideModel(R.drawable.ob_3_favorites,"Funktionalitäten", "Entdecken Sie weitere nützliche Funktionalitäten wie die Favoriten, die Schnellwahl und den QR-Code Scanner!"));
         sliderAdapter = new SliderAdapter(this, listItems);
         listItems_leng = listItems.size();
         viewPager.setAdapter(sliderAdapter);

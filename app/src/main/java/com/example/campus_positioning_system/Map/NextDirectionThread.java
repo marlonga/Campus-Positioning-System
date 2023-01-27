@@ -49,6 +49,7 @@ public class NextDirectionThread extends Thread {
         int currentZ = path.get(0).getZ();
         if(path.size()<4){
             pathm = 0;
+            MainFragment.setDirection("");
         }
         for(int i = 0; i<path.size()-(path.size()-pathm);i++){
             double angle = calculateDirectionsAngle(path.get(i),path.get(i+1),path.get(i+2));
@@ -56,12 +57,12 @@ public class NextDirectionThread extends Thread {
                 if(path.get(+2).getZ() > currentZ) {
                     direction = "up";
                     MainFragment.setDirection(direction);
-                    break;
+                    return;
                 }
                 if(path.get(i+2).getZ() < currentZ) {
                     direction = "down";
                     MainFragment.setDirection(direction);
-                    break;
+                    return;
                 }
             }
             if(angle>45 && angle<135){
@@ -71,7 +72,7 @@ public class NextDirectionThread extends Thread {
                     direction = "left";
                 }
                 MainFragment.setDirection(direction);
-                break;
+                return;
             }
         }
         MainFragment.setDirection("straight");
