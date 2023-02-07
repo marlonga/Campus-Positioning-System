@@ -64,9 +64,9 @@
             android:label="OnBoarding Activity"
             android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
         </activity>
-        <activity android:name=".Activitys.IntroSequence"
+        <activity android:name=".Activitys.IntroSequenceActivity"
             android:exported="false"
-            android:label="OnBoarding Activity"
+            android:label="Intro Activity"
             android:theme="@style/Theme.CampusPositioningSystem.NoActionBar">
         </activity>
     </application>

@@ -107,10 +107,8 @@ public class PathfindingControl{
     public static List<Node> calculatePathForExits(){
         System.out.println("Calculating Path from: " + currentLocation.toString() + " to: closest Exit");
         ArrayList<Node> exits = new ArrayList<>();
-        exits.add(new Node(55,67,1));
-        /*
-        TODO: actual values of exits
-         */
+        exits.add(new Node(55,67,1)); //A-Bau Haupteingang
+        //exits.add(new Node());
         List<List<Node>> listTest = null;
         for (Node n: exits) {
             updateTargetLocation(n);

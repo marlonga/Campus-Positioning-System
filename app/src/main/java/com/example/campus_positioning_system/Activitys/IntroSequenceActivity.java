@@ -18,7 +18,7 @@ import com.example.campus_positioning_system.SliderAdapter;
 
 import java.util.ArrayList;
 
-public class IntroSequence extends AppCompatActivity {
+public class IntroSequenceActivity extends AppCompatActivity {
 
     //Variables
     ViewPager viewPager;

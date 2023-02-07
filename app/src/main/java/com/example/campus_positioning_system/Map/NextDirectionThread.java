@@ -76,5 +76,6 @@ public class NextDirectionThread extends Thread {
             }
         }
         MainFragment.setDirection("straight");
+        return;
     }
 }
